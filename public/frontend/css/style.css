@@ -1,0 +1,41 @@
+.custom-carousel {
+    width: 100%; /* Đặt chiều rộng của carousel */
+    height: 500px; /* Đặt chiều cao của carousel */
+}
+
+.custom-carousel .carousel-inner {
+    width: 100%; /* Đảm bảo kích thước phù hợp cho các slide bên trong */
+    height: 100%; /* Đảm bảo kích thước phù hợp cho các slide bên trong */
+}
+
+.box-search{
+    width: 70%;
+    margin: 0px auto;
+    height: 50px;
+    padding: 8px 0px 0px 0px;
+}
+
+.main-ad{
+    height: 500px;
+}
+
+.custom-btn-start:hover{
+    background-color: #FFE7A0;
+    border-color: #FFF5B8;
+    color: black;
+    height: bold;
+}
+
+.get-start{
+    width: 40%;
+    margin: 10px auto;
+}
+
+.footer{
+    color: #FFF5B8;
+    background-color: #30A2FF;
+}
+
+.footer .main-title{
+    color: white;
+}

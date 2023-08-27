@@ -1,0 +1,24 @@
+#username, #password{
+    width: 60%;
+    height: 50px;
+    margin: 0px auto;
+    border-radius: 20px;
+    
+}
+
+#username:focus, #password:focus, #username:hover, #password:hover{
+    width: 70%
+}
+
+h3{
+    color: #FFE7A0;
+}
+
+.card-header{
+    background-color: #30A2FF;
+}
+
+.error{
+    text-align: center;
+    color: red;
+}
