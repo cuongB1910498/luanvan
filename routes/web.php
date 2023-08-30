@@ -25,7 +25,8 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
             Route::post('/update-posision/{id_posision}', 'ManagePosision@update_posision');
             Route::get('/delete-posision/{id_posision}', 'ManagePosision@delete_posision');
         // Create Staff
-            
+            Route::get('/add-user', 'UserController@add_user');  
+            Route::post('/user-add-process', 'UserController@user_add_process');  
 
     //staff
 Route::get('/staff/dashboard', 'StaffController@index');

@@ -101,13 +101,17 @@
                                 <li><a href={{URL::to('/posision-list')}}>Modifying</a></li>
                             </ul>
                         </li>
-                        {{-- <li>
-                            <a href="fontawesome.html">
-                                <i class="fa fa-bullhorn"></i>
-                                <span>Font awesome </span>
-                            </a>
-                        </li>
                         <li class="sub-menu">
+                            <a href="">
+                                <i class="fa fa-user"></i>
+                                <span>Staff Manager</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href={{URL::to('/add-user')}}>Add User</a></li>
+                                <li><a href="{{URL::to('/manage-users')}}">Manage Users</a></li>
+                            </ul>
+                        </li>
+                        {{-- <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-th"></i>
                                 <span>Data Tables</span>
