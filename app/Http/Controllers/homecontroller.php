@@ -25,7 +25,7 @@ class homecontroller extends Controller
         $check_usn = DB::table('users')->where('username', $request->username)->first();
         if($check_usn){
             Session::put('usn_check', 'Tài khoản đã tồn tại!');
-            return Redirect::to('register');
+            return Redirect::to('register')->withInput($request->only('firstname', 'lastname', 'email', 'phone'));
         }else{
             // insert BD
             $data = array();
@@ -41,7 +41,8 @@ class homecontroller extends Controller
                 Session::put('login_msg', 'Bạn đã đăng ký thành công!');
                 return Redirect::to('login');
             }else{
-                return Redirect::to('register');
+                return Redirect::to('/register');
+                    
             }
         }
 
@@ -66,7 +67,7 @@ class homecontroller extends Controller
         }else{
             Session::put('login_fail', 'Tài Khoản hoặc mật khẩu không đúng');
             return Redirect::to('/login')
-                ->withInput($request->only('username', 'password'));
+                ->withInput($request->only('username'));
         }
     }
 

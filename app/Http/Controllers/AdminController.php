@@ -12,17 +12,17 @@ session_start();
 
 class AdminController extends Controller
 {
-    public function login(){
-        return view('admin.login');
-    }
-
     public function dashboard(){
         if(Session::get('admin_id')){
-            return view('admin.dashboard');
+            return view('admin.pages.home');
         }else{
             return Redirect::to('/adminlogin');
         }
         
+    }
+
+    public function login(){
+        return view('admin.login');
     }
 
     public function admin_login_process(Request $request){
@@ -47,5 +47,5 @@ class AdminController extends Controller
         Session::put('admin_name', null);
         Session::put('admin_id', null);
         return Redirect::to('/adminlogin');
-    }
+    }   
 }

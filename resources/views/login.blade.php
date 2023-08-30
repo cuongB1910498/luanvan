@@ -59,7 +59,7 @@
 
                             <div class="form-group row text-center">
 								<div class=" ">
-									<input type="password" class="form-control text-center" id="password" name="password" placeholder="Mật khẩu" value="{{ old('password') }}" autocomplete="password" />
+									<input type="password" class="form-control text-center" id="password" name="password" placeholder="Mật khẩu" />
                                     <label class="error"></label>
 								</div>
 							</div>
@@ -67,7 +67,7 @@
                             <div class="text-center mt-3">
                                 <button class="btn btn-primary mb-3">Đăng nhập</button>
                                 <div>
-                                    <a href={{URL::to('/register')}} class="card-link">Chưa có tài khoản?</a>
+                                    <a href={{URL::to('/register')}} class="card-link" style="text-decoration: none">Chưa có tài khoản? Đăng ký ngay!</a>
                                 </div>
                             </div>
                             

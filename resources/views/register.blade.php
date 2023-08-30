@@ -20,12 +20,12 @@
 	</style>
 </head>
 <body>
-	<div class="container mt-5 mb-5 pt-5">
+	<div class="container mt-3 mb-5 pt-4">
 		<div class="row">
 			<div class="col-sm-8 offset-sm-2">
 				<div class="card">
 					<div class="card-header text-center">
-						<h3>Đăng ký thành viên</h3>
+						<h3>ĐĂNG KÝ THÀNH VIÊN</h3>
 					</div>
 					<div class="card-body">
 						<form id="signupForm" method="post" class="form-horizontal" action={{URL::to('/register')}}>
@@ -33,7 +33,21 @@
 							<div class="form-group row">
 								<label class="col-sm-4 col-form-label" for="firstname">Tên của bạn</label>
 								<div class="col-sm-5">
-									<input type="text" class="form-control" id="firstname" name="firstname" placeholder="Tên của bạn" />
+									<input type="text" class="form-control" id="firstname" name="firstname" placeholder="Tên của bạn" value="{{ old('firstname') }}" autocomplete="firstname"/>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label" for="lastname">Họ của bạn</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Họ của bạn" value="{{ old('lastname') }}" autocomplete="lastname"/>
+								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label" for="username">Tên đăng nhập</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập" />
 								</div>
 								<?php
 									$usn_check = Session::get('usn_check');
@@ -47,30 +61,16 @@
 							</div>
 
 							<div class="form-group row">
-								<label class="col-sm-4 col-form-label" for="lastname">Họ của bạn</label>
-								<div class="col-sm-5">
-									<input type="text" class="form-control" id="lastname" name="lastname" placeholder="Họ của bạn" />
-								</div>
-							</div>
-
-							<div class="form-group row">
-								<label class="col-sm-4 col-form-label" for="username">Tên đăng nhập</label>
-								<div class="col-sm-5">
-									<input type="text" class="form-control" id="username" name="username" placeholder="Tên đăng nhập" />
-								</div>
-							</div>
-
-							<div class="form-group row">
 								<label class="col-sm-4 col-form-label" for="email">Hộp thư điện tử</label>
 								<div class="col-sm-5">
-									<input type="text" class="form-control" id="email" name="email" placeholder="Hộp thư điện tử" />
+									<input type="text" class="form-control" id="email" name="email" placeholder="Hộp thư điện tử" value="{{ old('email') }}" autocomplete="email"/>
 								</div>
 							</div>
 
 							<div class="form-group row">
 								<label class="col-sm-4 col-form-label" for="phome">Số điện thoại</label>
 								<div class="col-sm-5">
-									<input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" />
+									<input type="text" class="form-control" id="phone" name="phone" placeholder="Số điện thoại" value="{{old('phone')}}" autocomplete="phone"/>
 								</div>
 							</div>
 

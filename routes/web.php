@@ -11,8 +11,21 @@ Route::get('/logout', 'homecontroller@logout');
 Route::get('/barcode', 'homecontroller@barcode');
 
 //BackEnd
+    //admin
 Route::get('/admin-dashboard', 'AdminController@dashboard');
 Route::get('/adminlogin', 'AdminController@login');
 Route::get('/admin-logout', 'AdminController@logout');
-
 Route::post('/admin-login-process', 'AdminController@admin_login_process');
+
+        //posision
+            Route::get('/add-posision', 'ManagePosision@add_posision');
+            Route::post('/possison-process', 'ManagePosision@posision_process');
+            Route::get('/posision-list', 'ManagePosision@posision_list');
+            Route::get('/edit-posision/{id_posision}', 'ManagePosision@edit_posision');
+            Route::post('/update-posision/{id_posision}', 'ManagePosision@update_posision');
+            Route::get('/delete-posision/{id_posision}', 'ManagePosision@delete_posision');
+        // Create Staff
+            
+
+    //staff
+Route::get('/staff/dashboard', 'StaffController@index');
