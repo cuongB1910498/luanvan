@@ -1,5 +1,8 @@
 <?php
 // frontEnd
+
+use App\Http\Controllers\StaffController;
+
 Route::get('/', 'homecontroller@index');
 Route::get('/trang-chu', 'homecontroller@index');
 Route::get('/register', 'homecontroller@register');
@@ -30,3 +33,14 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
 
     //staff
 Route::get('/staff/dashboard', 'StaffController@index');
+Route::get('/staff/', 'StaffController@index');
+        // Staff Login
+            Route::get('/staff/login', 'StaffController@login');
+            Route::post('/staff/login-process', 'StaffController@login_process');
+            Route::get('/staff/logout', 'StaffController@logout');
+        //Staff Change information
+            Route::get('/staff/profile', 'StaffController@staff_profile');
+            Route::post('/staff/user-change', "StaffController@user_change");
+        //setting
+            Route::get('staff/setting', "StaffController@setting");
+            Route::post('staff/change-password', "StaffController@change_password");
