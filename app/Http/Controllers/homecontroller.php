@@ -63,7 +63,7 @@ class homecontroller extends Controller
             Session::put('login_complete', 'Đăng nhập thành công!');
             Session::put('id_user', $result->id_user);
             Session::put('firstname', $result->firstname);
-            return Redirect::to('/');
+            return Redirect::to('/user');
         }else{
             Session::put('login_fail', 'Tài Khoản hoặc mật khẩu không đúng');
             return Redirect::to('/login')
@@ -75,6 +75,63 @@ class homecontroller extends Controller
         Session::put('id_user', null);
         Session::put('firstname', null);
         return Redirect::to('/');
+    }
+
+    public function create_tracking(){
+        $id_user = Session::get('id_user');
+        if($id_user){
+            return view('pages.createtracking');
+        }else{
+            return Redirect::to('/login');
+        }
+    }
+
+    public function creating_process(Request $request){
+        $data = array();
+        $rand_id = time();
+        $data['id_tracking'] = 'VN'.$rand_id;
+        $data['address_sent'] = $request->address_sent;
+        $data['province_sent'] = $request->province_sent;
+        $data['district_sent'] = $request->district_sent;
+        $data['name_sent'] = $request->name_sent;
+        $data['phone_sent'] = $request->phone_sent;
+        $data['address_receive'] = $request->address_receive;
+        $data['district_receive'] = $request->district_receive;
+        $data['province_receive'] = $request->province_receive;
+        $data['name_receive'] = $request->name_receive;
+        $data['phone_receive'] = $request->phone_receive;
+        $data['img_receive'] = '';
+        $data['type_sending'] = $request->type_sending;
+        $data['demension'] = $request->demension;
+        $data['weight'] = $request->weight;
+        $data['id_user'] = Session::get('id_user');
+        $result = DB::table('tbl_tracking_number')->insert($data);
+        if($result){
+            Session::put('msg_create_tracking', 'Thêm Thành Công!');
+            return Redirect::to('/create-tracking');
+        }
+
+    }
+
+    public function user(){
+        if(Session::get('id_user')){
+            return view('pages.user');
+        }else{
+            return abort('404');
+        }
+    }
+
+    public function list_tracking(){
+        if(Session::get('id_user')){
+            $data = DB::table('tbl_tracking_number')->get();
+            return view('pages.listtracking', ['data' =>$data]);
+        }else{
+            return abort('404');
+        }
+    }
+
+    public function view_tracking($id_tracking){
+        echo 'đây là trang theo dõi tiến trình đơn hàng: '.$id_tracking;
     }
 
     public function barcode(){

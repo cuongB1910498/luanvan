@@ -16,7 +16,7 @@
 }
 
 .main-ad{
-    height: 500px;
+    min-height: 600px;
 }
 
 .custom-btn-start:hover{
@@ -33,9 +33,17 @@
 
 .footer{
     color: #FFF5B8;
-    background-color: #30A2FF;
+    background-color: #348AC7;
 }
 
 .footer .main-title{
     color: white;
+}
+
+.navbar-brand{
+    font-weight: bolder;
+}
+
+.nav-link{
+    font-weight: bold;
 }

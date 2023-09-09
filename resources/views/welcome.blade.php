@@ -15,11 +15,11 @@
     <link rel="stylesheet" href="{{asset('/public/frontend/css/style.css')}}">
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container-fluid main-background">
         <!-- header -->
         <div class="header">
             <nav class="navbar navbar-expand-lg navbar-light ">
-                <div class="container">
+                <div class="container-fluid ">
                     <a class="navbar-brand" href="{{URL::to('trang-chu')}}">THYNexpress</a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
@@ -56,24 +56,10 @@
                         </li>
                         
                     </ul>
-                    <?php
-                        $id_user = Session::get('id_user');
-                        $firstname = Session::get('firstname');
-                        if($id_user && $firstname){
-                    ?>
-                    <div class="d-flex">
-                        <a href={{URL::to('/logout')}} class="btn btn-primary">Đăng xuất <?php echo $firstname; ?></a>
-                    </div>
-                    <?php
-                        }else{
-                    ?>
                     <div class="d-flex">
                         <a class="btn btn-primary me-2" href={{URL::to("/register")}}>Đăng Ký</a>
                         <a class="btn btn-primary" href={{URl::to('/login')}}>Đăng Nhập</a>
-                    </div>
-                    <?php
-                        }
-                    ?>
+                    </div> 
                     </div>
                 </div>
             </nav>
@@ -102,12 +88,5 @@
             </div>
         </div>
     </div>
-    <?php
-        $login_complete = Session::get('login_complete');
-        if($login_complete){
-            echo "<script>alert('đăng nhập thành công')</script>";
-            Session::put('login_complete', null);
-        }
-    ?>
 </body>
 </html>

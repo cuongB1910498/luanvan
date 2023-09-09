@@ -2,7 +2,7 @@
 @section('content')
 <!-- getting start -->
 <div class="row get-start">
-    <a href="#" class="btn btn-primary btn-lg custom-btn-start">Tạo Đơn Ngay</a>
+    <a href="{{URL::to('/create-tracking')}}" class="btn btn-primary btn-lg custom-btn-start">Tạo Đơn Ngay</a>
 </div>
 
 <!-- Carousel slider -->

@@ -1,0 +1,28 @@
+section.wrapper {
+    min-height: 610px;
+}
+
+.nut_tao{
+    width: 400px;
+    height: 100px;
+}
+
+.nut_tao a{
+    color: black;
+    font-size: 30px;
+}
+
+.tracuu{
+    margin: 200px 0px 0px 0px;
+}
+
+.tracuu a{
+    color: white;
+}
+
+.kiemtradon{
+    width: 450px;
+    margin: 10px auto;
+    display: flex;
+}
+

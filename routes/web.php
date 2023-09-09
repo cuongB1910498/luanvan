@@ -1,6 +1,7 @@
 <?php
 // frontEnd
 
+use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\StaffController;
 
 Route::get('/', 'homecontroller@index');
@@ -10,8 +11,15 @@ Route::post('/register', 'homecontroller@register_process');
 Route::get('/login', 'homecontroller@login');
 Route::post('/login', 'homecontroller@login_process');
 Route::get('/logout', 'homecontroller@logout');
+Route::get('/user', 'homecontroller@user');
 
 Route::get('/barcode', 'homecontroller@barcode');
+
+    //Create tracking
+        Route::get('/create-tracking', "homecontroller@create_tracking");
+        Route::post('/creating-process', "homecontroller@creating_process");
+        Route::get('/list-tracking', "homecontroller@list_tracking");
+        Route::get('/view-tracking/{id_tracking}', "homecontroller@view_tracking");
 
 //BackEnd
     //admin
