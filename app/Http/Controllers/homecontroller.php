@@ -12,6 +12,16 @@ session_start();
 
 class homecontroller extends Controller
 {
+
+    public function Auth_login(){
+        $id_user = Session::get('id_user');
+        if($id_user){
+            return Redirect::to('/user');
+        }else{
+            return abort(404);
+        }
+    }
+
     public function index() {
         return view('pages.home');
     }
@@ -78,15 +88,13 @@ class homecontroller extends Controller
     }
 
     public function create_tracking(){
-        $id_user = Session::get('id_user');
-        if($id_user){
-            return view('pages.createtracking');
-        }else{
-            return Redirect::to('/login');
-        }
+        $this->Auth_login();
+        return view('pages.createtracking');
+        
     }
 
     public function creating_process(Request $request){
+        $this->Auth_login();
         $data = array();
         $rand_id = time();
         $data['id_tracking'] = 'VN'.$rand_id;
@@ -122,6 +130,7 @@ class homecontroller extends Controller
     }
 
     public function list_tracking(){
+        $this->Auth_login();
         if(Session::get('id_user')){
             $data = DB::table('tbl_tracking_number')->get();
             return view('pages.listtracking', ['data' =>$data]);
@@ -131,6 +140,7 @@ class homecontroller extends Controller
     }
 
     public function view_tracking($id_tracking){
+        $this->Auth_login();
         echo 'đây là trang theo dõi tiến trình đơn hàng: '.$id_tracking;
     }
 

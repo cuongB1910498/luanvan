@@ -41,7 +41,7 @@
 <div class="mb-3 bg-light box-search">
     <form action="" class="row">
         <div class="col-lg-8 col-8 offset-lg-1">
-            <input type="search" class="form-control" placeholder="Tra cứu mã vận đơn">
+            <input type="search" class="form-control" placeholder="Tra cứu mã vận đơn -1" tabindex="-1">
         </div>
         <button type="submit" class="btn btn-primary col-lg-2 col-3 custom-btn" >Kiểm tra</button>
     </form>
