@@ -107,21 +107,21 @@
                                 <span>Staff Manager</span>
                             </a>
                             <ul class="sub">
-                                <li><a href={{URL::to('/add-user')}}>Add User</a></li>
-                                <li><a href="{{URL::to('/manage-users')}}">Manage Users</a></li>
-                            </ul>
-                        </li>
-                        {{-- <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-th"></i>
-                                <span>Data Tables</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="basic_table.html">Basic Table</a></li>
-                                <li><a href="responsive_table.html">Responsive Table</a></li>
+                                <li><a href={{URL::to('/add-user')}}>Add Staff</a></li>
+                                <li><a href="{{URL::to('/manage-users')}}">Manage Staff</a></li>
                             </ul>
                         </li>
                         <li class="sub-menu">
+                            <a href="javascript:;">
+                                <i class="fa fa-th"></i>
+                                <span>Manage Stations</span>
+                            </a>
+                            <ul class="sub">
+                                <li><a href="{{URL::to('/add-station')}}">Add Station</a></li>
+                                <li><a href="{{URL::to('/station-list')}}">Stations List</a></li>
+                            </ul>
+                        </li>
+                        {{-- <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-tasks"></i>
                                 <span>Form Components</span>

@@ -1,6 +1,7 @@
 <?php
 // frontEnd
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\StaffController;
 
@@ -35,6 +36,13 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
             Route::get('/edit-posision/{id_posision}', 'ManagePosision@edit_posision');
             Route::post('/update-posision/{id_posision}', 'ManagePosision@update_posision');
             Route::get('/delete-posision/{id_posision}', 'ManagePosision@delete_posision');
+        //Stations
+            Route::get('/add-station', 'AdminController@add_station');
+            Route::get('/station-list', 'AdminController@station_list');
+            Route::post('/add-station-process', 'AdminController@add_station_process');
+            Route::get('/station/{id_station}', 'AdminController@station_detail');
+            Route::get('/edit-staff/{id_staff}', 'AdminController@edit_staff');
+            Route::post('/edit-staff-process/{id_staff}', 'AdminController@edit_staff_process');
         // Create Staff
             Route::get('/add-user', 'UserController@add_user');  
             Route::post('/user-add-process', 'UserController@user_add_process');  

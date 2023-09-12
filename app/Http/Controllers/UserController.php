@@ -10,15 +10,23 @@ session_start();
 
 class UserController extends Controller
 {
+    public function AuthAdmin(){
+        $admin_id = Session::get('admin_id');
+        if($admin_id){
+            return Redirect::to('/admin-dashboard');
+        }else{
+            abort(404);
+        }
+    }
     public function add_user(){
+        $this->AuthAdmin();
         $get_posision = DB::table('tbl_posisions')->get();
-        // $posision_list = view('admin.pages.adduser')->with('get_posision', $get_posision);
-
-        // return view('admin.dashboard')->with('admin.pages.adduser', $posision_list);
-        return view('admin.pages.adduser', ['get_posision'=>$get_posision]);
+        $id_station = DB::table('tbl_post_station')->get();
+        return view('admin.pages.adduser', ['get_posision'=>$get_posision, 'id_station' => $id_station]);
     }
 
     public function user_add_process(Request $request){
+        $this->AuthAdmin();
         $data = array();
         $data['staff_name'] = $request->staff_name;
         $data['staff_phone'] = $request->staff_phone;
@@ -28,7 +36,8 @@ class UserController extends Controller
         $data['is_working'] = '1';
         $data['is_station_master'] = '0';
         $data['id_posision'] = $request->id_posision;
-        // print_r($data);
+        $data['id_station'] = $request->id_station;
+        //print_r($data);
         $result = DB::table('staff')->insert($data);
         if($result){
             Session::put('msg_adduser', 'Thêm Thành Công!');

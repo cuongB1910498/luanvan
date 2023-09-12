@@ -7,55 +7,45 @@
         </header>
         <div class="panel-body">
             <div class="position-center">
-                <form class="form-horizontal" role="form" method="post" action="{{ URL::to('user-add-process')}}">
+                <form class="form-horizontal" role="form" method="post" action="{{ URL::to('/edit-staff-process/'.$get_staff->id_staff)}}">
                     {{ csrf_field() }}
-                    <?php
-                        $msg_adduser = Session::get('msg_adduser');
-                        if($msg_adduser){
-                    ?>
-                    <div class="error text-center" style="color: red">
-                        <?php
-                            echo $msg_adduser;
-                        ?>
-                    </div>
-                    <?php
-                        Session::put('msg_adduser', null);
-                        }
-                    ?>
-                    <div class="form-group">
-                        <label for="staff_username" class="col-lg-2 col-sm-2 control-label">Username</label>
-                        <div class="col-lg-10">
-                            <input type="text" class="form-control" id="staff_username" placeholder="staff_username" name="staff_username">
-                        </div>
-                    </div>
-                    
+                   
                     <div class="form-group">
                         <label for="staff_name" class="col-lg-2 col-sm-2 control-label">Name</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" id="staff_name" placeholder="staff_name" name="staff_name">
+                            <input type="text" class="form-control" id="staff_name" placeholder="staff_name" name="staff_name" value=" {{$get_staff->staff_name}} ">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="staff_phone" class="col-lg-2 col-sm-2 control-label">Phone</label>
                         <div class="col-lg-10">
-                            <input type="text" class="form-control" id="staff_phone" placeholder="staff_phone" name="staff_phone">
+                            <input type="text" class="form-control" id="staff_phone" placeholder="staff_phone" name="staff_phone" value=" {{$get_staff->staff_phone}} ">
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="Staff_email" class="col-lg-2 col-sm-2 control-label">Email</label>
                         <div class="col-lg-10">
-                            <input type="email" class="form-control" id="Staff_email" placeholder="Staff_email" name="Staff_email">
+                            <input type="email" class="form-control" id="Staff_email" placeholder="Staff_email" name="staff_email" value=" {{$get_staff->staff_email}} ">
                         </div>
                     </div>
 
                     <div class="form-group">
-                        <label for="id_station" class="col-lg-2 col-sm-2 control-label">District</label>
+                        <label for="id_station" class="col-lg-2 col-sm-2 control-label">Station</label>
                         <div class="col-lg-10">
                             <select name="id_station" id="id_station" class="form-control">
-                                @foreach ($id_station as $rows)
-                                    <option value="{{ $rows->id_station }}">{{ $rows->station_name }}</option>
+                                @foreach ($get_station as $rows)
+                                    @if ($rows->id_station == $get_staff->id_station)
+                                        <option value="{{ $rows->id_station }}" selected>
+                                            {{ $rows->station_name }}
+                                        </option>
+                                    @else 
+                                        <option value="{{ $rows->id_station }}">
+                                            {{ $rows->station_name }}
+                                        </option>
+                                    @endif
+                                    
                                 @endforeach
                             </select>
                         </div>
@@ -66,7 +56,11 @@
                         <div class="col-lg-10">
                             <select name="id_posision" id="id_posision" class="form-control">
                                 @foreach ($get_posision as $row)
-                                <option value="{{ $row->id_posision }}"> {{ $row->posision_name }}</option>
+                                    @if ($row->id_posision == $get_staff->id_posision)
+                                        <option value="{{ $row->id_posision}}" selected> {{ $row->posision_name }} </option>
+                                    @else
+                                        <option value="{{ $row->id_posision}}"> {{ $row->posision_name }} </option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>
@@ -74,7 +68,7 @@
                 
                     <div class="form-group">
                         <div class="col-lg-offset-2 col-lg-10">
-                            <button type="submit" class="btn btn-danger">Create!</button>
+                            <button type="submit" class="btn btn-danger">Change!</button>
                         </div>
                     </div>
             </form>

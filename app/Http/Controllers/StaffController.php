@@ -26,6 +26,7 @@ class StaffController extends Controller
     public function logout(){
         Session::put('id_staff', null);
         Session::put('staff_name', null);
+        Session::put('id_station', null);
         return Redirect::to('/staff/login');
     }
     
@@ -37,6 +38,7 @@ class StaffController extends Controller
         if($result){
             Session::put('id_staff', $result->id_staff);
             Session::put('staff_name', $result->staff_name);
+            Session::put('id_station', $result->id_station)
             Session::put('msg_staff_login', 'Đăng nhập Thành Công');
 
             return Redirect::to('/staff/dashboard');
