@@ -60,3 +60,7 @@ Route::get('/staff/', 'StaffController@index');
         //setting
             Route::get('staff/setting', "StaffController@setting");
             Route::post('staff/change-password', "StaffController@change_password");
+        //Manage Tracking of station
+            Route::get('/staff/confirm-arrived', 'StaffController@confirm_arrived');
+            Route::get('/staff/confirm-gone', 'StaffController@confirm_gone');
+            Route::post('/staff/arrived-process', 'StaffController@arrived_process');

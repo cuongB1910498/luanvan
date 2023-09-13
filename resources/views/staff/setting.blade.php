@@ -19,10 +19,6 @@
                     }
                 ?>
 
-                @foreach($info as $row)
-                <p>{{ $row->posision_name }}</p>
-                @endforeach
-
                 <div class="form-group">
                     <label for="old_password" class="col-lg-2 col-sm-2 control-label">Old Password</label>
                     <div class="col-lg-10">

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
+use Illuminate\Database\QueryException;
 use DB;
 use Session;
 use Illuminate\Support\Facades\Redirect;
@@ -10,6 +12,14 @@ session_start();
 
 class StaffController extends Controller
 {
+    public function AuthStaff(){
+        $id_staff = Session::get('id_staff');
+        if($id_staff){
+            return Redirect::to('/staff/');
+        }else{
+            abort(404);
+        }
+    }
     public function index(){
         $id_staff = Session::get('id_staff');
         if($id_staff){
@@ -24,6 +34,7 @@ class StaffController extends Controller
     }
 
     public function logout(){
+        $this->AuthStaff();
         Session::put('id_staff', null);
         Session::put('staff_name', null);
         Session::put('id_station', null);
@@ -38,7 +49,7 @@ class StaffController extends Controller
         if($result){
             Session::put('id_staff', $result->id_staff);
             Session::put('staff_name', $result->staff_name);
-            Session::put('id_station', $result->id_station)
+            Session::put('id_station', $result->id_station);
             Session::put('msg_staff_login', 'Đăng nhập Thành Công');
 
             return Redirect::to('/staff/dashboard');
@@ -49,11 +60,13 @@ class StaffController extends Controller
     }
 
     public function staff_profile(){
+        $this->AuthStaff();
         $get_staff_info = DB::table('staff')->where('id_staff', Session::get('id_staff'))->first();
         return view('staff.profile', ['staff_info'=>$get_staff_info]);
     }
 
     public function user_change(Request $request){
+        $this->AuthStaff();
         $data = array();
         $data['staff_name'] = $request->staff_name;
         $data['staff_phone'] = $request->staff_phone;
@@ -70,6 +83,7 @@ class StaffController extends Controller
     }
 
     public function setting(){
+        $this->AuthStaff();
         $get_info = DB::table('staff')
             ->join('tbl_posisions', 'staff.id_posision', '=', 'tbl_posisions.id_posision')
             ->where('id_staff', Session::get('id_staff'))
@@ -80,6 +94,7 @@ class StaffController extends Controller
     }
 
     public function change_password(Request $request){
+        $this->AuthStaff();
         $get_user_info = DB::table('staff')->where('id_staff', Session::get('id_staff'))->first();
         $old_password = md5($request->old_password);
         $get_old_password = $get_user_info->staff_password;
@@ -96,6 +111,55 @@ class StaffController extends Controller
             return Redirect::to('/staff/setting');
         }
 
+    }
+
+    public function confirm_arrived(){
+        $this->AuthStaff();
+        return view('staff.confirmarrived');
+    }
+
+    public function arrived_process(Request $request){
+        $this->AuthStaff();
+        $get_station = DB::table('tbl_post_station')->where('id_station', Session::get('id_station'))->first();
+        $traking = array();
+        $traking['id_staff'] = Session::get('id_staff');
+        $traking['note'] = 'Đã đến trạm: '.$get_station->station_name;
+        $data= $request->input1;
+        $result = explode(",", $data);
+        $errors = [];
+        foreach($result as $row){
+            $traking['id_tracking'] = $row;
+            $traking['id_status'] = 2;
+            
+            //print_r($traking).'<br>';
+           
+            //DB::table('located')->insert($traking);
+           
+            try {
+                DB::table('located')->insert($traking);
+        
+                // Trong trường hợp thành công, bạn có thể thực hiện các hành động khác ở đây
+            } catch (QueryException $e) {
+                // Xử lý lỗi trong mỗi vòng lặp
+        
+                $errorCode = $e->errorInfo[1];
+        
+                if ($errorCode == 1062) {
+                    // Xử lý lỗi duy nhất hoá (unique constraint) hoặc lỗi khóa ngoại (foreign key constraint)
+                    // Thí dụ: thêm thông báo lỗi vào mảng lưu trữ
+                    $errors[] = 'Dữ liệu đã tồn tại hoặc vi phạm ràng buộc.';
+                } else {
+                    // Xử lý các lỗi khác
+                    // Thí dụ: thêm thông báo lỗi vào mảng lưu trữ
+                    $errors[] = 'Đã xảy ra lỗi khi thêm dữ liệu.';
+                }
+            }
+        }
+        if (count($errors) > 0) {
+            // Thí dụ: hiển thị thông báo lỗi cho người dùng
+            return redirect()->back()->withErrors(['messages' => $errors]);
+        }
+        return Redirect::to('/staff/confirm-arrived')->with('msg', 'Thành công');
     }
 }
 

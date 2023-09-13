@@ -93,24 +93,24 @@
 
                         <li class="sub-menu">
                             <a href="">
-                                <i class="fa fa-book"></i>
-                                <span>Manage Posision</span>
+                                <i class="fa fa-archive"></i>
+                                <span>Manage Tracking</span>
                             </a>
                             <ul class="sub">
-                                <li><a href=>Add new</a></li>
-                                <li><a href=>Modifying</a></li>
+                                <li><a href="{{URL::to('/staff/confirm-arrived')}}">Confirmation Arrived</a></li>
+                                <li><a href="{{URL::to('/staff/confirm-gone')}}">Confirmation Gone</a></li>
                             </ul>
                         </li>
-                        {{--<li class="sub-menu">
+                        <li class="sub-menu">
                             <a href="">
-                                <i class="fa fa-user"></i>
-                                <span>Staff Manager</span>
+                                <i class="fa fa-plus"></i>
+                                <span>Create Tracking</span>
                             </a>
-                            <ul class="sub">
+                            {{-- <ul class="sub">
                                 <li><a href=>Add User</a></li>
                                 <li><a href="">Manage Users</a></li>
-                            </ul>
-                        </li>
+                            </ul> --}}
+                        {{--</li>
                          <li class="sub-menu">
                             <a href="javascript:;">
                                 <i class="fa fa-th"></i>
