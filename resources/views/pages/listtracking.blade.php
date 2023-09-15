@@ -2,8 +2,8 @@
 @section('user_content')
     <div class="table-agile-info">
         <div class="panel panel-default">
-            <div class="panel-heading">
-                Danh sách đơn hàng
+            <div class="card-header bg-secondary text-center">
+                <h2 style="color: white">Danh sách đơn hàng</h2>
             </div>
 
             <div class="table-responsive">
@@ -26,7 +26,7 @@
                                 <td> {{ $row->phone_receive}} </td>
                                 <td>
                                     <a href="{{URL::to('/view-tracking/'.$row->id_tracking)}}" class="active" ui-toggle-class="">
-                                        <i class="fa fa-eye text-success text-active"></i>
+                                        <i class="bi bi-eye-fill"></i>
                                     </a>
                                 </td>
                             </tr>
@@ -35,24 +35,7 @@
                 </table>
             </div>
 
-            {{-- <footer class="panel-footer">
-        <div class="row">
-          
-          <div class="col-sm-5 text-center">
-            <small class="text-muted inline m-t-sm m-b-sm">showing 20-30 of 50 items</small>
-          </div>
-          <div class="col-sm-7 text-right text-center-xs">                
-            <ul class="pagination pagination-sm m-t-none m-b-none">
-              <li><a href=""><i class="fa fa-chevron-left"></i></a></li>
-              <li><a href="">1</a></li>
-              <li><a href="">2</a></li>
-              <li><a href="">3</a></li>
-              <li><a href="">4</a></li>
-              <li><a href=""><i class="fa fa-chevron-right"></i></a></li>
-            </ul>
-          </div>
-        </div>
-      </footer> --}}
+           
         </div>
     </div>
 @endsection

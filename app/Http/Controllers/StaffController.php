@@ -124,6 +124,8 @@ class StaffController extends Controller
         $traking = array();
         $traking['id_staff'] = Session::get('id_staff');
         $traking['note'] = 'Đã đến trạm: '.$get_station->station_name;
+        $traking['created_at'] = now();
+        $traking['updated_at'] = now();
         $data= $request->input1;
         $result = explode(",", $data);
         $errors = [];
@@ -131,17 +133,14 @@ class StaffController extends Controller
             $traking['id_tracking'] = $row;
             $traking['id_status'] = 2;
             
+            
             //print_r($traking).'<br>';
            
             //DB::table('located')->insert($traking);
            
             try {
                 DB::table('located')->insert($traking);
-        
-                // Trong trường hợp thành công, bạn có thể thực hiện các hành động khác ở đây
             } catch (QueryException $e) {
-                // Xử lý lỗi trong mỗi vòng lặp
-        
                 $errorCode = $e->errorInfo[1];
         
                 if ($errorCode == 1062) {
@@ -156,7 +155,6 @@ class StaffController extends Controller
             }
         }
         if (count($errors) > 0) {
-            // Thí dụ: hiển thị thông báo lỗi cho người dùng
             return redirect()->back()->withErrors(['messages' => $errors]);
         }
         return Redirect::to('/staff/confirm-arrived')->with('msg', 'Thành công');

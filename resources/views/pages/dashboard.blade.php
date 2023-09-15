@@ -1,238 +1,301 @@
 <!DOCTYPE html>
-
-<head>
-    <title>Thyn Express</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="keywords"
-        content="" />
-    <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
-    <!-- bootstrap-css -->
-    <link rel="stylesheet" href={{asset('/public/backend/css/bootstrap.min.css')}}>
-    <!-- //bootstrap-css -->
-    <!-- Custom CSS -->
-    <link href={{asset('/public/backend/css/style.css')}} rel='stylesheet' type='text/css' />
-    <link href={{asset('/public/backend/css/style-responsive.css')}} rel="stylesheet" />
-    <!-- font CSS -->
-    <link
-        href='//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic,900,900italic'
-        rel='stylesheet' type='text/css'>
-    <!-- font-awesome icons -->
-    <link rel="stylesheet" href={{asset('/public/backend/css/font.css')}} type="text/css" />
-    <link href={{asset("/public/backend/css/font-awesome.css")}} rel="stylesheet">
-    <link rel="stylesheet" href={{asset('/public/backend/css/morris.css')}} type="text/css" />
-    <!-- calendar -->
-    <link rel="stylesheet" href={{asset('/public/backend/css/monthly.css')}}>
-    <!-- //calendar -->
-    <!-- //font-awesome icons -->
-    <script src={{asset('/public/backend/js/jquery2.0.3.min.js')}}></script>
-    <script src={{asset('/public/backend/js/raphael-min.js')}}></script>
-    <script src={{asset('/public/backend/js/morris.js')}}></script>
-
-    {{-- css frontend --}}
-    <link rel="stylesheet" href="{{asset('/public/frontend/css/user.css')}}">
-</head>
-
-<body>
-    <section id="container">
-        <!--header start-->
-        <header class="header fixed-top clearfix">
-            <!--logo start-->
-            <div class="brand">
-                <a href={{URL::to('/user')}} class="logo">
-                    Tạo đơn 
-                </a>
-                <div class="sidebar-toggle-box">
-                    <div class="fa fa-bars"></div>
-                </div>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href={{asset('/public/backend/css/bootstrap.min.css')}} />
+   
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href={{asset('/public/backend/css/dataTables.bootstrap5.min.css')}} />
+    <link rel="stylesheet" href={{asset('/public/backend/css/style.css')}} />
+    <title>THYN Express User</title>
+  </head>
+  <body>
+    <!-- top navigation bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+      <div class="container-fluid">
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#sidebar"
+          aria-controls="offcanvasExample"
+        >
+          <span class="navbar-toggler-icon" data-bs-target="#sidebar"></span>
+        </button>
+        <a
+          class="navbar-brand me-auto ms-lg-0 ms-3 text-uppercase fw-bold"
+          href="{{URL::to('/user')}}"
+          >Thyn Express</a
+        >
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#topNavBar"
+          aria-controls="topNavBar"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="topNavBar">
+          <form class="d-flex ms-auto my-3 my-lg-0">
+            <div class="input-group">
+              <input
+                class="form-control"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+              <button class="btn btn-primary" type="submit">
+                <i class="bi bi-search"></i>
+              </button>
             </div>
-            <!--logo end-->
-            
-            <div class="top-nav clearfix">
-                <!--search & user info start-->
-                <ul class="nav pull-right top-menu">
-                    <li>
-                        <input type="text" class="form-control search" placeholder=" Search">
-                    </li>
-                    <!-- user login dropdown start-->
-                    <li class="dropdown">
-                        <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-                            <img alt="" src={{asset('public/backend/images/2.png')}}>
-                            <span class="username">
-                                <?php
-                                    $name = Session::get('firstname');
-                                    if($name){
-                                        echo $name;
-                                    }
-                                ?>
-                            </span>
-                            <b class="caret"></b>
-                        </a>
-                        <ul class="dropdown-menu extended logout">
-                            <li><a href="{{URL::to('/logout')}}"><i class="fa fa-key"></i>Đăng xuất</a></li>
-                        </ul>
-                    </li>
-                    <!-- user login dropdown end -->
+          </form>
+          <ul class="navbar-nav">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle ms-2"
+                href="#"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-person-fill"></i>
+              </a>
+              <ul class="dropdown-menu dropdown-menu-end">
+                <li><a class="dropdown-item" href="#">
+                    <span>
+                        <i class="bi bi-person"></i>
+                    </span>
+                    <span> Profile</span>
+                    </a>
+                </li>
+                <li><a class="dropdown-item" href="#"><span><i class="bi bi-gear"></i></span> Setting</a></li>
+                <li>
+                  <a class="dropdown-item" href="{{URL::to('/logout')}}"> <span><i class="bi bi-key-fill"></i></span> Log-out</a>
+                </li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- top navigation bar -->
+    <!-- offcanvas -->
+    <div
+      class="offcanvas offcanvas-start sidebar-nav bg-dark"
+      tabindex="-1"
+      id="sidebar"
+    >
+      <div class="offcanvas-body p-0">
+        <nav class="navbar-dark">
+          <ul class="navbar-nav">
+           
+            <li>
+              <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                Vận Đơn
+              </div>
+            </li>
+            <li>
+              <a
+                class="nav-link px-3 sidebar-link"
+                data-bs-toggle="collapse"
+                href="#layouts"
+              >
+                <span class="me-2"><i class="bi bi-box-seam"></i></span>
+                <span>Tạo Vận Đơn</span>
+                <span class="ms-auto">
+                  <span class="right-icon">
+                    <i class="bi bi-chevron-down"></i>
+                  </span>
+                </span>
+              </a>
+              <div class="collapse" id="layouts">
+                <ul class="navbar-nav ps-3">
+                  <li>
+                    <a href="{{URL::to('/create-tracking')}}" class="nav-link px-3">
+                      <span class="me-2"
+                        ><i class="bi bi-plus-lg"></i></span>
+                      <span>Tạo Vận đơn</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="{{URL::to('/create-tracking-by-excel')}}" class="nav-link px-3">
+                      <span class="me-2"
+                        ><i class="bi bi-list-ul"></i></span>
+                      <span>Tạo Hàng Loạt</span>
+                    </a>
+                  </li>
                 </ul>
-                <!--search & user info end-->
-            </div>
-        </header>
-        <!--header end-->
-        <!--sidebar start-->
-        <aside>
-            <div id="sidebar" class="nav-collapse">
-                <!-- sidebar menu start-->
-                <div class="leftside-navigation">
-                    <ul class="sidebar-menu" id="nav-accordion">
-                        <li>
-                            <a class="active" href={{URL::to('/user')}}>
-                                <i class="fa fa-dashboard"></i>
-                                <span>Về trang chính</span>
-                            </a>
-                        </li>
+              </div>
+           
+              
+            </li>
 
-                        <li class="sub-menu">
-                            <a href="">
-                                <i class="fa fa-book"></i>
-                                <span>Quản lý đơn hàng</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="{{URL::to('/create-tracking')}}">Tạo đơn hàng</a></li>
-                                <li><a href="{{URL::to('/list-tracking')}}">Xem đơn hàng</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="">
-                                <i class="fa fa-user"></i>
-                                <span>Quản lý tài khoản</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="">Cập nhật thông tin</a></li>
-                                <li><a href="">Đổi mật khẩu</a></li>
-                            </ul>
-                        </li>
-                         {{--<li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-th"></i>
-                                <span>Xem báo cáo</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="basic_table.html"></a></li>
-                                <li><a href="responsive_table.html">Responsive Table</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-tasks"></i>
-                                <span>Form Components</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="form_component.html">Form Elements</a></li>
-                                <li><a href="form_validation.html">Form Validation</a></li>
-                                <li><a href="dropzone.html">Dropzone</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-envelope"></i>
-                                <span>Mail </span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="mail.html">Inbox</a></li>
-                                <li><a href="mail_compose.html">Compose Mail</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class=" fa fa-bar-chart-o"></i>
-                                <span>Charts</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="chartjs.html">Chart js</a></li>
-                                <li><a href="flot_chart.html">Flot Charts</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class=" fa fa-bar-chart-o"></i>
-                                <span>Maps</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="google_map.html">Google Map</a></li>
-                                <li><a href="vector_map.html">Vector Map</a></li>
-                            </ul>
-                        </li>
-                        <li class="sub-menu">
-                            <a href="javascript:;">
-                                <i class="fa fa-glass"></i>
-                                <span>Extra</span>
-                            </a>
-                            <ul class="sub">
-                                <li><a href="gallery.html">Gallery</a></li>
-                                <li><a href="404.html">404 Error</a></li>
-                                <li><a href="registration.html">Registration</a></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <a href="login.html">
-                                <i class="fa fa-user"></i>
-                                <span>Login Page</span>
-                            </a>
-                        </li> --}}
-                    </ul>
+            {{-- <li>
+                <a
+                  class="nav-link px-3 sidebar-link"
+                  data-bs-toggle="collapse"
+                  href="#layouts1"
+                >
+                  <span class="me-2"><i class="bi bi-house"></i></span>
+                  <span>Manage Station</span>
+                  <span class="ms-auto">
+                    <span class="right-icon">
+                      <i class="bi bi-chevron-down"></i>
+                    </span>
+                  </span>
+                </a>
+                <div class="collapse" id="layouts1">
+                  <ul class="navbar-nav ps-3">
+                    <li>
+                      <a href="{{URL::to('/add-station')}}" class="nav-link px-3">
+                        <span class="me-2"
+                          ><i class="bi bi-plus-lg"></i></span>
+                        <span>Add New Station</span>
+                      </a>
+                    </li>
+  
+                    <li>
+                      <a href="{{URL::to('/station-list')}}" class="nav-link px-3">
+                        <span class="me-2"
+                          ><i class="bi bi-list-check"></i></span>
+                        <span>Station List</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-                <!-- sidebar menu end-->
-            </div>
-        </aside>
-        <!--sidebar end-->
-        <!--main content start-->
-        <section id="main-content">
-            <section class="wrapper">
+                
+            </li> --}}
 
-                @yield('user_content')
 
-            </section>
-            <!-- footer -->
-            <div class="footer">
-                <div class="wthree-copyright">
-                    <p>© 2023 THYN express. All rights reserved</a>
-                    </p>
+            {{-- <li>
+                <a
+                  class="nav-link px-3 sidebar-link"
+                  data-bs-toggle="collapse"
+                  href="#layouts2"
+                >
+                  <span class="me-2"><i class="bi bi-person"></i></span>
+                  <span>Manage User</span>
+                  <span class="ms-auto">
+                    <span class="right-icon">
+                      <i class="bi bi-chevron-down"></i>
+                    </span>
+                  </span>
+                </a>
+                <div class="collapse" id="layouts2">
+                  <ul class="navbar-nav ps-3">
+                    <li>
+                      <a href="{{URL::to('/add-user')}}" class="nav-link px-3">
+                        <span class="me-2"
+                          ><i class="bi bi-plus-lg"></i></span>
+                        <span>Add New User</span>
+                      </a>
+                    </li>
+  
+                    <li>
+                      <a href="#" class="nav-link px-3">
+                        <span class="me-2"
+                          ><i class="bi bi-list-check"></i></span>
+                        <span>User List</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-            </div>
-            <!-- / footer -->
-        </section>
-        <!--main content end-->
-    </section>
-    <script src={{asset("public/backend/js/bootstrap.js")}}></script>
-    <script src={{asset("public/backend/js/jquery.dcjqaccordion.2.7.js")}}></script>
-    <script src={{asset("public/backend/js/scripts.js")}}></script>
-    <script src={{asset("public/backend/js/jquery.slimscroll.js")}}></script>
-    <script src={{asset("public/backend/js/jquery.nicescroll.js")}}></script>
-    <!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-    <script src={{asset("public/backend/js/jquery.scrollTo.js")}}></script>
-    <!-- morris JavaScript -->
-    <script>
-        $(document).ready(function() {
-            //BOX BUTTON SHOW AND CLOSE
-            jQuery('.small-graph-box').hover(function() {
-                jQuery(this).find('.box-button').fadeIn('fast');
-            }, function() {
-                jQuery(this).find('.box-button').fadeOut('fast');
-            });
-            jQuery('.small-graph-box .box-close').click(function() {
-                jQuery(this).closest('.small-graph-box').fadeOut(200);
-                return false;
-            });
-        });
-    </script>
-    
-    <?php
-        $login_complete = Session::get('login_complete');
-        if($login_complete){
-            echo "<script>alert('đăng nhập thành công')</script>";
-            Session::put('login_complete', null);
-        }
-    ?>
-</body>
+                
+            </li> --}}
 
+            <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
+            <li>
+              <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                    Chi Tiết Vận Đơn
+              </div>
+            </li>
+            <li>
+                <a href="{{URL::to('/list-tracking')}}" class="nav-link px-3">
+                  <span class="me-2"><i class="bi bi-collection"></i></span>
+                  <span>Vận đơn của tôi</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{URL::to('/')}}" class="nav-link px-3">
+                  <span class="me-2"><i class="bi bi-pin-map"></i></span>
+                  <span>Theo dõi</span>
+                </a>
+            </li>
+
+            {{-- <li>
+              <a href="#" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-graph-up"></i></span>
+                <span>Charts</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-table"></i></span>
+                <span>Tables</span>
+              </a>
+            </li> --}}
+
+            {{-- <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
+            <li>
+              <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                Truck Drivers
+              </div>
+            </li> --}}
+            {{-- <li>
+              <a href="#" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-graph-up"></i></span>
+                <span>Charts</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-table"></i></span>
+                <span>Tables</span>
+              </a>
+            </li> --}}
+
+            {{-- <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
+            <li>
+              <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                Delivery Man
+              </div>
+            </li> --}}
+            {{-- <li>
+              <a href="#" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-graph-up"></i></span>
+                <span>Charts</span>
+              </a>
+            </li>
+            <li>
+              <a href="#" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-table"></i></span>
+                <span>Tables</span>
+              </a>
+            </li> --}}
+          </ul>
+        </nav>
+      </div>
+    </div>
+    <!-- offcanvas -->
+    <main class="mt-5 pt-3">
+      <div class="container-fluid">
+        
+        @yield('user_content')
+
+        
+      </div>
+    </main>
+    <script src={{asset("public/backend/js/bootstrap.bundle.min.js")}}></script>
+    <script src={{asset("public/backendttps://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js")}}></script>
+    <script src={{asset("public/backend/js/jquery-3.5.1.js")}}></script>
+    <script src={{asset("public/backend/js/jquery.dataTables.min.js")}}></script>
+    <script src={{asset("public/backend/js/dataTables.bootstrap5.min.js")}}></script>
+    <script src={{asset("public/backend/js/script.js")}}></script>
+  </body>
 </html>

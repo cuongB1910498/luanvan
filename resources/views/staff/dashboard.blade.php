@@ -75,7 +75,7 @@
                 </li>
                 <li><a class="dropdown-item" href="{{URL::to('/staff/setting')}}"><span><i class="bi bi-gear"></i></span> Setting</a></li>
                 <li>
-                  <a class="dropdown-item" href="{{URL::to('/admin-logout')}}"> <span><i class="bi bi-key-fill"></i></span> Log-out</a>
+                  <a class="dropdown-item" href="{{URL::to('/staff/logout')}}"> <span><i class="bi bi-key-fill"></i></span> Log-out</a>
                 </li>
               </ul>
             </li>

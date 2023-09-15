@@ -132,7 +132,7 @@ class homecontroller extends Controller
     public function list_tracking(){
         $this->Auth_login();
         if(Session::get('id_user')){
-            $data = DB::table('tbl_tracking_number')->get();
+            $data = DB::table('tbl_tracking_number')->orderBy('id_tracking','desc')->get();
             return view('pages.listtracking', ['data' =>$data]);
         }else{
             return abort('404');
@@ -141,7 +141,8 @@ class homecontroller extends Controller
 
     public function view_tracking($id_tracking){
         $this->Auth_login();
-        echo 'đây là trang theo dõi tiến trình đơn hàng: '.$id_tracking;
+        $get_tracking = DB::table('located')->where('id_tracking', $id_tracking)->get();
+        return view('pages.viewtracking', ['get_tracking'=>$get_tracking, 'id_tracking'=>$id_tracking]);
     }
 
     public function barcode(){
