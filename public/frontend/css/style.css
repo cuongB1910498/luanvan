@@ -1,6 +1,6 @@
 .custom-carousel {
     width: 100%; /* Đặt chiều rộng của carousel */
-    height: 500px; /* Đặt chiều cao của carousel */
+    height: 100%; /* Đặt chiều cao của carousel */
 }
 
 .custom-carousel .carousel-inner {
@@ -46,4 +46,8 @@
 
 .nav-link{
     font-weight: bold;
+}
+
+#img{
+    width: 100%;
 }

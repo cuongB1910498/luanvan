@@ -75,7 +75,7 @@ class StaffController extends Controller
         $result = DB::table('staff')->where('id_staff', Session::get('id_staff'))->update($data);
         if($result){
             Session::put('msg_update_info', 'Cập nhật thành công!');
-            return Redirect::to('/staff-profile');
+            return Redirect::to('/staff/profile');
         }else{
             Session::put('msg_update_info', 'đã có lỗi xảy ra!');
             return Redirect::to('/staff/profile');

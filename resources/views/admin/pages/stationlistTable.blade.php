@@ -23,7 +23,7 @@
                     <td>{{ $row->province_name }}</td>
                     <td>
                         <a href="{{URL::to('/station/'.$row->id_station)}}" class="active" ui-toggle-class="">
-                            <i class="fa fa-eye text-success text-active"></i>
+                            <i class="bi bi-eye"></i>
                         </a>
                     </td>
                 </tr>
