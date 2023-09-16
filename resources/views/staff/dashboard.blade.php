@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href={{asset('/public/backend/css/dataTables.bootstrap5.min.css')}} />
     <link rel="stylesheet" href={{asset('/public/backend/css/style.css')}} />
+
+    <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <title>THYN Express Staff</title>
   </head>
   <body>
@@ -123,13 +125,13 @@
                     </a>
                   </li>
 
-                  {{-- <li>
-                    <a href="{{URL::to('/posision-list')}}" class="nav-link px-3">
+                  <li>
+                    <a href="{{URL::to('/staff/tracking-in-post-station')}}" class="nav-link px-3">
                       <span class="me-2"
                         ><i class="bi bi-list-check"></i></span>
-                      <span>Posision List</span>
+                      <span>Tracking In Station</span>
                     </a>
-                  </li> --}}
+                  </li>
                 </ul>
               </div>
               
@@ -278,10 +280,11 @@
       </div>
     </main>
     <script src={{asset("public/backend/js/bootstrap.bundle.min.js")}}></script>
-    <script src={{asset("public/backendttps://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js")}}></script>
+    <script src={{asset("https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js")}}></script>
     <script src={{asset("public/backend/js/jquery-3.5.1.js")}}></script>
     <script src={{asset("public/backend/js/jquery.dataTables.min.js")}}></script>
     <script src={{asset("public/backend/js/dataTables.bootstrap5.min.js")}}></script>
     <script src={{asset("public/backend/js/script.js")}}></script>
+    <script src="//cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
   </body>
 </html>

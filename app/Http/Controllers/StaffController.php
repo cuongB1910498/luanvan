@@ -159,5 +159,20 @@ class StaffController extends Controller
         }
         return Redirect::to('/staff/confirm-arrived')->with('msg', 'Thành công');
     }
+
+    public function all_tracking(){
+        $this->AuthStaff();
+        $get_all_tracking = DB::table('located')
+            ->join('staff', 'staff.id_staff', '=', 'located.id_staff')
+            ->join('tbl_tracking_number', 'tbl_tracking_number.id_tracking', '=', 'located.id_tracking')
+            ->where('id_status', 2)
+            ->where('id_station', Session::get('id_station'))
+            ->paginate(10);
+        return view('staff.alltracking', ['get_all_tracking'=> $get_all_tracking]);
+    }
+
+    public function processData($selectvalue) {
+        
+    }
 }
 
