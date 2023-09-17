@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use DB;
 
 use APP\Http\Requests;
+use Psy\Command\WhereamiCommand;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 session_start();
@@ -89,7 +90,8 @@ class homecontroller extends Controller
 
     public function create_tracking(){
         $this->Auth_login();
-        return view('pages.createtracking');
+        $get_province = DB::table('tbl_province')->get();
+        return view('pages.createtracking', ['get_province'=>$get_province]);
         
     }
 
@@ -137,6 +139,12 @@ class homecontroller extends Controller
         }else{
             return abort('404');
         }
+    }
+
+    public function selectProvince(Request $request){
+        $province = $request->selectedValue;
+        $district = DB::table('tbl_district')->Where('id_province', $province)->get();
+        return response()->json($district);
     }
 
     public function view_tracking($id_tracking){

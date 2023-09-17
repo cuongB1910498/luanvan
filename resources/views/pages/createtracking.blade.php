@@ -34,14 +34,24 @@
                             <div class="col-sm-6 col-12 form-group row">
                                 <label for="province_sent" class="">Tỉnh/TP:</label>
                                 <div class="col-sm-10 col">
-                                    <input type="text" class="form-control" id="province_sent" name="province_sent">
+                                    {{-- <input type="text" class="form-control" id="province_sent" name="province_sent"> --}}
+                                    <select name="province_sent" id="province_sent" class="form-select">
+                                        <option value="" selected disabled>Chọn Tỉnh</option>
+                                        @foreach ($get_province as $province)
+                                            <option value="{{$province->id_province}}">{{ $province->province_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 col-12 form-group row">
                                 <label for="district_sent">Quận/Huyện/TX</label>
                                 <div class="col-sm-10 col">
-                                    <input type="text" class="form-control" id="district_sent" name="district_sent">
+                                    {{-- <input type="text" class="form-control" id="district_sent" name="district_sent"> --}}
+                                    <select name="district_sent" id="district_sent" class="form-select">
+                                        <option value="" selected disabled>Chọn Huyện</option>
+
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -107,16 +117,22 @@
                             <div class="col-sm-6 col-12 form-group row">
                                 <label for="province_receive" class="">Tỉnh/TP:</label>
                                 <div class="col-sm-10 col">
-                                    <input type="text" class="form-control" id="province_receive"
-                                        name="province_receive">
+                                   <select name="province_receive" id="province_receive" class="form-select">
+                                        <option value="" selected disabled>Chọn Tỉnh</option>
+                                        @foreach ($get_province as $province)
+                                            <option value="{{$province->id_province}}">{{ $province->province_name}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
                             </div>
 
                             <div class="col-sm-6 col-12 form-group row">
                                 <label for="district_receive">Quận/Huyện/TX:</label>
                                 <div class="col-sm-10 col">
-                                    <input type="text" class="form-control" id="district_receive"
-                                        name="district_receive">
+                                    <select name="district_receive" id="district_receive" class="form-select">
+                                        <option value="" selected disabled>Chọn Huyện</option>
+
+                                    </select>
                                 </div>
                             </div>
                         </div>
@@ -146,8 +162,65 @@
             </form>
 
         </div>
-
+<option value=""></option>
 
     </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#province_sent').on('change', function() {
+            var selectedValue = $(this).val();
+            //alert(selectedValue);
+            $.ajax({
+                url: 'select-province',
+                  method: 'GET',
+                  data: {
+                    selectedValue: selectedValue
+                  },
+                success: function(data) {
+                    var district_sent =$('#district_sent');
+                    district_sent.empty();
+                    $.each(data, function(key, district) {
+                        $('#district_sent').append($('<option>', {
+                            value: district.id_district,
+                            text: district.district_name
+                        }));
+                    });
+                },
+                error: function() {
+                  alert('Đã có lỗi xảy ra.');
+                }
+              });
+            });
+
+            $('#province_receive').on('change', function() {
+            var selectedValue = $(this).val();
+            //alert(selectedValue);
+            $.ajax({
+                url: 'select-province',
+                  method: 'GET',
+                  data: {
+                    selectedValue: selectedValue
+                  },
+                success: function(data) {
+                    var district_sent =$('#district_receive');
+                    district_sent.empty();
+                    $.each(data, function(key, district) {
+                        $('#district_receive').append($('<option>', {
+                            value: district.id_district,
+                            text: district.district_name
+                        }));
+                    });
+                },
+                error: function() {
+                  alert('Đã có lỗi xảy ra.');
+                }
+              });
+            });
+
+            
+        });
+    </script>
 @endsection

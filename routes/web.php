@@ -21,6 +21,7 @@ Route::get('/barcode', 'homecontroller@barcode');
         Route::post('/creating-process', "homecontroller@creating_process");
         Route::get('/list-tracking', "homecontroller@list_tracking");
         Route::get('/view-tracking/{id_tracking}', "homecontroller@view_tracking");
+        Route::get('/select-province', 'homecontroller@selectProvince');
 
 //BackEnd
     //admin

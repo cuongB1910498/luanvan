@@ -292,7 +292,7 @@
       </div>
     </main>
     <script src={{asset("public/backend/js/bootstrap.bundle.min.js")}}></script>
-    <script src={{asset("public/backendttps://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js")}}></script>
+    <script src={{asset("https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js")}}></script>
     <script src={{asset("public/backend/js/jquery-3.5.1.js")}}></script>
     <script src={{asset("public/backend/js/jquery.dataTables.min.js")}}></script>
     <script src={{asset("public/backend/js/dataTables.bootstrap5.min.js")}}></script>
