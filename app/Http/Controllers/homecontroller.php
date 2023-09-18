@@ -9,6 +9,8 @@ use APP\Http\Requests;
 use Psy\Command\WhereamiCommand;
 use Session;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Carbon;
+
 session_start();
 
 class homecontroller extends Controller
@@ -114,6 +116,7 @@ class homecontroller extends Controller
         $data['type_sending'] = $request->type_sending;
         $data['demension'] = $request->demension;
         $data['weight'] = $request->weight;
+        $data['id_status'] = '1';
         $data['id_user'] = Session::get('id_user');
         $result = DB::table('tbl_tracking_number')->insert($data);
         if($result){
@@ -133,12 +136,13 @@ class homecontroller extends Controller
 
     public function list_tracking(){
         $this->Auth_login();
-        if(Session::get('id_user')){
-            $data = DB::table('tbl_tracking_number')->orderBy('id_tracking','desc')->get();
-            return view('pages.listtracking', ['data' =>$data]);
-        }else{
-            return abort('404');
-        }
+        $data = DB::table('tbl_tracking_number')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+            ->orderBy('id_tracking','desc')
+            ->get();
+        //print_r($data);
+        return view('pages.listtracking', ['data' =>$data]); 
     }
 
     public function selectProvince(Request $request){
@@ -155,5 +159,9 @@ class homecontroller extends Controller
 
     public function barcode(){
         return view('barcode');
+    }
+
+    public function show_carbon(){
+        echo Carbon::now('Asia/Ho_Chi_Minh');
     }
 }

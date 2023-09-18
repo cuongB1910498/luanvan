@@ -129,27 +129,27 @@ class StaffController extends Controller
         $data= $request->input1;
         $result = explode(",", $data);
         $errors = [];
+        $status = array();
+        $status['id_status'] = '3';
         foreach($result as $row){
             $traking['id_tracking'] = $row;
-            $traking['id_status'] = 2;
-            
             
             //print_r($traking).'<br>';
            
-            //DB::table('located')->insert($traking);
+            // DB::table('located')->insert($traking);
+            // DB::table('tbl_tracking_number')->update($status);
            
             try {
                 DB::table('located')->insert($traking);
+                DB::table('tbl_tracking_number')->update($status);
             } catch (QueryException $e) {
                 $errorCode = $e->errorInfo[1];
         
                 if ($errorCode == 1062) {
-                    // Xử lý lỗi duy nhất hoá (unique constraint) hoặc lỗi khóa ngoại (foreign key constraint)
-                    // Thí dụ: thêm thông báo lỗi vào mảng lưu trữ
+                    
                     $errors[] = 'Dữ liệu đã tồn tại hoặc vi phạm ràng buộc.';
                 } else {
-                    // Xử lý các lỗi khác
-                    // Thí dụ: thêm thông báo lỗi vào mảng lưu trữ
+                    
                     $errors[] = 'Đã xảy ra lỗi khi thêm dữ liệu.';
                 }
             }
@@ -165,14 +165,47 @@ class StaffController extends Controller
         $get_all_tracking = DB::table('located')
             ->join('staff', 'staff.id_staff', '=', 'located.id_staff')
             ->join('tbl_tracking_number', 'tbl_tracking_number.id_tracking', '=', 'located.id_tracking')
-            ->where('id_status', 2)
+            ->where('id_status', 3)
             ->where('id_station', Session::get('id_station'))
             ->paginate(10);
         return view('staff.alltracking', ['get_all_tracking'=> $get_all_tracking]);
     }
 
-    public function processData($selectvalue) {
-        
+    public function processData(Request $request) {
+        $get_province = $request->selectedValue;
+        // lấy id_province của trạm mà nhân viên đang công tác
+        $get_id_province = DB::table('tbl_post_station')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_post_station.id_district')
+            ->where('id_station', Session::get('id_station'))
+            ->first();
+        //print_r($get_id_province);
+        //echo $get_id_province->id_province;
+        if($get_province == 'same'){
+            //lấy ra các đơn mà có id_province = province_receive
+            $result = DB::table('located')
+                ->join('staff', 'staff.id_staff', '=', 'located.id_staff')
+                ->join('tbl_tracking_number', 'tbl_tracking_number.id_tracking', '=', 'located.id_tracking')
+                ->where('id_status', 3)
+                ->where('province_receive', '=',$get_id_province->id_province)
+                ->get();
+        }elseif($get_province =='different'){
+            //lấy ra các đơn mà có id_province != province_receive
+            $result = DB::table('located')
+                ->join('staff', 'staff.id_staff', '=', 'located.id_staff')
+                ->join('tbl_tracking_number', 'tbl_tracking_number.id_tracking', '=', 'located.id_tracking')
+                ->where('id_status', 3)
+                ->where('province_receive', '<>', $get_id_province->id_province)
+                ->get();
+        }else{
+            //tất cả
+            $result = DB::table('located')
+                ->join('staff', 'staff.id_staff', '=', 'located.id_staff')
+                ->join('tbl_tracking_number', 'tbl_tracking_number.id_tracking', '=', 'located.id_tracking')
+                ->where('id_status', 2)
+                ->where('id_station', Session::get('id_station'))
+                ->get();
+        }
+        return response()->json($result);
     }
 }
 

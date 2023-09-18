@@ -9,6 +9,11 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href={{asset('/public/backend/css/dataTables.bootstrap5.min.css')}} />
     <link rel="stylesheet" href={{asset('/public/backend/css/style.css')}} />
+
+    {{-- databasejs css --}}
+    {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" /> --}}
+    
+
     <title>THYN Express Admin</title>
   </head>
   <body>
@@ -201,6 +206,43 @@
                 </div>
                 
             </li>
+
+            <li>
+              <a
+                class="nav-link px-3 sidebar-link"
+                data-bs-toggle="collapse"
+                href="#layouts3"
+              >
+                <span class="me-2"><i class="bi bi-truck"></i></span>
+                <span>Manage Truck</span>
+                <span class="ms-auto">
+                  <span class="right-icon">
+                    <i class="bi bi-chevron-down"></i>
+                  </span>
+                </span>
+              </a>
+              <div class="collapse" id="layouts3">
+                <ul class="navbar-nav ps-3">
+                  <li>
+                    <a href="{{URL::to('/add-truck')}}" class="nav-link px-3">
+                      <span class="me-2"
+                        ><i class="bi bi-plus-lg"></i></span>
+                      <span>Add New Truck</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="{{URL::to('/trucks-details')}}" class="nav-link px-3">
+                      <span class="me-2"
+                        ><i class="bi bi-list-check"></i></span>
+                      <span>Trucks Detail</span>
+                    </a>
+                  </li>
+                </ul>
+              </div>
+              
+          </li>
+
             <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
             <li>
               <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
@@ -233,10 +275,17 @@
       </div>
     </main>
     <script src={{asset("public/backend/js/bootstrap.bundle.min.js")}}></script>
-    <script src={{asset("public/backendttps://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js")}}></script>
+    <script src={{asset("https://cdn.jsdelivr.net/npm/chart.js@3.0.2/dist/chart.min.js")}}></script>
     <script src={{asset("public/backend/js/jquery-3.5.1.js")}}></script>
     <script src={{asset("public/backend/js/jquery.dataTables.min.js")}}></script>
     <script src={{asset("public/backend/js/dataTables.bootstrap5.min.js")}}></script>
     <script src={{asset("public/backend/js/script.js")}}></script>
+
+    {{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> --}}
+    <script>
+      $(document).ready( function () {
+          $('#myTable').DataTable();
+      } );
+  </script>
   </body>
 </html>

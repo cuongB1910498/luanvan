@@ -12,7 +12,7 @@
                         <tr>
                             <th style="width:10%;">Mã đơn</th>
                             <th style="width:15%;">Tên người nhận</th>
-                            <th style="width:50%;">Địa chỉ</th>
+                            <th style="width:50%;">Địa chỉ nhận</th>
                             <th>SDT</th>
                             <th style="width:3%;"></th>
                         </tr>
@@ -22,7 +22,7 @@
                             <tr>
                                 <td> {{ $row->id_tracking }} </td>
                                 <td> {{ $row->name_receive }} </td>
-                                <td> {{ $row->address_receive.', '.$row->district_receive.', '.$row->province_receive }}</td>
+                                <td> {{ $row->address_receive.', '.$row->district_name.', '.$row->province_name }}</td>
                                 <td> {{ $row->phone_receive}} </td>
                                 <td>
                                     <a href="{{URL::to('/view-tracking/'.$row->id_tracking)}}" class="active" ui-toggle-class="">

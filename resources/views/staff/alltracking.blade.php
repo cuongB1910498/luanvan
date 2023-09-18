@@ -20,7 +20,7 @@
                         <th scope="col">Thời gian đến</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="tbody">
                     @foreach ($get_all_tracking as $row)
                         <tr>
                             <th scope="row">{{ $row->id_tracking }}</th>
@@ -29,7 +29,6 @@
                             <td> {{ $row->created_at }}</td>
                         </tr>
                     @endforeach
-
                 </tbody>
                 
             </table>
@@ -45,22 +44,32 @@
         $(document).ready(function() {
           $('#myTable').DataTable();
 
-          // $('#selectId').on('change', function() {
-          //   var selectedValue = $(this).val();
-          //     $.ajax({
-          //       url: '/process-data' + selectedValue,
-          //         method: 'GET',
-          //         data: {
-          //           selectedValue: selectedValue
-          //         },
-          //       success: function(data) {
-                  
-          //       },
-          //       error: function() {
-          //         alert('Đã có lỗi xảy ra.');
-          //       }
-          //     });
-          //   });
+          $('#selectId').on('change', function() {
+            var selectedValue = $(this).val();
+            //alert(selectedValue);
+              $.ajax({
+                url: 'process-data',
+                  method: 'GET',
+                  data: {
+                    selectedValue: selectedValue
+                  },
+                success: function(data) {
+                  var tableBody = $('#tbody');
+                  tableBody.empty();
+                  $.each(data, function(key, row) {
+                        var newRow = $('<tr>');
+                        newRow.append('<th>' + row.id_tracking + '</th>');
+                        newRow.append('<td>' + row.name_sent + '</td>');
+                        newRow.append('<td>' + row.name_receive + '</td>');
+                        newRow.append('<td>' + row.created_at + '</td>');
+                        tableBody.append(newRow);
+                    });
+                },
+                error: function() {
+                  alert('Đã có lỗi xảy ra.');
+                }
+              });
+            });
         });
     </script>
 @endsection

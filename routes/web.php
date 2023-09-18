@@ -14,6 +14,8 @@ Route::post('/login', 'homecontroller@login_process');
 Route::get('/logout', 'homecontroller@logout');
 Route::get('/user', 'homecontroller@user');
 
+Route::get('/carbon', 'homecontroller@show_carbon');
+
 Route::get('/barcode', 'homecontroller@barcode');
 
     //Create tracking
@@ -44,9 +46,19 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
             Route::get('/station/{id_station}', 'AdminController@station_detail');
             Route::get('/edit-staff/{id_staff}', 'AdminController@edit_staff');
             Route::post('/edit-staff-process/{id_staff}', 'AdminController@edit_staff_process');
-        // Create Staff
+        // Staff
             Route::get('/add-user', 'UserController@add_user');  
-            Route::post('/user-add-process', 'UserController@user_add_process');  
+            Route::post('/user-add-process', 'UserController@user_add_process'); 
+        
+        //Truck
+            Route::get('/add-truck', 'AdminController@add_truck');
+            Route::post('/add-truck-process', 'AdminController@addTruckProcess');
+            Route::get('/edit-truck/{id_truck}', 'AdminController@editTruck');
+            Route::post('/update-truck-process/{id_truck}', 'AdminController@updateTruckProcess');
+            Route::get('/detete-truck/{id_truck}', 'AdminController@deleteTruck');
+
+            Route::get('/trucks-details', "AdminController@trucksDetail");
+            Route::get('/truck-details/{id_truck}', 'AdminController@showtruckDetail');
 
     //staff
 Route::get('/staff/dashboard', 'StaffController@index');
@@ -67,4 +79,4 @@ Route::get('/staff/', 'StaffController@index');
             Route::post('/staff/arrived-process', 'StaffController@arrived_process');
             Route::get('/staff/tracking-in-post-station', 'StaffController@all_tracking');
             //Route::get('/staff/process-data', 'StaffController@process_data');
-            Route::get('/staff/process-data/{selectvalue}', 'StaffController@processData');
+            Route::get('/staff/process-data', 'StaffController@processData');

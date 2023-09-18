@@ -8,6 +8,9 @@ use DB;
 use APP\Http\Requests;
 use Session;
 use Illuminate\Support\Facades\Redirect;
+use Carbon\Carbon;
+use Facade\FlareClient\View;
+
 session_start();
 
 class AdminController extends Controller
@@ -128,5 +131,57 @@ class AdminController extends Controller
             Session::put('msg_update', 'Cập Nhật Thành Công!');
             return Redirect::to('/station/'.$request->id_station);
         }
+    }
+
+    public function add_truck(){
+        $this->AuthAdmin();
+        $get_all_truck = DB::table('tbl_truck')->get();
+        return view('admin.pages.addtruck', ['get_all_truck'=>$get_all_truck]);
+    }
+
+    public function addTruckProcess(Request $request){
+        $data = array();
+        $data['bks'] = $request->bks;
+        $data['start_end'] = $request->start_end;
+        $data['id_truck_status'] = 1;
+        $result = DB::table('tbl_truck')->insert($data);
+        return Redirect::to('/add-truck')->with('success', 'Complete!');
+    }
+
+    public function editTruck($id_truck){
+        $get_truck = DB::table('tbl_truck')->where('id_truck', $id_truck)->first();
+        return view('admin.pages.edittruck', ['get_truck'=>$get_truck]);
+    }
+
+    public function updateTruckProcess(Request $request, $id_truck){
+        $data = array();
+        $data['bks'] = $request->bks;
+        $data['start_end'] = $request->start_end;
+        $data['id_truck_status'] = 1;
+
+        $result = DB::table('tbl_truck')->where('id_truck', $id_truck)->update($data);
+        return Redirect::to('/add-truck')->with('success', 'Complete!');
+    }
+
+    public function deleteTruck($id_truck){
+        $result = DB::table('tbl_truck')->where('id_truck',$id_truck)->delete();
+        return Redirect::to('/add-truck')->with('delete_success', 'Delete Complete!');
+    }
+
+    public function trucksDetail(){
+        $get_all_truck = DB::table('tbl_truck')
+            ->join('truck_status', 'truck_status.id_truck_status', '=', 'tbl_truck.id_truck_status')
+            ->get();
+        return view('admin.pages.trucksdetail', ['get_all_truck'=>$get_all_truck]);
+    }
+
+    public function showtruckDetail($id_truck){
+        $now = Carbon::now('Asia/Ho_Chi_Minh');
+        $get_truck_log = DB::table('truck_log')
+            ->join('tbl_post_station', 'tbl_post_station.id_station', '=', 'truck_log.id_station')
+            ->join('staff', 'staff.id_staff', '=', 'truck_log.id_staff')
+            ->where('thoi_gian', $now)
+            ->get();
+        return view('admin.pages.showtruckdetails', ['now'=>$now, 'get_truck_log'=>$get_truck_log]);
     }
 }
