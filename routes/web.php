@@ -80,3 +80,7 @@ Route::get('/staff/', 'StaffController@index');
             Route::get('/staff/tracking-in-post-station', 'StaffController@all_tracking');
             //Route::get('/staff/process-data', 'StaffController@process_data');
             Route::get('/staff/process-data', 'StaffController@processData');
+        
+        // Truck Driver
+            Route::get('staff/check-in-truck', 'StaffController@checkInTruck');
+            Route::get('/truck-log', 'StaffController@truckLog');

@@ -32,7 +32,7 @@
                 </tbody>
                 
             </table>
-            {{ $get_all_tracking->links() }}
+            
         </div>
 
         <div id="resultDiv">

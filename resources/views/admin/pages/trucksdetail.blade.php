@@ -18,7 +18,7 @@
                 @endphp
                 <tr>
                     <th>{{$i}}</th>
-                    <td>{{$truck->start_end}}</td>
+                    <td>{{$truck->start_point.' - '.$truck->end_point}}</td>
                     <td>{{$truck->bks}}</td>
                     <td>{{$truck->name_status}}</td>
                     <td><a href="{{URL::to('truck-details/'.$truck->id_truck)}}"><i class="bi bi-eye-fill"></i></a></td>

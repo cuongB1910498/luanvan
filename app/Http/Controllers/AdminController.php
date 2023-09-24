@@ -136,13 +136,18 @@ class AdminController extends Controller
     public function add_truck(){
         $this->AuthAdmin();
         $get_all_truck = DB::table('tbl_truck')->get();
-        return view('admin.pages.addtruck', ['get_all_truck'=>$get_all_truck]);
+        $get_driver = DB::table('staff')
+            ->join('tbl_posisions', 'tbl_posisions.id_posision', '=', 'staff.id_posision')
+            ->where('tbl_posisions.id_posision', 11)
+            ->get();
+        return view('admin.pages.addtruck', ['get_all_truck'=>$get_all_truck, 'get_driver'=>$get_driver]);
     }
 
     public function addTruckProcess(Request $request){
         $data = array();
         $data['bks'] = $request->bks;
-        $data['start_end'] = $request->start_end;
+        $data['start_point'] = $request->start_point;
+        $data['end_point'] = $request->end_point;
         $data['id_truck_status'] = 1;
         $result = DB::table('tbl_truck')->insert($data);
         return Redirect::to('/add-truck')->with('success', 'Complete!');
@@ -150,14 +155,24 @@ class AdminController extends Controller
 
     public function editTruck($id_truck){
         $get_truck = DB::table('tbl_truck')->where('id_truck', $id_truck)->first();
-        return view('admin.pages.edittruck', ['get_truck'=>$get_truck]);
+        $get_driver = DB::table('staff')
+            ->join('tbl_posisions', 'tbl_posisions.id_posision', '=', 'staff.id_posision')
+            ->where('tbl_posisions.id_posision', 11)
+            ->get();
+        return view('admin.pages.edittruck', ['get_truck'=>$get_truck, 'get_driver'=>$get_driver]);
     }
 
     public function updateTruckProcess(Request $request, $id_truck){
         $data = array();
+        if($request->id_staff == 'none'){
+            $id_staff = 0;
+        }else{
+            $id_staff = $request->id_staff;
+        }
         $data['bks'] = $request->bks;
-        $data['start_end'] = $request->start_end;
-        $data['id_truck_status'] = 1;
+        $data['start_point'] = $request->start_point;
+        $data['end_point'] = $request->end_point;
+        $data['id_staff'] = $id_staff;
 
         $result = DB::table('tbl_truck')->where('id_truck', $id_truck)->update($data);
         return Redirect::to('/add-truck')->with('success', 'Complete!');
