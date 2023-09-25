@@ -39,3 +39,11 @@ button {
     top: var(--topNavbarHeight);
   }
 }
+
+.print_preview{
+  width: 90%;
+  margin: 0px auto;
+  padding: 15px;
+  padding-right: 0px;
+  border: 2px solid black;
+}

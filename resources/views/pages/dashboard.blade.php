@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href={{asset('/public/backend/css/dataTables.bootstrap5.min.css')}} />
     <link rel="stylesheet" href={{asset('/public/backend/css/style.css')}} />
+    
     <title>THYN Express User</title>
   </head>
   <body>

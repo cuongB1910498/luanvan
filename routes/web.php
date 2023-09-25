@@ -17,6 +17,7 @@ Route::get('/user', 'homecontroller@user');
 Route::get('/carbon', 'homecontroller@show_carbon');
 
 Route::get('/barcode', 'homecontroller@barcode');
+Route::get('/pdf/{id_tracking}', 'homecontroller@generatePDF');
 
     //Create tracking
         Route::get('/create-tracking', "homecontroller@create_tracking");

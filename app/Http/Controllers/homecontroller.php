@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use DB;
-
+use PDF;
 use APP\Http\Requests;
 use Psy\Command\WhereamiCommand;
 use Session;
@@ -93,13 +93,15 @@ class homecontroller extends Controller
     public function create_tracking(){
         $this->Auth_login();
         $get_province = DB::table('tbl_province')->get();
-        return view('pages.createtracking', ['get_province'=>$get_province]);
+        $get_service = DB::table('extra_service')->orderBy('id_extra_service', 'ASC')->get();
+        return view('pages.createtracking', ['get_province'=>$get_province, 'get_service'=>$get_service]);
         
     }
 
     public function creating_process(Request $request){
         $this->Auth_login();
         $data = array();
+        $weight=$request->weight;
         $rand_id = time();
         $data['id_tracking'] = 'VN'.$rand_id;
         $data['address_sent'] = $request->address_sent;
@@ -114,16 +116,50 @@ class homecontroller extends Controller
         $data['phone_receive'] = $request->phone_receive;
         $data['img_receive'] = '';
         $data['type_sending'] = $request->type_sending;
-        $data['demension'] = $request->demension;
-        $data['weight'] = $request->weight;
+        $data['describe_tracking'] = $request->describe_tracking;
+        $data['demension'] = $request->width.'x'.$request->height.'x'.$request->depth;
+        $data['weight'] = $weight;
+        $data['cod'] = $request->cod;
         $data['id_status'] = '1';
         $data['id_user'] = Session::get('id_user');
+
+        $es = $request->id_extra_service;
+        $split_es = explode('-', $es);
+        $es_price = $split_es[0];
+        $id_extra_service = $split_es[1];
+        $data['id_extra_service'] = $id_extra_service; // tách chuỗi ra
+        
+
+        if($request->province_receive == $request->province_sent){
+            if($weight <= 500){
+                $price_w = 20000;
+            }elseif($weight > 500 && $weight <=1000){
+                $price_w = 25000;
+            }elseif($weight > 1000 && $weight <=3000){
+                $price_w = 30000;
+            }elseif($weight > 3000){
+                $price_w = 30000 + ($weight-3000)*15;
+            }
+        }else{
+            if($weight <= 500){
+                $price_w = 25000;
+            }elseif($weight > 500 && $weight <=1000){
+                $price_w = 30000;
+            }elseif($weight > 1000 && $weight <=3000){
+                $price_w = 40000;
+            }elseif($weight > 3000){
+                $price_w = 40000 + ($weight-3000)*15;
+            }
+        }
+        
+        $tracking_price = $es_price + $price_w;
+        $data['tracking_price'] = $tracking_price; // tính
+        // print_r($data);
         $result = DB::table('tbl_tracking_number')->insert($data);
         if($result){
             Session::put('msg_create_tracking', 'Thêm Thành Công!');
             return Redirect::to('/create-tracking');
         }
-
     }
 
     public function user(){
@@ -154,14 +190,57 @@ class homecontroller extends Controller
     public function view_tracking($id_tracking){
         $this->Auth_login();
         $get_tracking = DB::table('located')->where('id_tracking', $id_tracking)->get();
-        return view('pages.viewtracking', ['get_tracking'=>$get_tracking, 'id_tracking'=>$id_tracking]);
+        $get_id_tracking = DB::table('tbl_tracking_number')->where('id_tracking',$id_tracking)->first();
+        $get_sentaddress = DB::table('tbl_tracking_number')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_sent')
+            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_sent')
+            ->where('id_tracking', $id_tracking)
+            ->first();
+        $get_receiveaddress = DB::table('tbl_tracking_number')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+            ->where('id_tracking', $id_tracking)
+            ->first();
+        return view(
+            'pages.viewtracking', 
+            [
+                'get_tracking'=>$get_tracking, 
+                'id_tracking'=>$id_tracking, 
+                'tracking'=>$get_id_tracking,
+                'sender'=>$get_sentaddress, 
+                'receive'=>$get_receiveaddress
+            ]
+        );
     }
 
     public function barcode(){
         return view('barcode');
     }
 
+    public function generatePDF($id_tracking){
+        $this->Auth_login();
+        $pdf = \App::make('dompdf.wrapper');
+        //$pdf->getDompdf()->setPaper('A5', 'landscape');
+
+        $get_tracking = DB::table('tbl_tracking_number')->where('id_tracking',$id_tracking)->first();
+        $get_sentaddress = DB::table('tbl_tracking_number')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_sent')
+            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_sent')
+            ->where('id_tracking', $id_tracking)
+            ->first();
+        $get_receiveaddress = DB::table('tbl_tracking_number')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+            ->where('id_tracking', $id_tracking)
+            ->first();
+        $pdf = PDF::loadView('pages.printtracking', ['tracking'=>$get_tracking, 'sender'=>$get_sentaddress, 'receive' =>$get_receiveaddress]);
+        return $pdf->stream();
+        //return view('pages.printtracking', ['tracking'=>$get_tracking, 'sender'=>$get_sentaddress, 'receive' =>$get_receiveaddress]);
+    }
+
     public function show_carbon(){
         echo Carbon::now('Asia/Ho_Chi_Minh');
     }
+
+
 }
