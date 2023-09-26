@@ -10,6 +10,11 @@ use Psy\Command\WhereamiCommand;
 use Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Carbon;
+//use App\Imports\ImportTest;
+use App\Imports\ImportTracking;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Http\Controllers\Controller;
+
 
 session_start();
 
@@ -175,6 +180,7 @@ class homecontroller extends Controller
         $data = DB::table('tbl_tracking_number')
             ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
             ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+            ->where('id_user', Session::get('id_user'))
             ->orderBy('id_tracking','desc')
             ->get();
         //print_r($data);
@@ -236,6 +242,37 @@ class homecontroller extends Controller
         $pdf = PDF::loadView('pages.printtracking', ['tracking'=>$get_tracking, 'sender'=>$get_sentaddress, 'receive' =>$get_receiveaddress]);
         return $pdf->stream();
         //return view('pages.printtracking', ['tracking'=>$get_tracking, 'sender'=>$get_sentaddress, 'receive' =>$get_receiveaddress]);
+    }
+
+    public function importTracking(){
+        return view('pages.importtracking');
+    }
+
+    public function importCsv(Request $request){
+        $path = $request->file('file')->getRealPath();
+        //echo $path;
+        try {
+            Excel::import(new ImportTracking, $path);
+            
+            // Xử lý thành công, ví dụ: 
+            return redirect()->back()->with('success', 'Dữ liệu đã được nhập thành công.');
+        } catch (\Maatwebsite\Excel\Validators\ValidationException $e) {
+            // Xử lý lỗi xảy ra trong quá trình xác minh dữ liệu
+            $failures = $e->failures(); // Danh sách các lỗi xác minh
+    
+            foreach ($failures as $failure) {
+                $errorRow = $failure->row(); // Dòng chứa lỗi
+                $errorMessage = $failure->errors()[0]; // Thông báo lỗi đầu tiên
+                // Xử lý lỗi tại đây
+            }
+    
+            return redirect()->back()->with('error', 'Có lỗi xảy ra trong quá trình nhập dữ liệu từ tệp Excel.');
+        } catch (\Exception $e) {
+            // Xử lý lỗi chung
+            return redirect()->back()->with('error', 'Có lỗi xảy ra trong quá trình nhập dữ liệu từ tệp Excel.');
+        }
+        // Excel::import(new ImportTracking, $path);
+        // return redirect()->back()->with('success', 'Dữ liệu đã được nhập thành công.');
     }
 
     public function show_carbon(){

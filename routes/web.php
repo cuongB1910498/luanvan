@@ -25,6 +25,8 @@ Route::get('/pdf/{id_tracking}', 'homecontroller@generatePDF');
         Route::get('/list-tracking', "homecontroller@list_tracking");
         Route::get('/view-tracking/{id_tracking}', "homecontroller@view_tracking");
         Route::get('/select-province', 'homecontroller@selectProvince');
+        Route::get('/create-tracking-by-excel', 'homecontroller@importTracking');
+        Route::post('/import-csv', 'homecontroller@importCsv');
 
 //BackEnd
     //admin
