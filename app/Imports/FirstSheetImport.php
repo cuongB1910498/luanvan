@@ -2,6 +2,8 @@
 
 namespace App\Imports;
 
+use Illuminate\Support\Facades\Session;
+
 // use App\test;
 use App\TrackingNumberModel;
 use Illuminate\Support\Collection;
@@ -75,7 +77,7 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                 'tracking_price'=>$tong_gia,// tính toán trước khi chèn vào
                 'cod'=>$row['thu_ho'],
                 'id_extra_service'=>$row['dich_vu_them'],
-                'id_user'=>$row['id_nguoidung'], // lấy được id_người dùng mà không cần nhập
+                'id_user'=>Session::get('id_user'), // lấy được id_người dùng mà không cần nhập
                 'id_status'=>'1',// mặc định được khởi tạo là 1
             ]);
         }

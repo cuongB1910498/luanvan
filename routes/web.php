@@ -4,6 +4,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\StaffController;
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'homecontroller@index');
 Route::get('/trang-chu', 'homecontroller@index');
@@ -85,5 +86,10 @@ Route::get('/staff/', 'StaffController@index');
             Route::get('/staff/process-data', 'StaffController@processData');
         
         // Truck Driver
-            Route::get('staff/check-in-truck', 'StaffController@checkInTruck');
+            Route::get('/staff/check-in-truck', 'StaffController@checkInTruck');
             Route::get('/truck-log', 'StaffController@truckLog');
+        // Delivery staff
+            Route::get('/staff/get-tracking', 'StaffController@getTracking');
+            Route::get('/staff/get-tracking-process/{id_tracking}', 'StaffController@getTrackingProcess');
+            Route::get('/staff/deliver-tracking', 'StaffController@deliverTracking');
+            Route::post('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');

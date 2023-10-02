@@ -3,17 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 use PDF;
+
 use APP\Http\Requests;
 use Psy\Command\WhereamiCommand;
-use Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Carbon;
 //use App\Imports\ImportTest;
 use App\Imports\ImportTracking;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 
 session_start();

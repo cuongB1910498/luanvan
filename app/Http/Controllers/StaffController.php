@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Illuminate\Database\QueryException;
-use DB;
-use Session;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Carbon;
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 session_start();
 
 class StaffController extends Controller
@@ -344,6 +345,159 @@ class StaffController extends Controller
             }
         }
         
+    }
+
+    public function getTracking(){
+        $this->AuthStaff();
+        $tomorrow = Carbon::tomorrow('Asia/Ho_Chi_Minh');
+        
+        $station = DB::table('tbl_post_station')->where('id_station', Session::get('id_station'))->first();
+        $get_tracking_on_station = DB::table('tbl_tracking_number')
+            ->where('district_sent', $station->id_district)
+            ->where('id_status', '=', 1)
+            ->orWhere('id_status', '=', 7)
+            ->where('tracking_updated_at', '>', $tomorrow)
+            ->get();
+        $get_tracking_to_deliver = DB::table('tbl_tracking_number')
+            ->where('id_status', 3)
+            ->where('district_receive', $station->id_district)
+            ->get();
+        return view('staff.gettracking', [
+            'tracking'=>$get_tracking_on_station,
+            'deliver'=>$get_tracking_to_deliver
+        ]);
+    }
+
+    public function getTrackingProcess($id_tracking, Request $request){
+        $this->AuthStaff();
+        if($request->get == 'success'){
+           //thêm vào located
+            $data = array();
+            $data['note'] = 'Lấy thành công';
+            $data['id_tracking'] = $id_tracking;
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            $data['id_staff'] = Session::get('id_staff');
+            $insert = DB::table('located')->insert($data);
+            //Update trạng thái đơn hàng = 2 (lấy thành công)
+            $tracking = array();
+            $tracking['id_status'] = 2;
+            $tracking['tracking_updated_at'] = now();
+            $update = DB::table('tbl_tracking_number')
+                ->where('id_tracking', $id_tracking)
+                ->update($tracking);
+
+            if($insert && $update){
+                return Redirect::to('/staff/get-tracking')->with('success', "Thao Tác Thành Công!");
+            }
+        }elseif($request->get == 'fail'){
+            //thêm vào located
+            $data = array();
+            $data['note'] = 'Lấy không thành công!';
+            $data['id_tracking'] = $id_tracking;
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            $data['id_staff'] = Session::get('id_staff');
+            $insert = DB::table('located')->insert($data);
+            //Update trạng thái đơn hàng = 7 (lấy không thành công)
+            $tracking = array();
+            $tracking['id_status'] = 7;
+            $tracking['tracking_updated_at'] = now();
+            $update = DB::table('tbl_tracking_number')
+                ->where('id_tracking', $id_tracking)
+                ->update($tracking);
+
+            if($insert && $update){
+                return Redirect::to('/staff/get-tracking')->with('success', "Thao Tác Thành Công!");
+            }
+        }elseif($request->get == 'todeliver'){
+            //thêm vào located
+            $data = array();
+            $data['note'] = 'Lấy không thành công!';
+            $data['id_tracking'] = $id_tracking;
+            $data['created_at'] = now();
+            $data['updated_at'] = now();
+            $data['id_staff'] = Session::get('id_staff');
+            $insert = DB::table('located')->insert($data);
+            //Update trạng thái đơn hàng = 5 (đang giao hàng)
+            $tracking = array();
+            $tracking['id_status'] = 5;
+            $tracking['tracking_updated_at'] = now();
+            $update = DB::table('tbl_tracking_number')
+                ->where('id_tracking', $id_tracking)
+                ->update($tracking);
+
+            if($insert && $update){
+                return Redirect::to('/staff/get-tracking')->with('success', "Thao Tác Thành Công!");
+            }
+        }
+    }
+
+    public function deliverTracking(){
+        $tracking = DB::table('tbl_tracking_number')
+            ->join('located', 'located.id_tracking', '=', 'tbl_tracking_number.id_tracking')
+            ->where('id_status', 5)
+            ->where('id_staff', Session::get('id_staff'))
+            ->get();
+        return view('staff.delivertracking', ['tracking'=>$tracking]);
+    }
+
+    public function deliverComplete(Request $request, $id_tracking){
+        $found = true;
+        
+        $image = $request->file('image');
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+
+            // Kiểm tra phần mở rộng và loại MIME của tệp
+            $allowedExtensions = ['jpg', 'jpeg', 'png'];
+            $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+
+            if (
+                in_array(strtolower($image->getClientOriginalExtension()), $allowedExtensions) &&
+                in_array($image->getClientMimeType(), $allowedMimeTypes) &&
+                getimagesize($image)
+            ) {
+                // lưu tệp vào cloudinary
+                $cloudinaryUpload = Cloudinary::upload($image->getRealPath(), ['public_id' => $id_tracking]);
+                $imageUrl = $cloudinaryUpload->getSecurePath();
+                $publicId = $cloudinaryUpload->getPublicId();
+                //echo $publicId;
+
+                // lưu CSDL
+                if($imageUrl){
+                    $data = array();
+                    $data['img_receive'] = $imageUrl;
+                    $data['id_status'] = 8;
+                    $update = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->update($data);
+
+                    $tracking =array();
+                    $tracking['note'] = 'Giao thành công';
+                    $tracking['id_staff'] = Session::get('id_staff');
+                    $tracking['id_tracking'] = $id_tracking;
+                    $tracking['created_at'] = now();
+                    $tracking['updated_at'] = now();
+                    $insert = DB::table('located')->insert($tracking);
+                    // nếu update và insert thì trả về ngược lại thì hủy upload
+                    if($insert && $update){
+                        return Redirect::to('/staff/deliver-tracking')->with('success', 'Thao tác thành công!');
+                    }else{
+                        Cloudinary::destroy($publicId);
+                        return Redirect::to('/staff/deliver-tracking')->with('error', 'Lỗi lưu trữ!');
+                    }
+                    
+                }else{
+                    return Redirect::to('/staff/deliver-tracking')->with('error', 'Lỗi upload ảnh!');
+                }
+            }else{
+                return Redirect::to('/staff/deliver-tracking')->with('error', 'Ảnh không hợp lệ!');
+            }
+        }
+
+        // Nếu không hợp lệ, chúng ta chuyển hướng đến trang không hợp lệ.
+        
+    
     }
 }
 

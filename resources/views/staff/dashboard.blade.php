@@ -253,21 +253,21 @@
             <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
             <li>
               <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                Delivery Man
+                Delivery
               </div>
             </li>
-            {{-- <li>
-              <a href="#" class="nav-link px-3">
-                <span class="me-2"><i class="bi bi-graph-up"></i></span>
-                <span>Charts</span>
+            <li>
+              <a href="{{URL::to('/staff/get-tracking')}}" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-box-arrow-in-down"></i></span>
+                <span>Lấy đơn</span>
               </a>
             </li>
             <li>
-              <a href="#" class="nav-link px-3">
-                <span class="me-2"><i class="bi bi-table"></i></span>
-                <span>Tables</span>
+              <a href="{{URL::to('/staff/deliver-tracking')}}" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-box-arrow-right"></i></span>
+                <span>Giao đơn</span>
               </a>
-            </li> --}}
+            </li>
           </ul>
         </nav>
       </div>
