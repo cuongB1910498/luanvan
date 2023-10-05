@@ -2,12 +2,10 @@
     width: 60%;
     height: 50px;
     margin: 0px auto;
-    border-radius: 20px;
-    
 }
 
-#username:focus, #password:focus, #username:hover, #password:hover{
-    width: 70%
+#username:focus, #password:focus{
+    width: 75%
 }
 
 h3{

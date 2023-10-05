@@ -63,15 +63,15 @@
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Chọn lý do giao thất bại</h1>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <form action="" method="POST">
+                            <form action="{{URL::to('/deliver-fail/'.$row->id_tracking)}}" method="POST">
                                 {{ csrf_field() }}
                                 <div class="modal-body" class="form-group row">
-                                    <label for="">Lý do:</label>
-                                    <select name="" id="" class="form-select">
-                                        <option value="">Khách không nghe máy</option>
-                                        <option value="">Khách không nhận hàng</option>
-                                        <option value="">Không tìm được địa chỉ giao hàng</option>
-                                        <option value="">Khách hàng hẹn nhận ngày khác</option>
+                                    <label for="lydo">Lý do:</label>
+                                    <select name="lydo" id="lydo" class="form-select">
+                                        <option value="Khách không nghe máy">Khách không nghe máy</option>
+                                        <option value="Khách không nhận hàng">Khách không nhận hàng</option>
+                                        <option value="Không tìm được địa chỉ giao hàng">Không tìm được địa chỉ giao hàng</option>
+                                        <option value="Khách hàng hẹn nhận ngày khác">Khách hàng hẹn nhận ngày khác</option>
                                     </select>
                                 </div>
                                 <div class="modal-footer">

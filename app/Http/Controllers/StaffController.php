@@ -32,7 +32,7 @@ class StaffController extends Controller
     }
 
     public function login(){
-        return view('staff/login');
+        return view('staff.login');
     }
 
     public function logout(){
@@ -56,8 +56,7 @@ class StaffController extends Controller
 
             return Redirect::to('/staff/dashboard');
         }else{
-            Session::put('staff_login_error', 'Tài Khoản hoặc mật khẩu không đúng!');
-            return Redirect::to('/staff/login');
+            return Redirect::to('/staff/login')->with('staff_login_error', 'Tài Khoản hoặc mật khẩu không đúng!');
         }
     }
 
@@ -143,7 +142,7 @@ class StaffController extends Controller
            
             try {
                 DB::table('located')->insert($traking);
-                DB::table('tbl_tracking_number')->update($status);
+                DB::table('tbl_tracking_number')->where('id_tracking', $row)->update($status);
             } catch (QueryException $e) {
                 $errorCode = $e->errorInfo[1];
         
@@ -413,7 +412,7 @@ class StaffController extends Controller
         }elseif($request->get == 'todeliver'){
             //thêm vào located
             $data = array();
-            $data['note'] = 'Lấy không thành công!';
+            $data['note'] = 'Đang giao hàng!';
             $data['id_tracking'] = $id_tracking;
             $data['created_at'] = now();
             $data['updated_at'] = now();
@@ -434,10 +433,12 @@ class StaffController extends Controller
     }
 
     public function deliverTracking(){
+        $today = Carbon::today('Asia/Ho_Chi_Minh');
         $tracking = DB::table('tbl_tracking_number')
             ->join('located', 'located.id_tracking', '=', 'tbl_tracking_number.id_tracking')
             ->where('id_status', 5)
             ->where('id_staff', Session::get('id_staff'))
+            ->where('created_at', '>', $today)
             ->get();
         return view('staff.delivertracking', ['tracking'=>$tracking]);
     }
@@ -493,11 +494,27 @@ class StaffController extends Controller
             }else{
                 return Redirect::to('/staff/deliver-tracking')->with('error', 'Ảnh không hợp lệ!');
             }
-        }
+        }    
+    }
 
-        // Nếu không hợp lệ, chúng ta chuyển hướng đến trang không hợp lệ.
-        
-    
+
+    public function deliverFail(Request $request, $id_tracking){
+        $this->AuthStaff();
+        $data = array();
+        $data['id_status'] = 6;
+        $update = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->update($data);
+
+        $tracking =array();
+        $tracking['note'] = $request->lydo;
+        $tracking['id_staff'] = Session::get('id_staff');
+        $tracking['id_tracking'] = $id_tracking;
+        $tracking['created_at'] = now();
+        $tracking['updated_at'] = now();
+        $insert = DB::table('located')->insert($tracking);
+
+        if($insert && $update){
+            return Redirect::to('/staff/deliver-tracking')->with('success', 'thao tác thành công!');
+        }
     }
 }
 

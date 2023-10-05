@@ -40,7 +40,12 @@ class homecontroller extends Controller
     }
 
     public function register_process(Request $request){
-        //check usn
+        
+        $request->validate([
+            'captcha' => 'required|captcha',
+        ]);
+        
+        // check usn
         $check_usn = DB::table('users')->where('username', $request->username)->first();
         if($check_usn){
             Session::put('usn_check', 'Tài khoản đã tồn tại!');
@@ -72,6 +77,9 @@ class homecontroller extends Controller
     }
 
     public function login_process(Request $request){
+        $request->validate([
+            'captcha'=>'required|captcha',
+        ]);
         $username = $request->username;
         $password = md5($request->password);
         $result = DB::table('users')->where('username', $username)->where('password', $password)->first();

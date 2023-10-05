@@ -19,6 +19,7 @@ Route::get('/carbon', 'homecontroller@show_carbon');
 
 Route::get('/barcode', 'homecontroller@barcode');
 Route::get('/pdf/{id_tracking}', 'homecontroller@generatePDF');
+Route::get('reload-captcha', 'AdminController@reloadCaptcha');
 
     //Create tracking
         Route::get('/create-tracking', "homecontroller@create_tracking");
@@ -93,3 +94,4 @@ Route::get('/staff/', 'StaffController@index');
             Route::get('/staff/get-tracking-process/{id_tracking}', 'StaffController@getTrackingProcess');
             Route::get('/staff/deliver-tracking', 'StaffController@deliverTracking');
             Route::post('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');
+            Route::post('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');

@@ -88,6 +88,19 @@
 								</div>
 							</div>
 
+							<div class="form-group row">
+								<div class="col-sm-4 captcha">
+									<span class="me-2">{!! captcha_img() !!}</span>
+                                    <button type ="button" class="btn btn-danger reload" id="reload">&#x21bb;</button>
+								</div>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" id="captcha" name="captcha" placeholder="Nhập captcha tại đây" />
+									@error('captcha')
+                                        <label class="error">{{$message}}</label>
+                                    @enderror
+								</div>
+							</div>
+
 							<div class="form-group form-check">
 								<div class="col-sm-5 offset-sm-4">
 									<input class="form-check-input" type="checkbox" id="agree" name="agree" value="agree" />
@@ -128,7 +141,8 @@
 					confirm_password: { required: true, minlength: 5, equalTo: "#password"},
 					email: { required: true, email: true},
 					phone: { required: true, number: true},
-					agree: "required"
+					agree: "required",
+					captcha: "required",
 				},
 				messages: {
 					firstname: "bạn chưa nhập vào họ của bạn",
@@ -148,7 +162,8 @@
 					},
 					email: "Hộp thư điên tử không hợp lệ",
 					phone: { required: "Bạn chưa nhập số điện thoại", number: "Bạn chỉ được nhập số"},
-					agree: "Bạn phải đồng ý với các qui định của chúng tôi"
+					agree: "Bạn phải đồng ý với các qui định của chúng tôi",
+					captcha: "Bạn chưa nhập captcha!",
 				},
 				ErrorElement: "div",
 				ErrorPlacement: function (error, element) {
@@ -166,6 +181,16 @@
 					$(element).addClass("is-valid").removeClass("is-invalid");
 				}
 			});
+
+			$('#reload').click(function(){
+                $.ajax({
+                    type:'GET',
+                    url:'reload-captcha',
+                    success:function(data){
+                        $(".captcha span").html(data.captcha)
+                    }
+                });
+            });
 		});
 
 

@@ -58,11 +58,26 @@
 							</div>
 
                             <div class="form-group row text-center">
-								<div class=" ">
+								<div class="">
 									<input type="password" class="form-control text-center" id="password" name="password" placeholder="Mật khẩu" />
                                     <label class="error"></label>
 								</div>
 							</div>
+
+                            <div class="form-group mb-3 row">
+                                <div class="col-lg-4 offset-lg-2">
+                                    <div class="captcha">
+                                        <span class="me-2">{!! captcha_img() !!}</span>
+                                        <button type ="button" class="btn btn-danger reload" id="reload">&#x21bb;</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="text" placeholder="Mã bảo vệ" class="form-control" name="captcha">
+                                    @error('captcha')
+                                        <label class="error">{{$message}}</label>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="text-center mt-3">
                                 <button class="btn btn-primary mb-3">Đăng nhập</button>
@@ -112,7 +127,17 @@
 					$(element).addClass("is-valid").removeClass("is-invalid");
 				}
 
-            })
+            });
+
+            $('#reload').click(function(){
+                $.ajax({
+                    type:'GET',
+                    url:'reload-captcha',
+                    success:function(data){
+                        $(".captcha span").html(data.captcha)
+                    }
+                });
+            });
             
         })
         

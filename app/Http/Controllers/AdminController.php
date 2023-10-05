@@ -3,13 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 use APP\Http\Requests;
-use Session;
+
+use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Carbon\Carbon;
 use Facade\FlareClient\View;
+use Validator;
+
+use Mews\Captcha\Captcha;
+use Symfony\Contracts\Service\Attribute\Required;
 
 session_start();
 
@@ -37,20 +42,24 @@ class AdminController extends Controller
     }
 
     public function admin_login_process(Request $request){
-        $username = $request->username;
-        $password = md5($request->password);
+        $request->validate([
+           'username'=> 'required',
+           'password'=> 'required',
+           'captcha' => 'required|captcha',
+        ]);
+        echo $username = $request->username;
+        echo $password = md5($request->password);
 
         $result = DB::table('users')->where('username', $username)->where('password', $password)->first();
         print_r($result);
         
-       if($result){
-        Session::put('admin_name', 'admin');
-        Session::put('admin_id', $result->id_user);
-        return Redirect::to('/admin-dashboard');
-       }else{
-        Session::put('msg', 'username or password was not correct!');
-        return Redirect::to('/adminlogin');
-       }
+        if($result){
+            Session::put('admin_name', 'admin');
+            Session::put('admin_id', $result->id_user);
+            return Redirect::to('/admin-dashboard');
+        }else{
+            return Redirect::to('/adminlogin')->with('msg', 'username or password was not correct!');;
+        }
         
     }
 
@@ -198,5 +207,9 @@ class AdminController extends Controller
             ->where('thoi_gian', $now)
             ->get();
         return view('admin.pages.showtruckdetails', ['now'=>$now, 'get_truck_log'=>$get_truck_log]);
+    }
+
+    public function reloadCaptcha(){
+        return response()->json(['captcha'=>captcha_img()]);
     }
 }
