@@ -121,7 +121,7 @@
                     <a href="{{URL::to('/staff/confirm-arrived')}}" class="nav-link px-3">
                       <span class="me-2"
                         ><i class="bi bi-plus-lg"></i></span>
-                      <span>Confirm Arrived</span>
+                      <span>Xác nhận đến</span>
                     </a>
                   </li>
 
@@ -129,7 +129,15 @@
                     <a href="{{URL::to('/staff/tracking-in-post-station')}}" class="nav-link px-3">
                       <span class="me-2"
                         ><i class="bi bi-list-check"></i></span>
-                      <span>Tracking In Station</span>
+                      <span>Đơn đang ở trạm</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="{{URL::to('/staff/add-to-bag')}}" class="nav-link px-3">
+                      <span class="me-2"
+                        ><i class="bi bi-list-check"></i></span>
+                      <span>Đóng gói chuyển đi</span>
                     </a>
                   </li>
                 </ul>
@@ -215,6 +223,18 @@
                 Station Master
               </div>
             </li>
+            <li>
+              <a href="{{URL::to('/staff/to-truck')}}" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-truck"></i></span>
+                <span>Chuyển tiếp lên xe</span>
+              </a>
+            </li>
+            {{-- <li>
+              <a href="#" class="nav-link px-3">
+                <span class="me-2"><i class="bi bi-table"></i></span>
+                <span>Tables</span>
+              </a>
+            </li> --}}
             
 
             <li class="my-4"><hr class="dropdown-divider bg-light" /></li>

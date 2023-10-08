@@ -6,6 +6,27 @@ use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
+Route::middleware(['checkRequestMethod'])->group(function () {
+    Route::get('/import-csv', 'homecontroller@importCsv');
+    Route::get('/creating-process', "homecontroller@creating_process");
+    Route::get('/admin-login-process', 'AdminController@admin_login_process');
+    Route::get('/possison-process', 'ManagePosision@posision_process');
+    Route::get('/update-posision/{id_posision}', 'ManagePosision@update_posision');
+    Route::get('/add-station-process', 'AdminController@add_station_process');
+    Route::get('/edit-staff-process/{id_staff}', 'AdminController@edit_staff_process');
+    Route::get('/user-add-process', 'UserController@user_add_process');
+    Route::get('/add-truck-process', 'AdminController@addTruckProcess');
+    Route::get('/update-truck-process/{id_truck}', 'AdminController@updateTruckProcess');
+    Route::get('/staff/login-process', 'StaffController@login_process');
+    Route::get('/staff/user-change', "StaffController@user_change");
+    Route::get('/staff/change-password', "StaffController@change_password");
+    Route::get('/staff/arrived-process', 'StaffController@arrived_process');
+    Route::get('/staff/process-add-bag', 'StaffController@processAddBag');
+    Route::get('/to-truck-process/{id_bag}', 'StaffController@toTruckprocess');
+    Route::get('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');
+    Route::get('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');
+});
+
 Route::get('/', 'homecontroller@index');
 Route::get('/trang-chu', 'homecontroller@index');
 Route::get('/register', 'homecontroller@register');
@@ -85,6 +106,12 @@ Route::get('/staff/', 'StaffController@index');
             Route::get('/staff/tracking-in-post-station', 'StaffController@all_tracking');
             //Route::get('/staff/process-data', 'StaffController@process_data');
             Route::get('/staff/process-data', 'StaffController@processData');
+            //add to bag 
+            Route::get('/staff/add-to-bag', 'StaffController@addToBag');
+            Route::post('/staff/process-add-bag', 'StaffController@processAddBag');
+            //Add to truck
+            Route::get('/staff/to-truck', 'StaffController@toTruck');
+            Route::post('/to-truck-process/{id_bag}', 'StaffController@toTruckprocess');
         
         // Truck Driver
             Route::get('/staff/check-in-truck', 'StaffController@checkInTruck');

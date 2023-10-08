@@ -5,22 +5,18 @@
         <header class="panel-heading">
             Confirm arrived
         </header>
-        @if ($errors->any())
+        @if (Session('error'))
         <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}<li>
-                @endforeach
-            </ul>
+            {{ Session('error') }}
         </div>
         @endif
+
         @if (session('msg'))
             <div class="alert alert-success">
-                <ul>
-                    <li>{{ session('msg') }}<li>
-                </ul>
+                {{ session('msg') }}   
             </div>
         @endif
+
         <div class="panel-body">
             <div class="position-center">
                 <form action="{{URL::to('/staff/arrived-process')}}" method="post">

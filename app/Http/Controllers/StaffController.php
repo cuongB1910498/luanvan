@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Carbon;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
+use Illuminate\Support\Facades\Validator;
 session_start();
 
 class StaffController extends Controller
@@ -125,40 +126,32 @@ class StaffController extends Controller
         $traking = array();
         $traking['id_staff'] = Session::get('id_staff');
         $traking['note'] = 'Đã đến trạm: '.$get_station->station_name;
+        $traking['LC_status'] = '3';
         $traking['created_at'] = now();
         $traking['updated_at'] = now();
         $data= $request->input1;
         $result = explode(",", $data);
-        $errors = [];
-        $status = array();
         $status['id_status'] = '3';
-        foreach($result as $row){
-            $traking['id_tracking'] = $row;
-            
-            //print_r($traking).'<br>';
-           
-            // DB::table('located')->insert($traking);
-            // DB::table('tbl_tracking_number')->update($status);
-           
-            try {
+        DB::beginTransaction();    
+        //print_r($traking).'<br>';
+        //print_r($result);  
+        // DB::table('located')->insert($traking);
+        // DB::table('tbl_tracking_number')->update($status);   
+    
+        try {
+            foreach($result as $row){
+                if($row == '') continue;
+                $traking['id_tracking'] = $row;
+                //($traking).'<br>';
                 DB::table('located')->insert($traking);
                 DB::table('tbl_tracking_number')->where('id_tracking', $row)->update($status);
-            } catch (QueryException $e) {
-                $errorCode = $e->errorInfo[1];
-        
-                if ($errorCode == 1062) {
-                    
-                    $errors[] = 'Dữ liệu đã tồn tại hoặc vi phạm ràng buộc.';
-                } else {
-                    
-                    $errors[] = 'Đã xảy ra lỗi khi thêm dữ liệu.';
-                }
             }
+            DB::commit();
+            return Redirect::to('/staff/confirm-arrived')->with('msg', 'Thành công!');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return Redirect::to('/staff/confirm-arrived')->with('error', 'Đã có lỗi xảy ra!');
         }
-        if (count($errors) > 0) {
-            return redirect()->back()->withErrors(['messages' => $errors]);
-        }
-        return Redirect::to('/staff/confirm-arrived')->with('msg', 'Thành công');
     }
 
     public function all_tracking(){
@@ -168,6 +161,7 @@ class StaffController extends Controller
             ->join('tbl_tracking_number', 'tbl_tracking_number.id_tracking', '=', 'located.id_tracking')
             ->where('id_status', 3)
             ->where('id_station', Session::get('id_station'))
+            ->where('LC_status', 3)
             ->get();
         return view('staff.alltracking', ['get_all_tracking'=> $get_all_tracking]);
     }
@@ -374,6 +368,7 @@ class StaffController extends Controller
             $data = array();
             $data['note'] = 'Lấy thành công';
             $data['id_tracking'] = $id_tracking;
+            $data['LC_status'] = 2;
             $data['created_at'] = now();
             $data['updated_at'] = now();
             $data['id_staff'] = Session::get('id_staff');
@@ -394,6 +389,7 @@ class StaffController extends Controller
             $data = array();
             $data['note'] = 'Lấy không thành công!';
             $data['id_tracking'] = $id_tracking;
+            $data['LC_Status'] = 7;
             $data['created_at'] = now();
             $data['updated_at'] = now();
             $data['id_staff'] = Session::get('id_staff');
@@ -414,6 +410,7 @@ class StaffController extends Controller
             $data = array();
             $data['note'] = 'Đang giao hàng!';
             $data['id_tracking'] = $id_tracking;
+            $data['LC_status'] = 5;
             $data['created_at'] = now();
             $data['updated_at'] = now();
             $data['id_staff'] = Session::get('id_staff');
@@ -444,22 +441,20 @@ class StaffController extends Controller
     }
 
     public function deliverComplete(Request $request, $id_tracking){
-        $found = true;
-        
-        $image = $request->file('image');
-
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-
             // Kiểm tra phần mở rộng và loại MIME của tệp
             $allowedExtensions = ['jpg', 'jpeg', 'png'];
             $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+            $imageSize = $image->getSize();
 
             if (
                 in_array(strtolower($image->getClientOriginalExtension()), $allowedExtensions) &&
                 in_array($image->getClientMimeType(), $allowedMimeTypes) &&
-                getimagesize($image)
+                getimagesize($image) &&
+                $imageSize <= 5*1024*1024
             ) {
+                //echo 'thành công';
                 // lưu tệp vào cloudinary
                 $cloudinaryUpload = Cloudinary::upload($image->getRealPath(), ['public_id' => $id_tracking]);
                 $imageUrl = $cloudinaryUpload->getSecurePath();
@@ -477,6 +472,7 @@ class StaffController extends Controller
                     $tracking['note'] = 'Giao thành công';
                     $tracking['id_staff'] = Session::get('id_staff');
                     $tracking['id_tracking'] = $id_tracking;
+                    $tracking['LC_status'] = 8;
                     $tracking['created_at'] = now();
                     $tracking['updated_at'] = now();
                     $insert = DB::table('located')->insert($tracking);
@@ -501,19 +497,157 @@ class StaffController extends Controller
     public function deliverFail(Request $request, $id_tracking){
         $this->AuthStaff();
         $data = array();
-        $data['id_status'] = 6;
+        $data['id_status'] = 3;
         $update = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->update($data);
 
         $tracking =array();
         $tracking['note'] = $request->lydo;
         $tracking['id_staff'] = Session::get('id_staff');
         $tracking['id_tracking'] = $id_tracking;
+        $tracking['LC_status'] = 6; 
         $tracking['created_at'] = now();
         $tracking['updated_at'] = now();
         $insert = DB::table('located')->insert($tracking);
 
-        if($insert && $update){
+        $tracking_after =array();
+        $tracking_after['note'] = 'trả về bưu cục';
+        $tracking_after['id_staff'] = Session::get('id_staff');
+        $tracking_after['id_tracking'] = $id_tracking;
+        $tracking_after['LC_status'] = 9; 
+        $tracking_after['created_at'] = now();
+        $tracking_after['updated_at'] = now();
+        $insert = DB::table('located')->insert($tracking_after);
+        if($insert && $update && $tracking_after){
             return Redirect::to('/staff/deliver-tracking')->with('success', 'thao tác thành công!');
+        }
+    }
+
+    public function addToBag(){
+        $this->AuthStaff();
+        return view('staff.addtobag');
+    }
+
+    public function processAddBag(Request $request){
+       
+        $this->AuthStaff();
+        $today = Carbon::today()->format('Y-m-d');
+        //echo $today;
+        //$id_tracking = $request->id_tracking;
+        $id_station = Session::get('id_station');
+
+        //xem CSDL bảng BAG đã có ngày hôm nay chưa có thì thôi chưa thì tạo
+        $check_bag_to_PL = DB::table('tbl_bag')
+            ->where('date', $today)
+            ->where('id_station', $id_station)
+            ->where('goto', 'PL') // sẽ chỉnh sửa sau
+            ->first();
+        if(empty($check_bag_to_PL)){
+            $new_bag = [
+                'bag_name'=>'bao hàng hóa đi trạm phân loại '.$today,
+                'id_station'=>$id_station,
+                'goto'=>'PL',
+                'date'=>$today,
+            ];
+            //print_r($new_bag);
+            $create_bag = DB::table('tbl_bag')->insert($new_bag);
+        }
+
+        $check_bag_own_province = DB::table('tbl_bag')
+            ->where('date', $today)
+            ->where('id_station', $id_station)
+            ->where('goto', 'OWN')
+            ->first();
+       
+        if(empty($check_bag_own_province)){
+            $new_bag2 = [
+                'bag_name'=>'bao hàng hóa đi trong tỉnh '.$today,
+                'id_station'=>$id_station,
+                'goto'=>'OWN',
+                'date'=>$today,
+            ];
+            //print_r($new_bag2);
+            $create_bag2 = DB::table('tbl_bag')->insert($new_bag2);
+        }
+
+        // UPDATE TRACKING có id_bag dựa theo tuyến đi
+        $array_tracking = $request->id_tracking;
+        $trackings = explode(",", $array_tracking);
+        DB::beginTransaction();
+        try {
+            foreach($trackings as $id_tracking){
+                if($id_tracking == '') continue;
+                $tracking = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->first();
+                $station = DB::table('tbl_post_station')
+                    ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_post_station.id_district')
+                    ->where('id_station', $id_station)
+                    ->first();
+                $province_receive =  $tracking->province_receive;
+                if($station->id_province != $province_receive){
+                    //đi trung tâm phân loại - UPDATE id_bag của của tracking thành id_bag của ngày hôm đó
+                    $get_bag_1 = DB::table('tbl_bag')
+                        ->where('date', $today)
+                        ->where('id_station', $id_station)
+                        ->where('goto', 'PL') // sẽ chỉnh sửa sau
+                        ->first();
+                    $update_tracking = [
+                        'id_bag' => $get_bag_1->id_bag
+                    ];
+                    print_r($update_tracking);
+                    DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->update($update_tracking);
+                    
+                }else{
+                    //echo 'đi trong tỉnh';
+                    $get_bag_2 = DB::table('tbl_bag')
+                        ->where('date', $today)
+                        ->where('id_station', $id_station)
+                        ->where('goto', 'OWN') // sẽ chỉnh sửa sau
+                        ->first();
+                    $update_tracking = [
+                        'id_bag' => $get_bag_2->id_bag
+                    ];
+                    print_r($update_tracking);
+                    DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->update($update_tracking);     
+                }
+            }
+            DB::commit();
+            return Redirect::to('/staff/add-to-bag')->with('success', 'thành công!');
+        }catch(\Exception $e){
+            DB::rollback();
+            return Redirect::to('/staff/add-to-bag')->with('error', 'Đã có lỗi xảy ra!');
+        }
+        
+        
+    }
+
+    public function toTruck(){
+        $this->AuthStaff();
+        $id_station = Session('id_station');
+        $today = Carbon::today('Asia/Ho_Chi_Minh')->subday(1)->format('Y-m-d');
+        $get_bag = DB::table('tbl_bag')
+            ->where('date', '>=' ,$today)
+            ->where('bag_status', '>=', '0')
+            ->get();
+        $select_truck = DB::table('truck_log')
+            ->join('tbl_truck', 'tbl_truck.id_truck', '=', 'truck_log.id_truck')
+            ->where('truck_status', 'Đã đến Trạm')
+            ->where('thoi_gian', $today)
+            ->where('id_station', $id_station)
+            ->get();
+        return view('staff.totruck', ['bag'=>$get_bag, 'select_truck'=>$select_truck]);
+    }
+
+    public function toTruckprocess(Request $request, $id_bag){
+        $id_truck = $request->id_truck;
+        $update = [
+            'id_truck'=>$id_truck,
+            'bag_status'=>'0',
+        ];
+
+        $to_truck = DB::table('tbl_bag')->where('id_bag', $id_bag)->update($update);
+        if($to_truck){
+            return Redirect::to('/staff/to-truck')->with('success', 'Thành công!');
+        }else{
+            return Redirect::to('/staff/to-truck')->with('error', 'Đã có lỗi xảy ra');
         }
     }
 }

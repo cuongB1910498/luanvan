@@ -241,8 +241,8 @@
             //alert(selectedValue);
             $.ajax({
                 url: 'select-province',
-                  method: 'GET',
-                  data: {
+                method: 'GET',
+                data: {
                     selectedValue: selectedValue
                   },
                 success: function(data) {
