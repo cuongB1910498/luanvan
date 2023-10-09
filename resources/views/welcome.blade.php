@@ -8,6 +8,7 @@
     <!-- bootstraps 5 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
     <!-- fontawnsome -->
 
@@ -76,15 +77,32 @@
                 <h3 class="main-title">Công ty TNHH THYN express</h3>
                 <p>Trụ sở chính: 3/2 Ninh Kiều, Cần Thơ, Việt Nam</p>
                 <p></p>
+                <img src="{{asset('/public/frontend/images/check_bct.png')}}" alt="error">
             </div>
             <div class="col-lg-3 col-12">
                 <h3 class="main-title">Vận chuyển nhanh</h3>
+                <ul class="fast-trans">
+                    <li><a href="">Tạo đơn hàng</a></li>
+                    <li><a href="">Tính toán cước phí</a></li>
+                    <li><a href="">Quy cách đóng gói</a></li>
+                    <li><a href="">Mạng lưới bưu cục</a></li>
+
+                </ul>
             </div>
             <div class="col-lg-2 col-12">
                 <h3 class="main-title">Dịch vụ GTGT</h3>
+                <ul class="fast-trans">
+                    <li><a href="">Hàng hóa dễ vỡ</a></li>
+                    <li><a href="">Hàng hóa cồng kềnh</a></li>
+                    <li><a href="">Hàng Hóa giá trị cao</a></li>
+                </ul>
             </div>
             <div class="col-lg-2 col-12">
                 <h3 class="main-title">Mạng Xã Hội</h3>
+                <div class="row"><a href="" class="nav-link text-light"><i class="bi bi-facebook"></i> FaceBook</a></div>
+                <div class="row"><a href="" class="nav-link text-light"><i class="bi bi-tiktok"></i> TikTok</a></div>
+                <div class="row"><a href="" class="nav-link text-light"><i class="bi bi-youtube"></i> Youtube</a></div>
+                
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@
 }
 
 .main-ad{
-    min-height: 600px;
+    /* min-height: 600px; */
 }
 
 .custom-btn-start:hover{
@@ -52,4 +52,30 @@
     width: 100%;
 }
 
+.fast-trans li{
+    padding: 0px 0px 15px 0px;
+}
 
+.fast-trans li a{
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: white;
+    
+}
+
+.ali{
+    padding-left: 2em;
+}
+
+.sp{
+    padding-left: 1em;
+}
+
+.ldz{
+    padding-left: 22px;
+}
+
+.logodoitac{
+    width: 80%;
+    margin: 20px auto;
+}

@@ -48,16 +48,81 @@
 
 <!-- search bar -->
 <div class="mb-3 bg-light box-search">
-    <form action="" class="row">
+    <form action="{{URL::to('/')}}" class="row" method="get">
         <div class="col-lg-8 col-8 offset-lg-1">
-            <input type="search" class="form-control" placeholder="Tra cứu mã vận đơn" tabindex="-1">
+            <input type="search" class="form-control" placeholder="Tra cứu mã vận đơn" name="tracking">
         </div>
-        <button type="submit" class="btn btn-primary col-lg-2 col-3 custom-btn" >Kiểm tra</button>
+        <button type="submit" class="btn btn-primary col-lg-2 col-3 custom-btn" id="search-button">Kiểm tra</button>
     </form>
 </div>
 
+@if (Session('error'))
+    <div class="alert alert-danger" id="results-section">
+        {{Session('error')}}
+    </div>
+@endif
+
+@if (isset($tracking))
+<div class="row" id="results-section">
+    <div class="card col-sm-8 offset-sm-2">
+        <div class="card-header">Mã đơn: {{$info}}</div>
+        <div class="card-body">
+            <ul>
+                @foreach ($tracking as $row)
+                    <li>{{$row->note}} | {{\Carbon\Carbon::parse($row->created_at)->format('H:m:s d/m/Y')}}</li>
+                @endforeach
+                
+                
+            </ul>
+        </div>
+    </div>
+    
+</div> 
+@endif
+
 <!-- main ad -->
 <div class="row main-ad">
-    quảng cáo chính
+    <div class="row">
+        <h1 class="text-center mb-3 mt-3">Tại sao bạn nên chọn ThynExpress</h1>
+        <div class="row">
+            <div class="col-sm-2 offset-sm-2"><img src="{{asset('/public/frontend/images/fast_service.png')}}" alt=""></div>
+            <div class="col-sm-8">
+                <p style="padding-top: 90px">Chúng tôi luôn cố gắn không ngừng cải thiện dịch vụ của mình nhanh hơn, để khách hàng có sự trãi nghiệp tốt nhất</p>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-7 offset-sm-2">
+                <p style="padding-top: 90px">Trong quá trình vận chuyển, hàng hóa của bạn sẽ được đảm bảo an toàn, hạn chế thấp nhất các tình trạng hỏng hóc trong quá trình vận chuyển</p>
+            </div>
+            <div class="col-sm-2"><img src="{{asset('/public/frontend/images/safety.png')}}" alt=""></div>
+        </div>
+
+        <div class="row text-center">
+            <p>Đặc biệt giá cả vô cùng hợp lý, có tính cạnh tranh cao</p>
+        </div>
+    </div>
+
+    <div class="row doitac">
+        <h1 class="text-center mb-3 mt-3">Các đối tác tin cậy</h1>
+        
+            <div class="col-sm-3 col offset-lg-2">
+                <img src="{{asset('/public/frontend/images/ali.jpg')}}" alt="error" width="150px" height="100px" class="row">
+                <p class="row ali">Aliexprexx</p>
+            </div>
+            <div class="col-sm-3 col">
+                <img src="{{asset('/public/frontend/images/shoppe.png')}}" alt="error" width="100px" class="row">
+                <p class="row sp">Shoppee</p>
+                
+            </div>
+            <div class="col-sm-3 col">
+                <img src="{{asset('/public/frontend/images/laza.png')}}" alt="error" width="100px" class="row">
+                <p class="row ldz">Ladaza</p>
+            </div>
+        
+        
+        
+    </div>
 </div>
+
 @endsection

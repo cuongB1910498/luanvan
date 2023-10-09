@@ -15,7 +15,7 @@ use App\Imports\ImportTracking;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Session;
-
+use PhpOffice\PhpSpreadsheet\RichText\RichText;
 
 session_start();
 
@@ -31,8 +31,20 @@ class homecontroller extends Controller
         }
     }
 
-    public function index() {
-        return view('pages.home');
+    public function index(Request $request) {
+        if(isset($request->tracking) && $request->tracking != ''){
+            $id_tracking = $request->tracking;
+            $tracking_info = DB::table('located')->where('id_tracking', $id_tracking)->get();
+            if($tracking_info->isEmpty()){
+                return Redirect('/')->with('error', 'Hệ thông không phát hiện đơn hàng: '.$id_tracking);
+            }else{
+                return view('pages.home', ['tracking'=>$tracking_info, 'info'=>$id_tracking]);
+            }
+            
+        }else{
+            return view('pages.home');
+        }
+        
     }
 
     public function register(){
