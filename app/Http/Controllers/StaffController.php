@@ -240,7 +240,22 @@ class StaffController extends Controller
                     ->where('id_staff', Session::get('id_staff'))
                     ->orderBy('id_trucklog', 'DESC')
                     ->first();
-                return view('staff.checkintruck', ['get_truck_info'=>$get_truck_info, 'get_log_today'=>$get_log_today, 'get_station'=>$get_station, 'current_station'=>$current_station]);
+
+                $get_bag_in_truck = DB::table('tbl_bag')
+                    ->join('tbl_truck', 'tbl_truck.id_truck', '=', 'tbl_bag.id_truck')
+                    ->join('tbl_post_station', 'tbl_post_station.id_station', '=', 'tbl_bag.id_station')
+                    ->where('tbl_bag.id_truck', $get_truck_info->id_truck)
+                    ->get();
+                return view(
+                    'staff.checkintruck', 
+                    [
+                        'get_truck_info'=>$get_truck_info, 
+                        'get_log_today'=>$get_log_today, 
+                        'get_station'=>$get_station, 
+                        'current_station'=>$current_station,
+                        'truck_bag'=>$get_bag_in_truck,
+                    ]
+                );
             }else{
                 Session::put('error', 'bạn chưa có xe tải nhe!');
                 return view('staff.checkintruck');
@@ -335,6 +350,19 @@ class StaffController extends Controller
                 }
             }else{
                 return Redirect::to('/staff/check-in-truck')->with('msg', 'Bạn chưa về trạm khởi đầu!');
+            }
+        }elseif($process == 'bagout'){
+            $id_truck = $request->id_truck;
+            $id_bag = $request->id_bag;
+
+            $data=[
+                'id_truck'=>null,
+                'bag_status'=>-1
+            ];
+            // update id_truck của bag đó thành null, bag_status = -1
+            $update = DB::table('tbl_bag')->where('id_bag', $id_bag)->update($data);
+            if($update){
+                return Redirect::to('/staff/check-in-truck')->with('msg','Thành công!');
             }
         }
         

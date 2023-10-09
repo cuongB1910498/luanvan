@@ -52,9 +52,37 @@
                 </div>
             @else
                     <div class="col">
-                        <a href="{{URL::to('/truck-log?process=roaldout&id_truck='.$get_truck_info->id_truck.'&id_station='.$current_station->id_station)}}" class="btn btn-dark me-2"> Khởi hành</a> 
-                        <a href="{{URL::to('/truck-log?process=checkout&id_truck='.$get_truck_info->id_truck.'&id_station='.$current_station->id_station)}}" class="btn btn-default btn-danger">Check Out</a>
+                        <a href="{{URL::to('/truck-log?process=roaldout&id_truck='.$get_truck_info->id_truck.'&id_station='.$current_station->id_station)}}" class="btn btn-dark "> Khởi hành</a> 
+                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modal_1">Giao gói hàng</button>
+                        <a href="{{URL::to('/truck-log?process=checkout&id_truck='.$get_truck_info->id_truck.'&id_station='.$current_station->id_station)}}" class="btn btn-default btn-danger ">Kết thúc phiên</a>
                     </div>
+                    <div class="modal fade" id="modal_1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel">Chọn gói hàng giao Trạm</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <form action="{{URL::to('/truck-log')}}" method="get">
+                                @csrf
+                            <div class="modal-body form-group row">
+                                <input type="text" class="visually-hidden" value="bagout" name="process">
+                                <input type="text" class="visually-hidden" value="{{$get_truck_info->id_truck}}" name="id_truck">
+                                <select name="id_bag" id="id_bag" class="form-select">
+                                    @foreach ($truck_bag as $bag)
+                                        <option value="{{$bag->id_bag}}">{{$bag->bag_name.' từ: '.$bag->station_name}}</option>
+                                    @endforeach
+                                    
+                                </select>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-primary">Save changes</button>
+                            </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
                     @endif
                 </div>
             @else
