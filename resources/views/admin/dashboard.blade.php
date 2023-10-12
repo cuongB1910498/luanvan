@@ -95,30 +95,25 @@
            
             <li>
               <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                Interface
+                QL Thành Phần
               </div>
             </li>
             <li>
               <a
                 class="nav-link px-3 sidebar-link"
                 data-bs-toggle="collapse"
-                href="#layouts"
               >
                 <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                <span>Manage Posision</span>
-                <span class="ms-auto">
-                  <span class="right-icon">
-                    <i class="bi bi-chevron-down"></i>
-                  </span>
-                </span>
+                <span>QL Chức Vụ</span>
+                
               </a>
-              <div class="collapse" id="layouts">
+              
                 <ul class="navbar-nav ps-3">
                   <li>
                     <a href="{{URL::to('/add-posision')}}" class="nav-link px-3">
                       <span class="me-2"
                         ><i class="bi bi-plus-lg"></i></span>
-                      <span>Add New Posision</span>
+                      <span>Chức vụ mới</span>
                     </a>
                   </li>
 
@@ -126,11 +121,11 @@
                     <a href="{{URL::to('/posision-list')}}" class="nav-link px-3">
                       <span class="me-2"
                         ><i class="bi bi-list-check"></i></span>
-                      <span>Posision List</span>
+                      <span>Danh sách chứ vụ</span>
                     </a>
                   </li>
                 </ul>
-              </div>
+              
               
             </li>
 
@@ -141,20 +136,16 @@
                   href="#layouts1"
                 >
                   <span class="me-2"><i class="bi bi-house"></i></span>
-                  <span>Manage Station</span>
-                  <span class="ms-auto">
-                    <span class="right-icon">
-                      <i class="bi bi-chevron-down"></i>
-                    </span>
-                  </span>
+                  <span>QL Trạm</span>
+                 
                 </a>
-                <div class="collapse" id="layouts1">
+                
                   <ul class="navbar-nav ps-3">
                     <li>
                       <a href="{{URL::to('/add-station')}}" class="nav-link px-3">
                         <span class="me-2"
                           ><i class="bi bi-plus-lg"></i></span>
-                        <span>Add New Station</span>
+                        <span>Trạm mới</span>
                       </a>
                     </li>
   
@@ -162,11 +153,11 @@
                       <a href="{{URL::to('/station-list')}}" class="nav-link px-3">
                         <span class="me-2"
                           ><i class="bi bi-list-check"></i></span>
-                        <span>Station List</span>
+                        <span>Danh sách các trạm</span>
                       </a>
                     </li>
                   </ul>
-                </div>
+                
                 
             </li>
 
@@ -178,20 +169,16 @@
                   href="#layouts2"
                 >
                   <span class="me-2"><i class="bi bi-person"></i></span>
-                  <span>Manage User</span>
-                  <span class="ms-auto">
-                    <span class="right-icon">
-                      <i class="bi bi-chevron-down"></i>
-                    </span>
-                  </span>
+                  <span>QL Nhân Viên</span>
+                  
                 </a>
-                <div class="collapse" id="layouts2">
+              
                   <ul class="navbar-nav ps-3">
                     <li>
                       <a href="{{URL::to('/add-user')}}" class="nav-link px-3">
                         <span class="me-2"
                           ><i class="bi bi-plus-lg"></i></span>
-                        <span>Add New User</span>
+                        <span>Nhân Viên mới</span>
                       </a>
                     </li>
   
@@ -199,11 +186,11 @@
                       <a href="#" class="nav-link px-3">
                         <span class="me-2"
                           ><i class="bi bi-list-check"></i></span>
-                        <span>User List</span>
+                        <span>Danh Sách nhân viên</span>
                       </a>
                     </li>
                   </ul>
-                </div>
+                
                 
             </li>
 
@@ -214,20 +201,16 @@
                 href="#layouts3"
               >
                 <span class="me-2"><i class="bi bi-truck"></i></span>
-                <span>Manage Truck</span>
-                <span class="ms-auto">
-                  <span class="right-icon">
-                    <i class="bi bi-chevron-down"></i>
-                  </span>
-                </span>
+                <span>QL Xe Tải</span>
+               
               </a>
-              <div class="collapse" id="layouts3">
+              
                 <ul class="navbar-nav ps-3">
                   <li>
                     <a href="{{URL::to('/add-truck')}}" class="nav-link px-3">
                       <span class="me-2"
                         ><i class="bi bi-plus-lg"></i></span>
-                      <span>Add New Truck</span>
+                      <span>Xe Tải mới</span>
                     </a>
                   </li>
 
@@ -235,16 +218,16 @@
                     <a href="{{URL::to('/trucks-details')}}" class="nav-link px-3">
                       <span class="me-2"
                         ><i class="bi bi-list-check"></i></span>
-                      <span>Trucks Detail</span>
+                      <span>Chi tiết các xe</span>
                     </a>
                   </li>
                 </ul>
-              </div>
+              
               
           </li>
 
             <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
-            <li>
+            {{-- <li>
               <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
                 Addons
               </div>
@@ -260,7 +243,7 @@
                 <span class="me-2"><i class="bi bi-table"></i></span>
                 <span>Tables</span>
               </a>
-            </li>
+            </li> --}}
           </ul>
         </nav>
       </div>

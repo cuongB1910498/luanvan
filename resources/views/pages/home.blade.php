@@ -82,29 +82,32 @@
 
 <!-- main ad -->
 <div class="row main-ad">
-    <div class="row">
-        <h1 class="text-center mb-3 mt-3">Tại sao bạn nên chọn ThynExpress</h1>
-        <div class="row">
-            <div class="col-sm-2 offset-sm-2"><img src="{{asset('/public/frontend/images/fast_service.png')}}" alt=""></div>
-            <div class="col-sm-8">
-                <p style="padding-top: 90px">Chúng tôi luôn cố gắn không ngừng cải thiện dịch vụ của mình nhanh hơn, để khách hàng có sự trãi nghiệp tốt nhất</p>
+    <div class="row gioithieu">
+        <h1 class="text-center mb-5">Tại sao bạn nên chọn ThynExpress</h1>
+        <div class="row mb-5">
+            <div class="col-sm-2 offset-sm-2 offset-sm-0 offset-3"><img src="{{asset('/public/frontend/images/fast_service.png')}}" alt=""></div>
+            <div class="col-sm-7">
+                <p >Chúng tôi luôn cố gắn không ngừng cải thiện dịch vụ của mình nhanh hơn, để khách hàng có sự trãi nghiệm tốt nhất</p>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-sm-7 offset-sm-2">
-                <p style="padding-top: 90px">Trong quá trình vận chuyển, hàng hóa của bạn sẽ được đảm bảo an toàn, hạn chế thấp nhất các tình trạng hỏng hóc trong quá trình vận chuyển</p>
+        <div class="row mb-4">
+            <div class="col-sm-7 offset-sm-2 ">
+                <p>Trong quá trình vận chuyển, hàng hóa của bạn sẽ được đảm bảo an toàn, hạn chế thấp nhất các tình trạng hỏng hóc</p>
             </div>
-            <div class="col-sm-2"><img src="{{asset('/public/frontend/images/safety.png')}}" alt=""></div>
+            <div class="col-sm-2 offset-sm-0 offset-3"><img src="{{asset('/public/frontend/images/safety.png')}}" alt=""></div>
         </div>
 
-        <div class="row text-center">
+        <div class="row mb-4 text-center">
+            <div class="col-sm-2 offset-sm-5 offset-1">
+                <img src="{{asset('/public/frontend/images/good_price.png')}}" alt="">
+            </div>
             <p>Đặc biệt giá cả vô cùng hợp lý, có tính cạnh tranh cao</p>
         </div>
     </div>
 
     <div class="row doitac">
-        <h1 class="text-center mb-3 mt-3">Các đối tác tin cậy</h1>
+        <h1 class="text-center mb-5 mt-3">Các đối tác tin cậy</h1>
         
             <div class="col-sm-3 col offset-lg-2">
                 <img src="{{asset('/public/frontend/images/ali.jpg')}}" alt="error" width="150px" height="100px" class="row">
@@ -118,10 +121,7 @@
             <div class="col-sm-3 col">
                 <img src="{{asset('/public/frontend/images/laza.png')}}" alt="error" width="100px" class="row">
                 <p class="row ldz">Ladaza</p>
-            </div>
-        
-        
-        
+            </div>   
     </div>
 </div>
 

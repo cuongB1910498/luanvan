@@ -1,9 +1,9 @@
 @extends('staff.dashboard')
 @section('staff-content')
-<div class="col-lg-12">
+<div class="container">
     <section class="panel">
-        <header class="panel-heading">
-            Confirm arrived
+        <header class="panel-heading mb-3">
+            Scan để xác nhận đến:
         </header>
         @if (Session('error'))
         <div class="alert alert-danger">
@@ -21,7 +21,7 @@
             <div class="position-center">
                 <form action="{{URL::to('/staff/arrived-process')}}" method="post">
                     {{ csrf_field() }}
-                    <div class="form-group">  
+                    <div class="form-group mb-3">  
                         <textarea name="input1" id="input1" class="form-control"></textarea>
                     </div>
     
@@ -30,6 +30,17 @@
                     </div>
                 </form>
             </div>
+        </div>
+    
+        <div class="row mb-3 mt-4">
+            <div class="col-10 offset-2">
+                <h1>Lưu ý khi scan bằng máy Scan:</h1>
+            <ol>
+                <li>Khi có lỗi, phải quét lại toàn bộ các đơn hàng vừa quét</li>
+                <li>Khi Scan: hệ thống tự động chèn phím Tab và dấu phẩy </li>
+                <li>Nên Scan từ 10 đơn đến 15 đơn, không nên scan quá nhiều để tránh lỗi</li>
+            </ol>
+            </div>  
         </div>
     </section>
 </div>

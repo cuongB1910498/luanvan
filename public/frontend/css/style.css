@@ -1,3 +1,7 @@
+body{
+    font-family: "Trirong", sans-serif;
+}
+
 .custom-carousel {
     width: 100%; /* Đặt chiều rộng của carousel */
     height: 100%; /* Đặt chiều cao của carousel */
@@ -78,4 +82,20 @@
 .logodoitac{
     width: 80%;
     margin: 20px auto;
+}
+
+.main-ad .gioithieu p{
+    font-size: 40px;
+}
+
+.main-ad h1{
+    font-size: 60px;
+}
+
+.doitac{
+    margin-left: 20px;
+}
+
+.doitac h1{
+    margin-left: 0;
 }

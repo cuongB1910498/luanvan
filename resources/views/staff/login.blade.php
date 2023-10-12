@@ -7,9 +7,15 @@
     <meta name="keywords"
         content="" />
      <!-- bootstraps 5 -->
-     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-     <link rel="stylesheet" href={{asset("public/frontend/css/login.css")}}>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href={{asset("public/frontend/css/login.css")}}>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+    <style>
+        body{
+            font-family: "Trirong", sans-serif;
+        }
+    </style>
 </head>
 
 <body>
@@ -27,18 +33,32 @@
                             <p style="color: red" class="text-center">{{Session('staff_login_error')}}</p>
                             
                             <div class="form-group row text-center">
-								<div class="mb-3">
+								<div class="col-10 offset-1 mb-3">
 									<input type="text" class="form-control text-center" id="staff_username" name="staff_username" placeholder="Tên đăng nhập"/>
                                     <label class="error"></label>
 								</div>
 							</div>
 
-                            <div class="form-group row text-center">
-								<div class=" ">
+                            <div class="form-group row text-center mb-3">
+								<div class="col-10 offset-1">
 									<input type="password" class="form-control text-center" id="staff_password" name="staff_password" placeholder="Mật khẩu" />
                                     <label class="error"></label>
 								</div>
 							</div>
+                            <div class="form-group mb-3 row">
+                                <div class="col-lg-4 offset-lg-2">
+                                    <div class="captcha">
+                                        <span class="me-2">{!! captcha_img() !!}</span>
+                                        <button type ="button" class="btn btn-danger reload" id="reload">&#x21bb;</button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <input type="text" placeholder="Mã bảo vệ" class="form-control" name="captcha">
+                                    @error('captcha')
+                                        <label class="error">{{$message}}</label>
+                                    @enderror
+                                </div>
+                            </div>
 
                             <div class="text-center mt-3">
                                 <button type="submit" class="btn btn-primary mb-3">Đăng nhập</button>
@@ -87,7 +107,17 @@
 
             })
             
-        })
+        });
+
+        $('#reload').click(function(){
+                $.ajax({
+                    type:'GET',
+                    url:'/thynx/reload-captcha',
+                    success:function(data){
+                        $(".captcha span").html(data.captcha)
+                    }
+                });
+        });
         
     </script>
 </body>

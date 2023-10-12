@@ -11,7 +11,7 @@
             
         <div class="card col-sm-6 col-12 offset-lg-3">
             <div class="card-header">
-                <h2 class="mb-3">Import Tracking By Excel File</h2>
+                <h2 class="mb-3">Tạo Nhiều Đơn bằng File Excel</h2>
             </div>
             <div class="card-body">
                 <form action="{{URL::to('/import-csv')}}" method="post" class="row" enctype="multipart/form-data">
@@ -24,11 +24,16 @@
                     </div>
         
                     <div class="row form-group mb-3">
-                        <button class="btn btn-primary col-sm-2 col-3 offset-lg-3">submit</button>
+                        <button class="btn btn-primary col-sm-2 col-3 offset-lg-3">Gửi</button>
                     </div>
                 </form>
             </div>
         </div>
+
+        <div class="excel-example text-center mb-3 mt-3">
+            <p>Tải file excel mấu tại <a href="https://docs.google.com/spreadsheets/d/1yCGOA-4QKSPxn6fGFXojdt_uCsfIiI_2/edit?usp=sharing&ouid=115615661134750500040&rtpof=true&sd=true">ĐÂY</a></p>
+        </div>
+        
           
     </div>
 @endsection

@@ -3,7 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />\
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
     <link rel="stylesheet" href={{asset('/public/backend/css/bootstrap.min.css')}} />
    
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
@@ -11,6 +12,11 @@
     <link rel="stylesheet" href={{asset('/public/backend/css/style.css')}} />
     
     <title>THYN Express User</title>
+    <style>
+      body{
+        font-family: "Trirong", sans-serif;
+      }
+    </style>
   </head>
   <body>
     <!-- top navigation bar -->
@@ -67,7 +73,7 @@
                 <i class="bi bi-person-fill"></i>
               </a>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item" href="#">
+                <li><a class="dropdown-item" href="{{URL::to('/user-profile')}}">
                     <span>
                         <i class="bi bi-person"></i>
                     </span>

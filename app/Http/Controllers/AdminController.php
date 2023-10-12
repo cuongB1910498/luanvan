@@ -50,12 +50,12 @@ class AdminController extends Controller
         echo $username = $request->username;
         echo $password = md5($request->password);
 
-        $result = DB::table('users')->where('username', $username)->where('password', $password)->first();
+        $result = DB::table('tbl_admin')->where('usn', $username)->where('pass', $password)->first();
         print_r($result);
         
         if($result){
             Session::put('admin_name', 'admin');
-            Session::put('admin_id', $result->id_user);
+            Session::put('admin_id', $result->usn);
             return Redirect::to('/admin-dashboard');
         }else{
             return Redirect::to('/adminlogin')->with('msg', 'username or password was not correct!');;

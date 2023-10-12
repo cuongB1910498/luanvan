@@ -45,6 +45,9 @@ class StaffController extends Controller
     }
     
     public function login_process(Request $request){
+        $request->validate([
+            'captcha' => 'required|captcha',
+        ]);
         $staff_username = $request->staff_username;
         $staff_password = md5($request->staff_password);
         $result = DB::table('staff')->where('staff_username', $staff_username)->where('staff_password', $staff_password)->first();

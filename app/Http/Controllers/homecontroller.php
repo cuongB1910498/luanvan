@@ -300,5 +300,36 @@ class homecontroller extends Controller
         echo Carbon::now('Asia/Ho_Chi_Minh');
     }
 
+    public function userProfile(){
+        $get_profile = DB::table('users')->where('id_user', Session('id_user'))->first();
+        return view('pages.userprofile', ['profile'=> $get_profile]);
+    }
 
+    public function changeProfile(Request $request){
+        $request->validate([
+            'lastname' => 'required',
+            'firstname' => 'required',
+            'phone' => 'required|min:10|max:10'
+        ]);
+        $id_user = Session('id_user');
+        $lastname = $request->lastname;
+        $firstname = $request->firstname;
+        $phone = $request->phone;
+
+        $data = [
+            'id_user'=>$id_user,
+            'lastname'=>$lastname,
+            'firstname'=>$firstname,
+            'phone'=>$phone,
+            'updated_at'=>now()
+        ];
+
+        $update = DB::table('users')->where('id_user', $id_user)->update($data);
+        if($update){
+            return Redirect('/user-profile')->with('success', 'Cập nhật thành công!');
+        }else{
+            return Redirect('/user-profile')->with('error', 'Đã có lỗi xảy ra!');
+        }
+
+    }
 }

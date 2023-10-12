@@ -25,6 +25,7 @@ Route::middleware(['checkRequestMethod'])->group(function () {
     Route::get('/to-truck-process/{id_bag}', 'StaffController@toTruckprocess');
     Route::get('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');
     Route::get('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');
+    Route::get('/change-profile', 'homecontroller@changeProfile');
 });
 
 Route::get('/', 'homecontroller@index');
@@ -50,6 +51,10 @@ Route::get('reload-captcha', 'AdminController@reloadCaptcha');
         Route::get('/select-province', 'homecontroller@selectProvince');
         Route::get('/create-tracking-by-excel', 'homecontroller@importTracking');
         Route::post('/import-csv', 'homecontroller@importCsv');
+
+    // user manager
+    Route::get('user-profile', 'homecontroller@userProfile');
+    Route::post('/change-profile', 'homecontroller@changeProfile');
 
 //BackEnd
     //admin
