@@ -118,21 +118,46 @@ class homecontroller extends Controller
 
     public function create_tracking(){
         $this->Auth_login();
+        $get_address = DB::table('tbl_address')
+            ->where('id_user', Session('id_user'))
+            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_address.id_province')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_address.id_district')
+            ->get();
         $get_province = DB::table('tbl_province')->get();
         $get_service = DB::table('extra_service')->orderBy('id_extra_service', 'ASC')->get();
-        return view('pages.createtracking', ['get_province'=>$get_province, 'get_service'=>$get_service]);
+        return view('pages.createtracking', 
+            [
+                'get_province'=>$get_province, 
+                'get_service'=>$get_service,
+                'get_address'=>$get_address,
+            ]
+        );
         
     }
 
     public function creating_process(Request $request){
         $this->Auth_login();
+        $id_address = $request->id_address;
+        if(isset($id_address)){
+            $get_address = DB::table('tbl_address')
+                ->where('id_address', $id_address)
+                ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_address.id_province')
+                ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_address.id_district')
+                ->first();
+            $province_sent = $get_address->id_province;
+            $district_sent = $get_address->id_district; 
+        }else{
+            $province_sent = $request->province_sent;
+            $district_sent = $request->district_sent; 
+        }
+        
         $data = array();
         $weight=$request->weight;
         $rand_id = time();
         $data['id_tracking'] = 'VN'.$rand_id;
         $data['address_sent'] = $request->address_sent;
-        $data['province_sent'] = $request->province_sent;
-        $data['district_sent'] = $request->district_sent;
+        $data['province_sent'] = $province_sent;
+        $data['district_sent'] = $district_sent;
         $data['name_sent'] = $request->name_sent;
         $data['phone_sent'] = $request->phone_sent;
         $data['address_receive'] = $request->address_receive;
@@ -181,11 +206,11 @@ class homecontroller extends Controller
         $tracking_price = $es_price + $price_w;
         $data['tracking_price'] = $tracking_price; // tính
         // print_r($data);
-        $result = DB::table('tbl_tracking_number')->insert($data);
-        if($result){
-            Session::put('msg_create_tracking', 'Thêm Thành Công!');
-            return Redirect::to('/create-tracking');
-        }
+        // $result = DB::table('tbl_tracking_number')->insert($data);
+        // if($result){
+        //     Session::put('msg_create_tracking', 'Thêm Thành Công!');
+        //     return Redirect::to('/create-tracking');
+        // }
     }
 
     public function user(){
@@ -348,5 +373,100 @@ class homecontroller extends Controller
             return Redirect('/user-profile')->with('error', 'Đã có lỗi xảy ra!');
         }
 
+    }
+
+    public function myAddress(){
+        $this->Auth_login();
+        $get_address = DB::table('tbl_address')
+            ->where('id_user', Session('id_user'))
+            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_address.id_province')
+            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_address.id_district')
+            ->get();
+        return view('pages.myaddress', ['get_address'=>$get_address]);
+    }
+
+    public function addAddress(){
+        $this->Auth_login();
+        $get_province = DB::table('tbl_province')->get();
+        return view('pages.addaddress',['get_province'=>$get_province]);
+    }
+
+    public function addAddressProcess(Request $request){
+        $this->Auth_login();
+        $request->validate([
+            'address_sent'=>'required',
+            'address_name'=>'required',
+            'province_sent'=>'required',
+            'district_sent'=>'required'
+        ]);
+
+        $address_sent = $request->address_sent;
+        $id_province = $request->province_sent;
+        $id_district = $request->district_sent;
+        $address_name = $request->address_name;
+        $data = [
+            'address_sent'=>$address_sent,
+            'id_province'=>$id_province,
+            'id_district'=>$id_district,
+            'id_user'=>Session('id_user'),
+            'address_name'=>$address_name,
+        ];
+        $insert = DB::table('tbl_address')->insert($data);
+        if($insert){
+            return Redirect('/add-address')->with('success', 'Thêm địa chỉ thành công!');
+        }else{
+            return back()->with('error', 'Có lỗi xảy ra!');
+        }
+    }
+
+    public function modifyAddress($id_address){
+        $this->Auth_login();
+        $get_address = DB::table('tbl_address')->where('id_user', Session('id_user'))->first();
+        $get_province = DB::table('tbl_province')->get();
+        return view('pages.modifyaddress', ['get_address'=>$get_address, 'get_province'=>$get_province]);
+    }
+
+    public function deleteAddress($id_address){
+        $this->Auth_login();
+        $del = DB::table('tbl_address')->where('id_address', $id_address)->delete();
+        if($del){
+            return Redirect('/my-address')->with('success', 'Xóa Thành Công!');
+        }else{
+            return back()->with('error', 'Có lỗi xảy ra!');
+        }
+    }
+
+    public function ModifyAddressProcess(Request $request, $id_address){
+        $this->Auth_login();
+        $request->validate([
+            'address_sent'=>'required',
+            'address_name'=>'required',
+            'province_sent'=>'required',
+            'district_sent'=>'required'
+        ]);
+
+        $address_sent = $request->address_sent;
+        $id_province = $request->province_sent;
+        $id_district = $request->district_sent;
+        $address_name = $request->address_name;
+        $data = [
+            'address_sent'=>$address_sent,
+            'id_province'=>$id_province,
+            'id_district'=>$id_district,
+            'id_user'=>Session('id_user'),
+            'address_name'=>$address_name,
+        ];
+
+        $Update = DB::table('tbl_address')->where('id_address', $id_address)->update($data);
+        if($Update){
+            return Redirect('/my-address')->with('success', 'Chỉnh sửa thành công!');
+        }else{
+            return back()->with('error', 'Có lỗi xảy ra!');
+        }
+    }
+
+    public function testError(){
+        $get_province = DB::table('tbl_province')->get();
+        return view('testerror', ['get_province'=>$get_province]);
     }
 }

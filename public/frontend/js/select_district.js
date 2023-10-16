@@ -57,8 +57,28 @@ function formatCurrency(number) {
 }
 
 function cal_price(){
-    var province_sent = document.getElementById("province_sent").value;
-    var province_receive = document.getElementById("province_receive").value;
+    var address  = document.getElementById("id_address");
+    if(address!= null){
+        var addressOption = address.options[address.selectedIndex];
+        var addressText = addressOption.text;
+        var partaddresText = addressText.split(",");
+        var province_sent = partaddresText[partaddresText.length-1];
+
+        var province = document.getElementById("province_receive");
+        var provinceOption = province.options[province.selectedIndex];
+        var province_receive = provinceOption.text;
+    }else{
+        var province_sent = document.getElementById("province_sent").value;
+        var province_receive = document.getElementById("province_receive").value;
+    }
+    
+    //alert(province_sent);
+    
+    
+    //alert(province_receive);
+   
+    
+    
     var getinput = document.getElementById("weight").value;
     var get_extra_service = document.getElementById("id_extra_service").value;
     var split_es = get_extra_service.split('-');

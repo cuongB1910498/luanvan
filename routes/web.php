@@ -26,6 +26,7 @@ Route::middleware(['checkRequestMethod'])->group(function () {
     Route::get('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');
     Route::get('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');
     Route::get('/change-profile', 'homecontroller@changeProfile');
+    Route::get('/add-address-process', 'homecontroller@addAddressProcess');
 });
 
 Route::get('/', 'homecontroller@index');
@@ -55,6 +56,15 @@ Route::get('reload-captcha', 'AdminController@reloadCaptcha');
     // user manager
     Route::get('user-profile', 'homecontroller@userProfile');
     Route::post('/change-profile', 'homecontroller@changeProfile');
+
+    //Address
+    Route::get('/my-address', 'homecontroller@myAddress');
+    Route::get('/add-address', 'homecontroller@addAddress');
+    Route::post('/add-address-process', 'homecontroller@addAddressProcess');
+    Route::get('/modify-address/{id_address}', 'homecontroller@modifyAddress');
+    Route::get('/delete-address/{id_address}', 'homecontroller@deletaAddress');
+    Route::post('/modify-address-process/{id_address}', 'homecontroller@ModifyAddressProcess');
+    Route::get('/test-error', 'homecontroller@testError');
 
 //BackEnd
     //admin

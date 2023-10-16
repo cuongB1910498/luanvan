@@ -22,6 +22,7 @@
                     {{ csrf_field() }}
                     {{-- bên trái --}}
                     <div class="col-sm-6 col-12 bg-light">
+                        @if ($get_address->isEmpty())
                         <div class="form-group row mb-3">
                             <label for="address_sent" class="">Địa chỉ người gửi:</label>
                             <div class="col-sm-10 col-12">
@@ -55,6 +56,19 @@
                                 </div>
                             </div>
                         </div>
+                        @else
+                        <div class="form-group row mb-3">
+                            <label for="id_address">Chọn địa chỉ:</label>
+                            <div class="col-sm-10 col">
+                            <select name="id_address" id="id_address" class="form-select" onchange="cal_price()">
+                                <option value="" disabled selected>---chọn địa chỉ---</option>
+                                @foreach ($get_address as $row)
+                                    <option value="{{$row->id_address}}">{{$row->address_sent.', '.$row->district_name.', '.$row->province_name}}</option>
+                                @endforeach
+                            </select>
+                            </div>
+                        </div>
+                        @endif
 
                         <div class="form-group row mb-3">
                             <div class="col-sm-6 col-12 form-group row">
