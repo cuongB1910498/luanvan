@@ -266,14 +266,31 @@ class homecontroller extends Controller
     }
 
     public function importTracking(){
-        return view('pages.importtracking');
+        $get_province = DB::table('tbl_province')->get();
+        return view('pages.importtracking', ['get_province'=>$get_province]);
     }
 
     public function importCsv(Request $request){
+        $request->validate([
+            'address_sent' => 'required',
+            'province_sent' => 'required',
+            'district_sent' => 'required',
+            'name_sent'=> 'required',
+            'phone_sent'=> 'required',
+            'file'=> 'required'
+        ]);
         $path = $request->file('file')->getRealPath();
+        $address_sending = [
+            'province_sent'=> $request->province_sent,
+            'district_sent'=>$request->district_sent,
+            'address_sent'=>$request->address_sent,
+            'name_sent' => $request->name_sent,
+            'phone_sent'=> $request->phone_sent
+        ];
+
         //echo $path;
         try {
-            Excel::import(new ImportTracking, $path);
+            Excel::import(new ImportTracking($address_sending), $path);
             
             // Xử lý thành công, ví dụ: 
             return redirect()->back()->with('success', 'Dữ liệu đã được nhập thành công.');
@@ -292,8 +309,8 @@ class homecontroller extends Controller
             // Xử lý lỗi chung
             return redirect()->back()->with('error', 'Có lỗi xảy ra trong quá trình nhập dữ liệu từ tệp Excel.');
         }
-        // Excel::import(new ImportTracking, $path);
-        // return redirect()->back()->with('success', 'Dữ liệu đã được nhập thành công.');
+        //Excel::import(new ImportTracking($address_sending), $path);
+        //return redirect()->back()->with('success', 'Dữ liệu đã được nhập thành công.');
     }
 
     public function show_carbon(){

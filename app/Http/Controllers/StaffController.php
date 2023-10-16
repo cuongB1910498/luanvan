@@ -373,6 +373,22 @@ class StaffController extends Controller
 
     public function getTracking(){
         $this->AuthStaff();
+
+        //them thongkedon ngay hom nay
+        echo Session('id_staff');
+        echo $today = Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d');
+        $get_today_thongke = DB::table('thongkedon')->where('id_staff', Session('id_staff'))->where('ngay_thongke', $today)->first();
+        print_r($get_today_thongke);
+        if(!$get_today_thongke){
+            $today_thongke = [
+                'ngay_thongke'=>$today,
+                'id_staff'=>Session('id_staff'),
+                'so_don'=>0,
+            ];
+            DB::table('thongkedon')->insert($today_thongke);  
+        }
+
+        //lay thong tin don hang
         $tomorrow = Carbon::tomorrow('Asia/Ho_Chi_Minh');
         
         $station = DB::table('tbl_post_station')->where('id_station', Session::get('id_station'))->first();
@@ -494,6 +510,16 @@ class StaffController extends Controller
 
                 // lưu CSDL
                 if($imageUrl){
+                    //lấy thông tin đơn hôm nay
+                    $today = Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d');
+                    $sodon = DB::table('thongkedon')->where('ngay_thongke', $today)->where('id_staff', Session('id_staff'))->first();
+                    $cong_don = $sodon->so_don + 1;
+                    $update_dongiao = [
+                        'so_don'=>$cong_don
+                    ];
+                    $cong_1_don = DB::table('thongkedon')->where('id_thongke', $sodon->id_thongke)->update($update_dongiao);
+
+                    //chèn csdl located
                     $data = array();
                     $data['img_receive'] = $imageUrl;
                     $data['id_status'] = 8;
@@ -508,7 +534,7 @@ class StaffController extends Controller
                     $tracking['updated_at'] = now();
                     $insert = DB::table('located')->insert($tracking);
                     // nếu update và insert thì trả về ngược lại thì hủy upload
-                    if($insert && $update){
+                    if($insert && $update && $cong_1_don){
                         return Redirect::to('/staff/deliver-tracking')->with('success', 'Thao tác thành công!');
                     }else{
                         Cloudinary::destroy($publicId);
