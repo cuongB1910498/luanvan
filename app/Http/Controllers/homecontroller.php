@@ -181,7 +181,7 @@ class homecontroller extends Controller
         $data['id_extra_service'] = $id_extra_service; // tách chuỗi ra
         
 
-        if($request->province_receive == $request->province_sent){
+        if($request->province_receive == $province_sent){
             if($weight <= 500){
                 $price_w = 20000;
             }elseif($weight > 500 && $weight <=1000){
@@ -205,7 +205,7 @@ class homecontroller extends Controller
         
         $tracking_price = $es_price + $price_w;
         $data['tracking_price'] = $tracking_price; // tính
-        // print_r($data);
+        print_r($data);
         // $result = DB::table('tbl_tracking_number')->insert($data);
         // if($result){
         //     Session::put('msg_create_tracking', 'Thêm Thành Công!');
@@ -221,16 +221,77 @@ class homecontroller extends Controller
         }
     }
 
-    public function list_tracking(){
+    public function list_tracking(Request $request){
         $this->Auth_login();
-        $data = DB::table('tbl_tracking_number')
-            ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
-            ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
-            ->where('id_user', Session::get('id_user'))
-            ->orderBy('id_tracking','desc')
-            ->get();
-        //print_r($data);
-        return view('pages.listtracking', ['data' =>$data]); 
+        $sort = $request->sort;
+        if(isset($sort)){
+           if($sort == 'created'){
+                $data = DB::table('tbl_tracking_number')
+                ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+                ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+                ->where('id_user', Session::get('id_user'))
+                ->where('id_status', '1')
+                ->orderBy('id_tracking','desc')
+                ->get();
+    
+                return view('pages.listtracking', ['data' =>$data]); 
+
+            }elseif($sort == 'process'){
+                $data = DB::table('tbl_tracking_number')
+                ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+                ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+                ->where('id_user', Session::get('id_user'))
+                ->where('id_status', '>', '1')
+                ->where('id_status', '<=', '5')
+                ->orderBy('id_tracking','desc')
+                ->get();
+    
+                return view('pages.listtracking', ['data' =>$data]); 
+
+            }elseif($sort == 'complete'){
+                $data = DB::table('tbl_tracking_number')
+                ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+                ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+                ->where('id_user', Session::get('id_user'))
+                ->where('id_status', '8')
+                ->orderBy('id_tracking','desc')
+                ->get();
+    
+                return view('pages.listtracking', ['data' =>$data]); 
+
+            }elseif($sort == 'fail'){
+                $data = DB::table('tbl_tracking_number')
+                ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+                ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+                ->where('id_user', Session::get('id_user'))
+                ->orderBy('id_tracking','desc')
+                ->where('tracking_return', '<>', null)
+                ->get();
+    
+                return view('pages.listtracking', ['data' =>$data]); 
+
+            }else{
+                $data = DB::table('tbl_tracking_number')
+                ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+                ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+                ->where('id_user', Session::get('id_user'))
+                ->orderBy('id_tracking','desc')
+                ->get();
+    
+                return view('pages.listtracking', ['data' =>$data]); 
+            }
+        }else{
+            $data = DB::table('tbl_tracking_number')
+                ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_tracking_number.district_receive')
+                ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_tracking_number.province_receive')
+                ->where('id_user', Session::get('id_user'))
+                ->orderBy('id_tracking','desc')
+                ->get();
+    
+            return view('pages.listtracking', ['data' =>$data]); 
+        }
+        
+        
     }
 
     public function selectProvince(Request $request){

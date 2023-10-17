@@ -1,13 +1,21 @@
 @extends('pages.dashboard')
 @section('user_content')
     <div class="table-agile-info">
+        <div class="row mb-3 mt-3">
+            <div class="col-sm col-4 offset-sm-1 mb-3"><a href="{{URL::to('/list-tracking')}}" class="btn btn-secondary">Tất cả đơn</a></div>
+            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=created')}}" class="btn btn-secondary">Chưa lấy</a></div>
+            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=process')}}" class="btn btn-secondary">Đang giao</a></div>
+            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=complete')}}" class="btn btn-secondary">Thành công</a></div>
+            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=fail')}}" class="btn btn-secondary">Trả hoàn</a></div>
+        </div>
+        @if($data->isEmpty())
+            <div class="alert alert-warning">Hình như chưa có đơn hàng nào!</div>
+        @else
         <div class="panel panel-default">
-            <div class="card-header bg-secondary text-center">
-                <h2 style="color: white">Danh sách đơn hàng</h2>
-            </div>
+           
 
             <div class="table-responsive">
-                <table class="table table-striped b-t b-light">
+                <table class="table table-striped b-t b-light" id="myTable">
                     <thead>
                         <tr>
                             <th style="width:10%;">Mã đơn</th>
@@ -37,5 +45,6 @@
 
            
         </div>
+        @endif
     </div>
 @endsection

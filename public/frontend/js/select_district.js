@@ -61,7 +61,7 @@ function cal_price(){
     if(address!= null){
         var addressOption = address.options[address.selectedIndex];
         var addressText = addressOption.text;
-        var partaddresText = addressText.split(",");
+        var partaddresText = addressText.split(", ");
         var province_sent = partaddresText[partaddresText.length-1];
 
         var province = document.getElementById("province_receive");

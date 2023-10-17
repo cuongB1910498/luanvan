@@ -182,6 +182,8 @@
     <script src={{ asset('public/backend/js/jquery.dataTables.min.js') }}></script>
     <script src={{ asset('public/backend/js/dataTables.bootstrap5.min.js') }}></script>
     <script src={{ asset('public/backend/js/script.js') }}></script>
+    <script src="{{asset('public/frontend/js/datatable.js')}}"></script>
+    <script src="{{asset('public/frontend/js/select_district.js')}}"></script>
 
 </body>
 
