@@ -17,6 +17,14 @@ return [
     */
 
     'driver' => env('MAIL_DRIVER', 'smtp'),
+    'stream' => [
+        'ssl' => [
+            'allow_self_signed' => true,
+            'verify_peer' => false,
+            'verify_peer_name' => false,
+        ],
+        ],
+    
 
     /*
     |--------------------------------------------------------------------------
@@ -42,7 +50,7 @@ return [
     |
     */
 
-    'port' => env('MAIL_PORT', 587),
+    'port' => env('MAIL_PORT', 465),
 
     /*
     |--------------------------------------------------------------------------
@@ -56,8 +64,8 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-        'name' => env('MAIL_FROM_NAME', 'Example'),
+        'address' => env('MAIL_FROM_ADDRESS', 'cuongb1910498@student.ctu.edu.vn'),
+        'name' => env('MAIL_FROM_NAME', 'THYN EXPRESS'),
     ],
 
     /*

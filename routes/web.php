@@ -2,6 +2,7 @@
 // frontEnd
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ExportVatController;
 use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
@@ -27,7 +28,9 @@ Route::middleware(['checkRequestMethod'])->group(function () {
     Route::get('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');
     Route::get('/change-profile', 'homecontroller@changeProfile');
     Route::get('/add-address-process', 'homecontroller@addAddressProcess');
+    Route::get('/create-company-info', 'ExportVatController@createCompanyInfo');
 });
+
 
 Route::get('/', 'homecontroller@index');
 Route::get('/trang-chu', 'homecontroller@index');
@@ -54,17 +57,23 @@ Route::get('reload-captcha', 'AdminController@reloadCaptcha');
         Route::post('/import-csv', 'homecontroller@importCsv');
 
     // user manager
-    Route::get('user-profile', 'homecontroller@userProfile');
-    Route::post('/change-profile', 'homecontroller@changeProfile');
+        Route::get('user-profile', 'homecontroller@userProfile');
+        Route::post('/change-profile', 'homecontroller@changeProfile');
 
     //Address
-    Route::get('/my-address', 'homecontroller@myAddress');
-    Route::get('/add-address', 'homecontroller@addAddress');
-    Route::post('/add-address-process', 'homecontroller@addAddressProcess');
-    Route::get('/modify-address/{id_address}', 'homecontroller@modifyAddress');
-    Route::get('/delete-address/{id_address}', 'homecontroller@deletaAddress');
-    Route::post('/modify-address-process/{id_address}', 'homecontroller@ModifyAddressProcess');
-    Route::get('/test-error', 'homecontroller@testError');
+        Route::get('/my-address', 'homecontroller@myAddress');
+        Route::get('/add-address', 'homecontroller@addAddress');
+        Route::post('/add-address-process', 'homecontroller@addAddressProcess');
+        Route::get('/modify-address/{id_address}', 'homecontroller@modifyAddress');
+        Route::get('/delete-address/{id_address}', 'homecontroller@deletaAddress');
+        Route::post('/modify-address-process/{id_address}', 'homecontroller@ModifyAddressProcess');
+        Route::get('/test-error', 'homecontroller@testError');
+
+    //Export VAT
+        Route::get('/vat-preview', 'ExportVatController@vatPreview');
+        Route::get('/sent-mail', 'ExportVatController@sentMailVat');
+        Route::post('/create-company-info', 'ExportVatController@createCompanyInfo');
+        Route::get('/export-vat', 'ExportVatController@exportVat');
 
 //BackEnd
     //admin

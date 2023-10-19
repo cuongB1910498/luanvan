@@ -29,6 +29,10 @@ class TrackingNumberModel extends Model
         'id_extra_service',
         'id_user',
         'id_status',
+        'id_bag',
+        'tracking_return',
+        'tracking_created_at',
+        'tracking_updated_at',
     ];
     protected $primaryKey = 'id_tracking';
     protected $table = 'tbl_tracking_number';

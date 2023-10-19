@@ -46,5 +46,9 @@
            
         </div>
         @endif
+
+        <div class="row mt-3 mb-3 text-center">
+            <p><a href="{{URL::to('/vat-preview')}}">Xuất Hóa Đơn VAT</a></p>
+        </div>
     </div>
 @endsection

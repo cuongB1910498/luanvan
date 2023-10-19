@@ -173,6 +173,7 @@ class homecontroller extends Controller
         $data['cod'] = $request->cod;
         $data['id_status'] = '1';
         $data['id_user'] = Session::get('id_user');
+        $data['tracking_created_at'] = now();
 
         $es = $request->id_extra_service;
         $split_es = explode('-', $es);
@@ -206,11 +207,11 @@ class homecontroller extends Controller
         $tracking_price = $es_price + $price_w;
         $data['tracking_price'] = $tracking_price; // tính
         print_r($data);
-        // $result = DB::table('tbl_tracking_number')->insert($data);
-        // if($result){
-        //     Session::put('msg_create_tracking', 'Thêm Thành Công!');
-        //     return Redirect::to('/create-tracking');
-        // }
+        $result = DB::table('tbl_tracking_number')->insert($data);
+        if($result){
+            Session::put('msg_create_tracking', 'Thêm Thành Công!');
+            return Redirect::to('/create-tracking');
+        }
     }
 
     public function user(){
@@ -395,7 +396,7 @@ class homecontroller extends Controller
             // Xử lý lỗi chung
             return redirect()->back()->with('error', 'Có lỗi xảy ra trong quá trình nhập dữ liệu từ tệp Excel.');
         }
-        //Excel::import(new ImportTracking($address_sending), $path);
+        // Excel::import(new ImportTracking($address_sending), $path);
         //return redirect()->back()->with('success', 'Dữ liệu đã được nhập thành công.');
     }
 

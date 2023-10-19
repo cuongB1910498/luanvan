@@ -117,6 +117,7 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                 'id_extra_service'=>$row['dich_vu_them'],
                 'id_user'=>Session::get('id_user'), // lấy được id_người dùng mà không cần nhập
                 'id_status'=>'1',// mặc định được khởi tạo là 1
+                'tracking_created_at'=>now(),
             ]);
             $i++;
         }
