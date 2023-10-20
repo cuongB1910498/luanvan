@@ -144,9 +144,11 @@ class homecontroller extends Controller
                 ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_address.id_province')
                 ->join('tbl_district', 'tbl_district.id_district', '=', 'tbl_address.id_district')
                 ->first();
+            $address_sent = $get_address->address_sent;
             $province_sent = $get_address->id_province;
             $district_sent = $get_address->id_district; 
         }else{
+            $address_sent = $request->address_sent;
             $province_sent = $request->province_sent;
             $district_sent = $request->district_sent; 
         }
@@ -155,7 +157,7 @@ class homecontroller extends Controller
         $weight=$request->weight;
         $rand_id = time();
         $data['id_tracking'] = 'VN'.$rand_id;
-        $data['address_sent'] = $request->address_sent;
+        $data['address_sent'] = $address_sent;
         $data['province_sent'] = $province_sent;
         $data['district_sent'] = $district_sent;
         $data['name_sent'] = $request->name_sent;

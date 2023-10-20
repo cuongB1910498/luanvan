@@ -18,6 +18,8 @@
             font-family: "Trirong", sans-serif;
         }
     </style>
+
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -158,8 +160,16 @@
                             <span>Vận đơn của tôi</span>
                         </a>
                     </li>
+
                     <li>
-                        <a href="{{ URL::to('/') }}" class="nav-link px-3">
+                        <a href="{{URL::to('/vat-preview')}}" class="nav-link px-3">
+                            <span class="me-2"><i class="bi bi-journal"></i></span>
+                            <span>Xuất hóa đơn VAT</span>
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{ URL::to('/located') }}" class="nav-link px-3">
                             <span class="me-2"><i class="bi bi-pin-map"></i></span>
                             <span>Theo dõi</span>
                         </a>
@@ -182,9 +192,61 @@
     <script src={{ asset('public/backend/js/jquery.dataTables.min.js') }}></script>
     <script src={{ asset('public/backend/js/dataTables.bootstrap5.min.js') }}></script>
     <script src={{ asset('public/backend/js/script.js') }}></script>
-    <script src="{{asset('public/frontend/js/datatable.js')}}"></script>
+    <script src="{{ asset('public/frontend/js/datatable.js') }}"></script>
     <script src="{{asset('public/frontend/js/select_district.js')}}"></script>
+    <script src="{{ asset('public/frontend/js/searchtracking.js') }}"></script>
+    {{-- <script>
+        
+        $(document).ready(function () {
+        $('#tracking-form').submit(function (e) {
+            e.preventDefault();
 
+            // Lấy dữ liệu từ trường textarea
+            var trackingData = $('textarea[name="tracking"]').val();
+
+            // Gửi dữ liệu bằng Ajax
+            $.ajax({
+                url: 'process-tracking',
+                type: 'POST',
+                data: { 
+                    _token: '{{csrf_token()}}',
+                    tracking: trackingData 
+                },
+                dataType: 'json',
+                success: function (data) {
+                    // Xử lý kết quả JSON
+                    displayResults(data);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+
+        function displayResults(data) {
+            var resultsContainer = $('#results');
+            resultsContainer.empty();
+
+            // Duyệt qua kết quả JSON và hiển thị từng đơn
+            $.each(data, function (trackingId, items) {
+                var trackingResult = $('<div>');
+
+                if (items.length === 0) {
+                    trackingResult.html(trackingId + ': Không có thông tin.');
+                } else {
+                    trackingResult.append(trackingId + ':<ul>');
+                    $.each(items, function (index, item) {
+                        trackingResult.append('<li>' + item.note + '</li>');
+                    });
+                    trackingResult.append('</ul>');
+                }
+
+                resultsContainer.append(trackingResult);
+            });
+        }
+    });
+
+    </script> --}}
 </body>
 
 </html>

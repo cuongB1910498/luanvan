@@ -75,6 +75,10 @@ Route::get('reload-captcha', 'AdminController@reloadCaptcha');
         Route::post('/create-company-info', 'ExportVatController@createCompanyInfo');
         Route::get('/export-vat', 'ExportVatController@exportVat');
 
+    //Tracking Located
+        Route::get('/located', 'locatedController@located');
+        Route::post('/process-tracking', 'locatedController@findLocated');
+
 //BackEnd
     //admin
 Route::get('/admin-dashboard', 'AdminController@dashboard');
