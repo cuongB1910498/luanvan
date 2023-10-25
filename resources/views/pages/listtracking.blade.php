@@ -2,11 +2,48 @@
 @section('user_content')
     <div class="table-agile-info">
         <div class="row mb-3 mt-3">
-            <div class="col-sm col-4 offset-sm-1 mb-3"><a href="{{URL::to('/list-tracking')}}" class="btn btn-secondary">Tất cả đơn</a></div>
-            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=created')}}" class="btn btn-secondary">Chưa lấy</a></div>
-            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=process')}}" class="btn btn-secondary">Đang giao</a></div>
-            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=complete')}}" class="btn btn-secondary">Thành công</a></div>
-            <div class="col-sm col-4 mb-3"><a href="{{URL::to('/list-tracking?sort=fail')}}" class="btn btn-secondary">Trả hoàn</a></div>
+            <div class="col-sm col-4 offset-sm-1 mb-3">
+                @if (request()->input('sort'))
+                <a href="{{URL::to('/list-tracking')}}" class="btn btn-outline-primary">Tất cả đơn</a>
+                @else
+                <a href="{{URL::to('/list-tracking')}}" class="btn btn-primary">Tất cả đơn</a>
+                @endif
+            </div>
+
+            <div class="col-sm col-4 mb-3">
+                @if (request()->input('sort') && request()->input('sort') == 'created')
+                <a href="{{URL::to('/list-tracking?sort=created')}}" class="btn btn-primary">Chưa lấy</a>
+                @else 
+                <a href="{{URL::to('/list-tracking?sort=created')}}" class="btn btn-outline-primary">Chưa lấy</a>
+                @endif
+            </div>
+
+            <div class="col-sm col-4 mb-3">
+                @if (request()->input('sort') && request()->input('sort') == 'process')
+                    <a href="{{URL::to('/list-tracking?sort=process')}}" class="btn btn-primary">Đang giao</a>
+                @else 
+                    <a href="{{URL::to('/list-tracking?sort=process')}}" class="btn btn-outline-primary">Đang giao</a>
+                @endif
+                
+            </div>
+
+            <div class="col-sm col-4 mb-3">
+                @if (request()->input('sort') && request()->input('sort') == 'complete')
+                    <a href="{{URL::to('/list-tracking?sort=complete')}}" class="btn btn-primary">Thành công</a>
+                @else 
+                    <a href="{{URL::to('/list-tracking?sort=complete')}}" class="btn btn-outline-primary">Thành công</a>
+                @endif
+                
+            </div>
+
+            <div class="col-sm col-4 mb-3">
+                @if (request()->input('sort') && request()->input('sort') == 'fail')
+                    <a href="{{URL::to('/list-tracking?sort=fail')}}" class="btn btn-primary">Trả hoàn</a>
+                @else 
+                    <a href="{{URL::to('/list-tracking?sort=fail')}}" class="btn btn-outline-primary">Trả hoàn</a>
+                @endif
+                
+            </div>
         </div>
         @if($data->isEmpty())
             <div class="alert alert-warning">Hình như chưa có đơn hàng nào!</div>
@@ -46,9 +83,5 @@
            
         </div>
         @endif
-
-        <div class="row mt-3 mb-3 text-center">
-            <p><a href="{{URL::to('/vat-preview')}}">Xuất Hóa Đơn VAT</a></p>
-        </div>
     </div>
 @endsection

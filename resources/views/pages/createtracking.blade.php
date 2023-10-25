@@ -1,16 +1,9 @@
 @extends('pages.dashboard')
 @section('user_content')
     {{-- <div class="container"> --}}
-    <?php
-            $msg_create_tracking = Session::get('msg_create_tracking');
-            if($msg_create_tracking){
-        ?>
-    <p style="color: red"><?php echo $msg_create_tracking; ?></p>
-
-    <?php
-            Session::put('msg_create_tracking', null);
-            }
-        ?>
+    @if (Session('success'))
+        <div class="alert alert-success">{{Session('success')}}</div>
+    @endif
     <div class="card">
         <div class="card-header text-center bg-info">
             <h2 style="color: white">Tạo đơn Vận Chuyển</h2>
@@ -27,6 +20,9 @@
                             <label for="address_sent" class="">Địa chỉ người gửi:</label>
                             <div class="col-sm-10 col-12">
                                 <input type="text" class="form-control" id="address_sent" name="address_sent">
+                                @error('address_sent')
+                                    <label for="" class="text-danger">{{$message}}</label>
+                                @enderror
                             </div>
 
                         </div>
@@ -42,6 +38,9 @@
                                             <option value="{{$province->id_province}}">{{ $province->province_name}}</option>
                                         @endforeach
                                     </select>
+                                    @error('province_sent')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -53,6 +52,9 @@
                                         <option value="" selected disabled>Chọn Huyện</option>
 
                                     </select>
+                                    @error('district_sent')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -66,6 +68,9 @@
                                     <option value="{{$row->id_address}}">{{$row->address_sent.', '.$row->district_name.', '.$row->province_name}}</option>
                                 @endforeach
                             </select>
+                            @error('id_address')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                             </div>
                         </div>
                         @endif
@@ -74,14 +79,24 @@
                             <div class="col-sm-6 col-12 form-group row">
                                 <label for="name_sent" class="">Tên người gửi:</label>
                                 <div class="col-sm-10 col">
-                                    <input type="text" class="form-control" id="name_sent" name="name_sent">
+                                    <input type="text" class="form-control" id="name_sent" name="name_sent" @if ($get_user)
+                                        value="{{$get_user->lastname.' '.$get_user->firstname}}"
+                                    @endif>
+                                    @error('name_sent')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
 
                             <div class="col-sm-6 col-12 form-group row">
                                 <label for="phone_sent">SDT:</label>
                                 <div class="col-sm-10 col">
-                                    <input type="text" class="form-control" id="phone_sent" name="phone_sent">
+                                    <input type="text" class="form-control" id="phone_sent" name="phone_sent" @if ($get_user)
+                                    value="{{$get_user->phone}}"
+                                @endif>
+                                    @error('phone_sent')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
                         </div> 
@@ -93,6 +108,9 @@
                             <label for="address_receive" class="">Địa chỉ người nhận:</label>
                             <div class="col-sm-10 col-12">
                                 <input type="text" class="form-control" id="address_receive" name="address_receive">
+                                @error('address_receive')
+                                    <label for="" class="text-danger">{{$message}}</label>
+                                @enderror
                             </div>
 
                         </div>
@@ -107,6 +125,9 @@
                                             <option value="{{$province->id_province}}">{{ $province->province_name}}</option>
                                         @endforeach
                                     </select>
+                                    @error('province_receive')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -117,6 +138,9 @@
                                         <option value="" selected disabled>Chọn Huyện</option>
 
                                     </select>
+                                    @error('district_receive')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -126,6 +150,9 @@
                                 <label for="name_receive" class="">Tên người nhận:</label>
                                 <div class="col-sm-10 col">
                                     <input type="text" class="form-control" id="name_receive" name="name_receive">
+                                    @error('name_receive')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -133,6 +160,9 @@
                                 <label for="phone_receive">SDT người nhận</label>
                                 <div class="col-sm-10 col">
                                     <input type="text" class="form-control" id="phone_receive" name="phone_receive">
+                                    @error('phone_receive')
+                                        <label for="" class="text-danger">{{$message}}</label>
+                                    @enderror
                                 </div>
                             </div>
                         </div>
@@ -148,6 +178,9 @@
                     <label for="describe_tracking" class="offset-lg-1">Mô tả: </label>
                     <div class="col-lg-10 col offset-lg-1">
                         <textarea name="describe_tracking" id="describe_tracking" rows="5" class="form-control"></textarea>
+                        @error('describe_tracking')
+                            <label for="" class="text-danger">{{$message}}</label>
+                        @enderror
                     </div>
                 </div>
                 <div class="form-group row mb-3">
@@ -158,6 +191,9 @@
                                 <option value="fast" selected>Nhanh</option>
                                 <option value="eco">Tiết kiệm</option>
                             </select>
+                            @error('type_sending')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                         </div>
                     </div>
                     
@@ -166,12 +202,21 @@
                         <label for="">Kích thước:</label>
                         <div class="col-sm-3 col">
                             <input type="text" class="form-control" id="" name="width" placeholder="dài">
+                            @error('width')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                         </div>
                         <div class="col-sm-3 col">
                             <input type="text" class="form-control" id="" name="height" placeholder="rộng">
+                            @error('height')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                         </div>
                         <div class="col-sm-3 col">
                             <input type="text" class="form-control" id="" name="depth" placeholder="cao">
+                            @error('depth')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                         </div>
                     </div>
 
@@ -185,6 +230,9 @@
                                 
                                 
                             </select>
+                            @error('id_extra_service')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -194,6 +242,9 @@
                         <label for="weight" class="mb-3">Trọng lượng:</label>
                         <div class="col-sm-10 col">
                             <input type="text" class="form-control" id="weight" name="weight" placeholder="(g)" oninput="cal_price()">
+                            @error('weight')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                         </div>
                     </div>
 
@@ -206,6 +257,9 @@
                         <label for="cod">Thu hộ:</label>
                         <div class="col-sm-10 col">
                             <input type="text" id="cod" name="cod" class="form-control">
+                            @error('cod')
+                                <label for="" class="text-danger">{{$message}}</label>
+                            @enderror
                         </div>
                     </div>
                 </div>

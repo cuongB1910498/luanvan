@@ -13,11 +13,13 @@
                 <th>Số lượng</th>
                 <th>Thành tiền</th>
             </thead>
+            @php
+                $count = 0;
+            @endphp
             <tbody>
                 @foreach ($tracking as $row)
                     <tr>
                         @php
-                            $count = 0;
                             $count = $count+($row->tracking_price*$row->count);
                         @endphp
                         <td>{{$row->tracking_price}}</td>

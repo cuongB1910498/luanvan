@@ -1,7 +1,7 @@
 @extends('staff.dashboard')
 @section('staff-content')
 
-    <div class="container row">
+    <div class="container">
         <h2>Các đơn cần giao</h2>
         @if (Session('success'))
             <div class="alert alert-success">{{Session('success')}}</div>

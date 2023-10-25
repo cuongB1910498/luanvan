@@ -1,14 +1,16 @@
 @extends('welcome')
 @section('content')
 <!-- getting start -->
+@if(Session('id_user'))
 <div class="row get-start">
     <a href="{{URL::to('/create-tracking')}}" class="btn btn-primary btn-lg custom-btn-start">Tạo Đơn Ngay</a>
 </div>
+@endif
 
 
 <div class="row">
     <div class="col">
-        <img src="https://res.cloudinary.com/dx3ymfyd4/image/upload/v1694676429/Frame_15_toggmo.png" alt="" id="img">
+        <img src="{{asset('/public/frontend/images/ThynExpressLogo.png')}}" alt="" id="img">
     </div>
     <div class="col">
         <!-- Carousel slider -->
@@ -122,6 +124,20 @@
                 <img src="{{asset('/public/frontend/images/laza.png')}}" alt="error" width="100px" class="row">
                 <p class="row ldz">Ladaza</p>
             </div>   
+    </div>
+
+    <div class="row mb-3 mt-3">
+        <div class="col-sm-8 col-12 offset-sm-2 mb-3 mt-3">
+            <h2>Trụ sở chính: 3/2 Ninh Kiều, Cần Thơ</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d9344.548991832879!2d105.77180351080722!3d10.025203303494406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1698200722922!5m2!1svi!2s" 
+            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="col-sm-8 col-12 offset-sm-2">
+            <h2>VPĐD: Tp Châu Đốc, An Giang</h2>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d15681.39118598205!2d105.11661605585776!3d10.707634488156879!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1svi!2s!4v1698201001349!5m2!1svi!2s" 
+            width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
     </div>
 </div>
 

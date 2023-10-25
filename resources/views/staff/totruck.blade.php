@@ -1,6 +1,6 @@
 @extends('staff.dashboard')
 @section('staff-content')
-    <div class="container row">
+    <div class="container">
         @if(Session('success'))
             <div class="alert alert-success">{{Session('success')}}</div>
         @endif

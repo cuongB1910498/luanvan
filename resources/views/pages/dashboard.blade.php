@@ -84,20 +84,13 @@
                         </div>
                     </li>
                     <li>
-                        <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#layouts">
-                            <span class="me-2"><i class="bi bi-box-seam"></i></span>
+                        <a class="nav-link px-3" data-bs-toggle="collapse">
                             <span>Tạo Vận Đơn</span>
-                            <span class="ms-auto">
-                                <span class="right-icon">
-                                    <i class="bi bi-chevron-down"></i>
-                                </span>
-                            </span>
                         </a>
-                        <div class="collapse" id="layouts">
                             <ul class="navbar-nav ps-3">
                                 <li>
                                     <a href="{{ URL::to('/create-tracking') }}" class="nav-link px-3">
-                                        <span class="me-2"><i class="bi bi-plus-lg"></i></span>
+                                        <span class="me-2"><i class="bi bi-box-seam"></i></span>
                                         <span>Tạo Vận đơn</span>
                                     </a>
                                 </li>
@@ -109,7 +102,7 @@
                                     </a>
                                 </li>
                             </ul>
-                        </div>
+                        
 
 
                     </li>

@@ -398,14 +398,20 @@ class StaffController extends Controller
             ->orWhere('id_status', '=', 7)
             ->where('tracking_updated_at', '>', $tomorrow)
             ->get();
-        $get_tracking_to_deliver = DB::table('tbl_tracking_number')
-            ->where('id_status', 3)
-            ->where('district_receive', $station->id_district)
-            ->get();
+       
         return view('staff.gettracking', [
             'tracking'=>$get_tracking_on_station,
-            'deliver'=>$get_tracking_to_deliver
+            
         ]);
+    }
+
+    public function receiveTracking(){
+        $station = DB::table('tbl_post_station')->where('id_station', Session::get('id_station'))->first();
+        $get_tracking_to_deliver = DB::table('tbl_tracking_number')
+        ->where('id_status', 3)
+        ->where('district_receive', $station->id_district)
+        ->get();
+        return view('staff.receivetracking',['deliver'=>$get_tracking_to_deliver]);
     }
 
     public function getTrackingProcess($id_tracking, Request $request){
@@ -581,12 +587,6 @@ class StaffController extends Controller
 
     public function addToBag(){
         $this->AuthStaff();
-        return view('staff.addtobag');
-    }
-
-    public function processAddBag(Request $request){
-       
-        $this->AuthStaff();
         $today = Carbon::today()->format('Y-m-d');
         //echo $today;
         //$id_tracking = $request->id_tracking;
@@ -604,6 +604,7 @@ class StaffController extends Controller
                 'id_station'=>$id_station,
                 'goto'=>'PL',
                 'date'=>$today,
+                'bag_status'=>1,
             ];
             //print_r($new_bag);
             $create_bag = DB::table('tbl_bag')->insert($new_bag);
@@ -621,10 +622,21 @@ class StaffController extends Controller
                 'id_station'=>$id_station,
                 'goto'=>'OWN',
                 'date'=>$today,
+                'bag_status'=>1,
             ];
             //print_r($new_bag2);
             $create_bag2 = DB::table('tbl_bag')->insert($new_bag2);
         }
+        return view('staff.addtobag');
+    }
+
+    public function processAddBag(Request $request){
+       
+        $this->AuthStaff();
+        $today = Carbon::today()->format('Y-m-d');
+        //echo $today;
+        //$id_tracking = $request->id_tracking;
+        $id_station = Session::get('id_station');
 
         // UPDATE TRACKING có id_bag dựa theo tuyến đi
         $array_tracking = $request->id_tracking;
@@ -640,6 +652,15 @@ class StaffController extends Controller
                     ->first();
                 $province_receive =  $tracking->province_receive;
                 if($station->id_province != $province_receive){
+                    $located = [
+                        'note'=>'Đang vận chuyển đến TT Phân Loại',
+                        'LC_status'=>4,
+                        'id_tracking'=>$id_tracking,
+                        'id_staff'=>Session('id_staff'),
+                        'created_at'=>now(),
+                        'updated_at'=>now(),
+                    ];
+                    $insert_lc = DB::table('located')->insert($located);
                     //đi trung tâm phân loại - UPDATE id_bag của của tracking thành id_bag của ngày hôm đó
                     $get_bag_1 = DB::table('tbl_bag')
                         ->where('date', $today)
@@ -653,6 +674,15 @@ class StaffController extends Controller
                     DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->update($update_tracking);
                     
                 }else{
+                    $located = [
+                        'note'=>'Đang vận chuyển đến Trạm Giao',
+                        'LC_status'=>4,
+                        'id_tracking'=>$id_tracking,
+                        'id_staff'=>Session('id_staff'),
+                        'created_at'=>now(),
+                        'updated_at'=>now(),
+                    ];
+                    $insert_lc = DB::table('located')->insert($located);
                     //echo 'đi trong tỉnh';
                     $get_bag_2 = DB::table('tbl_bag')
                         ->where('date', $today)
@@ -679,7 +709,7 @@ class StaffController extends Controller
     public function toTruck(){
         $this->AuthStaff();
         $id_station = Session('id_station');
-        $today = Carbon::today('Asia/Ho_Chi_Minh')->subday(1)->format('Y-m-d');
+        $today = Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d');
         $get_bag = DB::table('tbl_bag')
             ->where('date', '>=' ,$today)
             ->where('bag_status', '>=', '0')

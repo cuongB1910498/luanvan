@@ -1,6 +1,6 @@
 @extends('staff.dashboard')
 @section('staff-content')
-    <div class="row">
+    <div class="container">
         <div class="row">
             <div class="col-3">
                 <select name="" id="selectId" class="form-select">

@@ -4,6 +4,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExportVatController;
 use App\Http\Controllers\homecontroller;
+use App\Http\Controllers\layoutController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -79,6 +80,10 @@ Route::get('reload-captcha', 'AdminController@reloadCaptcha');
         Route::get('/located', 'locatedController@located');
         Route::post('/process-tracking', 'locatedController@findLocated');
 
+    //UI
+        Route::get('/how-to-pack', 'layoutController@howtoPack');
+        Route::get('/prohibited-list', 'layoutController@prohibitedList');
+
 //BackEnd
     //admin
 Route::get('/admin-dashboard', 'AdminController@dashboard');
@@ -150,3 +155,4 @@ Route::get('/staff/', 'StaffController@index');
             Route::get('/staff/deliver-tracking', 'StaffController@deliverTracking');
             Route::post('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');
             Route::post('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');
+            Route::get('/staff/receive-tracking', 'StaffController@receiveTracking');

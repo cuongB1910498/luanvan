@@ -8,9 +8,11 @@
     </tr>
     </thead>
     <tbody>
+    @php
+         $count = 0;
+    @endphp
     @foreach($data as $row)
         @php
-            $count = 0;
             $count = $count+($row->tracking_price*$row->count);
         @endphp
         <tr>

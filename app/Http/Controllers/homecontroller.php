@@ -24,10 +24,15 @@ class homecontroller extends Controller
 
     public function Auth_login(){
         $id_user = Session::get('id_user');
-        if($id_user){
-            return Redirect::to('/user');
-        }else{
+        if(!$id_user){
             return abort(404);
+        }
+    }
+
+    public function must_login(){
+        $id_user = Session::get('id_user');
+        if($id_user){
+            return true;
         }
     }
 
@@ -117,7 +122,8 @@ class homecontroller extends Controller
     }
 
     public function create_tracking(){
-        $this->Auth_login();
+        if($this->must_login() == true){
+        $get_profile = DB::table('users')->where('id_user', Session('id_user'))->first();
         $get_address = DB::table('tbl_address')
             ->where('id_user', Session('id_user'))
             ->join('tbl_province', 'tbl_province.id_province', '=', 'tbl_address.id_province')
@@ -130,13 +136,98 @@ class homecontroller extends Controller
                 'get_province'=>$get_province, 
                 'get_service'=>$get_service,
                 'get_address'=>$get_address,
+                'get_user'=>$get_profile,
             ]
         );
+        }else{
+            return Redirect('/login');
+        }
         
     }
 
     public function creating_process(Request $request){
         $this->Auth_login();
+        if(isset($request->address_sent)){
+            $messages = [
+                'address_sent.required'=>'Bạn chưa nhập địa chỉ gửi hàng!',
+                'province_sent.required'=>'Bạn chưa chọn tỉnh gửi!',
+                'district_sent.required'=>'Bạn chưa chọn huyện gửi!',
+                'name_sent.required'=>'Bạn chưa điền tên người gửi!',
+                'phone_sent.required'=>'Bạn chưa điền số điện thoại!',
+                'address_receive.required'=>'Bạn chưa điền địa chỉ người nhận!',
+                'province_receive.required'=>'Bạn chưa chọn Tỉnh nhận!',
+                'district_receive.required'=>'Bạn chưa chọn Huyện nhận!',
+                'name_receive.required'=>'Bạn chưa điền tên người nhận!',
+                'phone_receive.required'=>'Bạn chưa điền số điện thoại người nhận!',
+                'describe_tracking.required'=>'Bạn chưa điền mô tả đơn hàng!',
+                'type_sending.required'=>'Bạn chưa chọn loại ký gửi',
+                'width.required'=>'Thiếu chiều dài',
+                'height.required'=>'Thiếu chiều rộng',
+                'depth.required'=>'Thiếu chiều cao',
+                'id_extra_service.required'=>'Chưa chọn loại hàng hóa!',
+                'weight.required'=>'Bạn chưa điền trọng lượng',
+                'cod.required'=>'Bạn chưa nhập tiền thu hộ !',
+            ];
+            $request->validate([
+                'address_sent'=>'required',
+                'province_sent'=>'required',
+                'district_sent'=>'required',
+                'name_sent'=>'required',
+                'phone_sent'=>'required',
+                'address_receive'=>'required',
+                'province_receive'=>'required',
+                'district_receive'=>'required',
+                'name_receive'=>'required',
+                'phone_receive'=>'required',
+                'describe_tracking'=>'required',
+                'type_sending'=>'required',
+                'width'=>'required',
+                'height'=>'required',
+                'depth'=>'required',
+                'id_extra_service'=>'required',
+                'weight'=>'required',
+                'cod'=>'required',
+            ], $messages);
+        }else{
+            $messages = [
+                'id_address.required'=>'Bạn chưa chọn địa chỉ!',
+                'name_sent.required'=>'Bạn chưa điền tên người gửi!',
+                'phone_sent.required'=>'Bạn chưa điền số điện thoại!',
+                'address_receive.required'=>'Bạn chưa điền địa chỉ người nhận!',
+                'province_receive.required'=>'Bạn chưa chọn Tỉnh nhận!',
+                'district_receive.required'=>'Bạn chưa chọn Huyện nhận!',
+                'name_receive.required'=>'Bạn chưa điền tên người nhận!',
+                'phone_receive.required'=>'Bạn chưa điền số điện thoại người nhận!',
+                'describe_tracking.required'=>'Bạn chưa điền mô tả đơn hàng!',
+                'type_sending.required'=>'Bạn chưa chọn loại ký gửi',
+                'width.required'=>'Thiếu chiều dài',
+                'height.required'=>'Thiếu chiều rộng',
+                'depth.required'=>'Thiếu chiều cao',
+                'id_extra_service.required'=>'Chưa chọn loại hàng hóa!',
+                'weight.required'=>'Bạn chưa điền trọng lượng',
+                'cod.required'=>'Bạn chưa nhập tiền thu hộ !',
+            ];
+            $request->validate([
+                'id_address'=>'required',
+                'name_sent'=>'required',
+                'phone_sent'=>'required',
+                'address_receive'=>'required',
+                'province_receive'=>'required',
+                'district_receive'=>'required',
+                'name_receive'=>'required',
+                'phone_receive'=>'required',
+                'describe_tracking'=>'required',
+                'type_sending'=>'required',
+                'width'=>'required',
+                'height'=>'required',
+                'depth'=>'required',
+                'id_extra_service'=>'required',
+                'weight'=>'required',
+                'cod'=>'required',
+            ], $messages);
+        }
+        //echo  'pass';
+        
         $id_address = $request->id_address;
         if(isset($id_address)){
             $get_address = DB::table('tbl_address')
@@ -211,8 +302,7 @@ class homecontroller extends Controller
         print_r($data);
         $result = DB::table('tbl_tracking_number')->insert($data);
         if($result){
-            Session::put('msg_create_tracking', 'Thêm Thành Công!');
-            return Redirect::to('/create-tracking');
+            return Redirect::to('/create-tracking')->with('success', 'Thêm Thành Công!');
         }
     }
 
@@ -355,11 +445,13 @@ class homecontroller extends Controller
     }
 
     public function importTracking(){
+        $this->Auth_login();
         $get_province = DB::table('tbl_province')->get();
         return view('pages.importtracking', ['get_province'=>$get_province]);
     }
 
     public function importCsv(Request $request){
+        $this->Auth_login();
         $request->validate([
             'address_sent' => 'required',
             'province_sent' => 'required',
@@ -403,15 +495,18 @@ class homecontroller extends Controller
     }
 
     public function show_carbon(){
+        $this->Auth_login();
         echo Carbon::now('Asia/Ho_Chi_Minh');
     }
 
     public function userProfile(){
+        $this->Auth_login();
         $get_profile = DB::table('users')->where('id_user', Session('id_user'))->first();
         return view('pages.userprofile', ['profile'=> $get_profile]);
     }
 
     public function changeProfile(Request $request){
+        $this->Auth_login();
         $request->validate([
             'lastname' => 'required',
             'firstname' => 'required',

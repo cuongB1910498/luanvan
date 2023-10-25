@@ -262,9 +262,15 @@
                           </a>
                       </li>
                       <li>
+                        <a href="{{ URL::to('/staff/receive-tracking') }}" class="nav-link px-3">
+                            <span class="me-2"><i class="bi bi-hand-index-thumb"></i></span>
+                            <span>Nhận đơn đơn</span>
+                        </a>
+                    </li>
+                      <li>
                           <a href="{{ URL::to('/staff/deliver-tracking') }}" class="nav-link px-3">
-                              <span class="me-2"><i class="bi bi-box-arrow-right"></i></span>
-                              <span>Giao đơn</span>
+                              <span class="me-2"><i class="bi bi-basket"></i></span>
+                              <span>Giỏ của tôi</span>
                           </a>
                       </li>
                     <ul class="navbar-nav ps-3">
