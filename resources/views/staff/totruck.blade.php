@@ -39,6 +39,10 @@
                             >
                                 Chuyển đi
                             </button>
+                            <a href="{{URL::to('/staff/view-bag/'.$row->id_bag)}}" class="btn btn-outline-primary"><i class="bi bi-eye"></i></a>
+                        </td>
+                        <td>
+                           
                         </td>
                     </tr>
                      <!-- Modal -->

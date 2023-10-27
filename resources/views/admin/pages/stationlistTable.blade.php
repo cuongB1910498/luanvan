@@ -1,7 +1,7 @@
 @extends('admin.pages.stationlist')
 @section('stationlist-table')
-<div class="table-responsive">
-    <table class="table table-striped b-t b-light">
+<div class="card-body">
+    <table class="table table-striped b-t b-light" id="data">
         <thead>
             <tr>
                 <th style="width:10px;">STT</th>
@@ -30,10 +30,7 @@
                 <?php 
                     $i++
                 ?>
-            @endforeach
-            
-
-            
+            @endforeach 
         </tbody>
     </table>
 </div>

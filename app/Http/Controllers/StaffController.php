@@ -41,6 +41,8 @@ class StaffController extends Controller
         Session::put('id_staff', null);
         Session::put('staff_name', null);
         Session::put('id_station', null);
+        Session::put('role', null);
+        Session::put('sorting_center', null);
         return Redirect::to('/staff/login');
     }
     
@@ -50,12 +52,18 @@ class StaffController extends Controller
         ]);
         $staff_username = $request->staff_username;
         $staff_password = md5($request->staff_password);
-        $result = DB::table('staff')->where('staff_username', $staff_username)->where('staff_password', $staff_password)->first();
+        $result = DB::table('staff')
+            ->join('tbl_post_station','tbl_post_station.id_station','=','staff.id_station')
+            ->where('staff_username', $staff_username)
+            ->where('staff_password', $staff_password)
+            ->first();
 
         if($result){
             Session::put('id_staff', $result->id_staff);
             Session::put('staff_name', $result->staff_name);
             Session::put('id_station', $result->id_station);
+            Session::put('role', $result->id_posision);
+            if($result->is_SC == 1) Session::put('sorting_center', 1);
             Session::put('msg_staff_login', 'Đăng nhập Thành Công');
 
             return Redirect::to('/staff/dashboard');
@@ -713,6 +721,7 @@ class StaffController extends Controller
         $get_bag = DB::table('tbl_bag')
             ->where('date', '>=' ,$today)
             ->where('bag_status', '>=', '0')
+            ->where('id_station', Session('id_station'))
             ->get();
         $select_truck = DB::table('truck_log')
             ->join('tbl_truck', 'tbl_truck.id_truck', '=', 'truck_log.id_truck')
@@ -736,6 +745,16 @@ class StaffController extends Controller
         }else{
             return Redirect::to('/staff/to-truck')->with('error', 'Đã có lỗi xảy ra');
         }
+    }
+
+    public function viewBag($id_bag){
+        $get_tracking_in_bag = DB::table('tbl_tracking_number')
+            //->join('tbl_province', 'tbl_province.id_province','=', 'tbl_tracking_number.province_sent')
+            ->join('tbl_province','tbl_province.id_province','=', 'tbl_tracking_number.province_receive')
+            ->where('id_bag', $id_bag)
+            ->get();
+        $get_bag = DB::table('tbl_bag')->where('id_bag', $id_bag)->first();
+        return view('staff.viewbag', ['tracking'=>$get_tracking_in_bag, 'bag'=>$get_bag]);
     }
 }
 

@@ -60,7 +60,7 @@
                             <div class="form-group mb-3 row">
                                 <div class="col-lg-4 offset-lg-2">
                                     <div class="captcha">
-                                        <span class="me-2">{!! captcha_img() !!}</span>
+                                        <span class="me-2">{!! captcha_img('math') !!}</span>
                                         <button type ="button" class="btn btn-danger reload" id="reload">&#x21bb;</button>
                                     </div>
                                 </div>

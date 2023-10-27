@@ -67,6 +67,9 @@
                     @endforeach
                 </tbody>
             </table>
+            @if($tracking->id_status == 8)
+            <div class="col-3 mb-3 mt-3"><a class="btn btn-success" target="_blank" href="{{$tracking->img_receive}}">Xem ảnh giao hàng</a></div>
+            @endif
         </div>
     </div>
 @endsection

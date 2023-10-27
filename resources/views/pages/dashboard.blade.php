@@ -142,11 +142,13 @@
                     <li class="my-4">
                         <hr class="dropdown-divider bg-light" />
                     </li>
+                    
                     <li>
                         <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
                             Chi Tiết Vận Đơn
                         </div>
                     </li>
+                    <ul class="navbar-nav ps-3">
                     <li>
                         <a href="{{ URL::to('/list-tracking') }}" class="nav-link px-3">
                             <span class="me-2"><i class="bi bi-collection"></i></span>
@@ -167,6 +169,7 @@
                             <span>Theo dõi</span>
                         </a>
                     </li>
+                    </ul>
                 </ul>
             </nav>
         </div>

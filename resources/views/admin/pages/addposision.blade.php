@@ -1,13 +1,13 @@
 @extends('admin.dashboard')
 @section('admin_content')
 
-<div class="col-lg-12">
-    <section class="panel">
-        <header class="panel-heading">
+<div class="container">
+    <div class="col-10 offset-1 card">
+        <header class="card-header">
             ADD NEW POSISION
         </header>
-        <div class="panel-body">
-            <div class="position-center">
+        <div class="card-body">
+            <div class="row">
                 <form class="form-horizontal" role="form" method="post" action={{URL::to('/possison-process')}}>
                     {{ csrf_field() }}
                 <div class="form-group text-center msg_posision">
@@ -20,28 +20,28 @@
                     ?>
                 </div>
 
-                <div class="form-group">
-                    <label for="posision_name" class="col-lg-2 col-sm-2 control-label">Posision name</label>
-                    <div class="col-lg-10">
+                <div class="form-group row mb-3">
+                    <label for="posision_name" class="col-sm-2 control-label px-3 offset-sm-1">Posision name</label>
+                    <div class="col-sm-8">
                         <input type="text" class="form-control" id="posision_name" name="posision_name">
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="lvl_salary" class="col-lg-2 col-sm-2 control-label">Level Salary</label>
-                    <div class="col-lg-10">
+                <div class="form-group row mb-3">
+                    <label for="lvl_salary" class="col-sm-2 control-label ps-3 offset-sm-1">Level Salary</label>
+                    <div class="col-sm-8">
                         <input type="text" class="form-control" id="lvl_salary" name="lvl_salary">
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="col-lg-offset-2 col-lg-10">
+                <div class="form-group row mb-3">
+                    <div class="col-sm-offset-2 col-sm-10 offset-sm-1">
                         <button type="submit" class="btn btn-danger">Submit</button>
                     </div>
                 </div>
                 </form>
             </div>
         </div>
-    </section>
+    </div>
 
 </div>
     

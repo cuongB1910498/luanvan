@@ -29,8 +29,20 @@ class AdminController extends Controller
         }
     }
     public function dashboard(){
+        $count_staff = DB::table('staff')->count();
+        $count_station = DB::table('tbl_post_station')->count();
+        $count_truck = DB::table('tbl_truck')->count();
+        $data = [12, 19, 3, 5, 2, 3];
+        $lable = ['đỏ', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
         if(Session::get('admin_id')){
-            return view('admin.pages.home');
+            return view(
+                'admin.pages.home', 
+                [
+                    'count_staff'=>$count_staff, 
+                    'count_station'=>$count_station, 
+                    'count_truck'=>$count_truck
+                ], 
+                compact('data', 'lable'));
         }else{
             return Redirect::to('/adminlogin');
         }
@@ -210,6 +222,6 @@ class AdminController extends Controller
     }
 
     public function reloadCaptcha(){
-        return response()->json(['captcha'=>captcha_img()]);
+        return response()->json(['captcha'=>captcha_img('math')]);
     }
 }

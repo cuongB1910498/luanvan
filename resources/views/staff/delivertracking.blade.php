@@ -18,6 +18,11 @@
                 <th>SDT</th>
                 <th style="width:30%">Thao Tác</th>
             </thead>
+            @if ($tracking->isEmpty())
+                <tbody>
+                    <tr><td colspan="4" class="text-center">Hiện giỏ hàng của bạn đang trống!</td></tr>
+                </tbody> 
+            @else
             <tbody>
                @foreach ($tracking as $row)
                    <tr>
@@ -85,6 +90,7 @@
                     </div>
                @endforeach
             </tbody>
+            @endif
         </table>
     </div>
 

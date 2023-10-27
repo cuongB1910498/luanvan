@@ -71,210 +71,182 @@
             <nav class="navbar-dark">
                 <ul class="navbar-nav">
 
-                    <li>
-                        <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                            Nhân Viên
-                        </div>
-                    </li>
-                    <li>
-                        <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#layouts">
-                            <span class="me-2"><i class="bi bi-layout-split"></i></span>
-                            <span>Quản lý đơn hàng</span>
-                            <span class="ms-auto">
 
-                            </span>
-                        </a>
+                    @if ((Session('role') == 10 && !Session('sorting_center'))|| (Session('role') == 9 && !Session('sorting_center')))
+                        <li>
+                            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                                Nhân Viên
+                            </div>
+                        </li>
+                        <li>
+                            <a class="nav-link px-3 sidebar-link" data-bs-toggle="collapse" href="#layouts">
+                                <span class="me-2"><i class="bi bi-layout-split"></i></span>
+                                <span>Quản lý đơn hàng</span>
+                                <span class="ms-auto">
 
+                                </span>
+                            </a>
+
+                            <ul class="navbar-nav ps-3">
+                                <li>
+                                    <a href="{{ URL::to('/staff/confirm-arrived') }}" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-plus-lg"></i></span>
+                                        <span>Xác nhận đến</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ URL::to('/staff/tracking-in-post-station') }}" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-list-check"></i></span>
+                                        <span>Đơn đang ở trạm</span>
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a href="{{ URL::to('/staff/add-to-bag') }}" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-list-check"></i></span>
+                                        <span>Đóng gói chuyển đi</span>
+                                    </a>
+                                </li>
+                            </ul>
+
+
+                        </li>
+
+                        <li class="my-4">
+                            <hr class="dropdown-divider bg-light" />
+                        </li>
+                    @endif
+
+
+                    @if (Session('role') == 9)
+                        <li>
+                            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                                Trưởng Trạm
+                            </div>
+                        </li>
                         <ul class="navbar-nav ps-3">
                             <li>
-                                <a href="{{ URL::to('/staff/confirm-arrived') }}" class="nav-link px-3">
-                                    <span class="me-2"><i class="bi bi-plus-lg"></i></span>
-                                    <span>Xác nhận đến</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ URL::to('/staff/tracking-in-post-station') }}" class="nav-link px-3">
-                                    <span class="me-2"><i class="bi bi-list-check"></i></span>
-                                    <span>Đơn đang ở trạm</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ URL::to('/staff/add-to-bag') }}" class="nav-link px-3">
-                                    <span class="me-2"><i class="bi bi-list-check"></i></span>
-                                    <span>Đóng gói chuyển đi</span>
+                                <a href="{{ URL::to('/staff/to-truck') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-truck"></i></span>
+                                    <span>Chuyển tiếp lên xe</span>
                                 </a>
                             </li>
                         </ul>
 
 
-                    </li>
+                        <li class="my-4">
+                            <hr class="dropdown-divider bg-light" />
+                        </li>
+                    @endif
+                    
+                    @if(Session('sorting_center') && Session('sorting_center') == 1)
+                        <li>
+                            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                                Trung Tâm Phân Loại
+                            </div>
+                        </li>
+                        <ul class="navbar-nav ps-3">
+                            <li>
+                                <a href="{{ URL::to('/staff/arrive-sc') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-arrow-90deg-down"></i></span>
+                                    <span>Xác nhận đến</span>
+                                </a>
+                            </li>
 
-                    {{-- <li>
-                <a
-                  class="nav-link px-3 sidebar-link"
-                  data-bs-toggle="collapse"
-                  href="#layouts1"
-                >
-                  <span class="me-2"><i class="bi bi-house"></i></span>
-                  <span>Manage Station</span>
-                  <span class="ms-auto">
-                    <span class="right-icon">
-                      <i class="bi bi-chevron-down"></i>
-                    </span>
-                  </span>
-                </a>
-                <div class="collapse" id="layouts1">
-                  <ul class="navbar-nav ps-3">
-                    <li>
-                      <a href="{{URL::to('/add-station')}}" class="nav-link px-3">
-                        <span class="me-2"
-                          ><i class="bi bi-plus-lg"></i></span>
-                        <span>Add New Station</span>
-                      </a>
-                    </li>
-  
-                    <li>
-                      <a href="{{URL::to('/station-list')}}" class="nav-link px-3">
-                        <span class="me-2"
-                          ><i class="bi bi-list-check"></i></span>
-                        <span>Station List</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                
-            </li> --}}
+                            <li>
+                                <a href="{{ URL::to('/staff/sorting-tracking') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-shuffle"></i></span>
+                                    <span>Phân loại</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ URL::to('/staff/countinue-transfrom') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-arrow-90deg-right"></i></span>
+                                    <span>Chuyển đi</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <li class="my-4">
+                            <hr class="dropdown-divider bg-light" />
+                        </li>
+                    @endif
+
+                    @if (Session('role') == 11)
+                        <li>
+                            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                                Tài Xế
+                            </div>
+                        </li>
+                        <ul class="navbar-nav ps-3">
+                            <li>
+                                <a href="{{ URL::to('/staff/check-in-truck') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-check"></i></span>
+                                    <span>Check-in</span>
+                                </a>
+                            </li>
+
+                            <li>
+                                <a href="{{ URL::to('/staff/my-truck') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-truck"></i></span>
+                                    <span>My Truck</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <li class="my-4">
+                            <hr class="dropdown-divider bg-light" />
+                        </li>
+                    @endif
 
 
-                    {{-- <li>
-                <a
-                  class="nav-link px-3 sidebar-link"
-                  data-bs-toggle="collapse"
-                  href="#layouts2"
-                >
-                  <span class="me-2"><i class="bi bi-person"></i></span>
-                  <span>Manage User</span>
-                  <span class="ms-auto">
-                    <span class="right-icon">
-                      <i class="bi bi-chevron-down"></i>
-                    </span>
-                  </span>
-                </a>
-                <div class="collapse" id="layouts2">
-                  <ul class="navbar-nav ps-3">
-                    <li>
-                      <a href="{{URL::to('/add-user')}}" class="nav-link px-3">
-                        <span class="me-2"
-                          ><i class="bi bi-plus-lg"></i></span>
-                        <span>Add New User</span>
-                      </a>
-                    </li>
-  
-                    <li>
-                      <a href="#" class="nav-link px-3">
-                        <span class="me-2"
-                          ><i class="bi bi-list-check"></i></span>
-                        <span>User List</span>
-                      </a>
-                    </li>
-                  </ul>
-                </div>
-                
-            </li> --}}
-                    <li class="my-4">
-                        <hr class="dropdown-divider bg-light" />
-                    </li>
+                    @if (Session('role') == 12)
+                        <li>
+                            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                                Nhân Viên Giao Hàng
+                            </div>
+                        </li>
+                        <ul class="navbar-nav ps-3">
+                            <li>
+                                <a href="{{ URL::to('/staff/get-tracking') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-box-arrow-in-down"></i></span>
+                                    <span>Lấy đơn</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ URL::to('/staff/receive-tracking') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-hand-index-thumb"></i></span>
+                                    <span>Nhận đơn đơn</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ URL::to('/staff/deliver-tracking') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-basket"></i></span>
+                                    <span>Giỏ của tôi</span>
+                                </a>
+                            </li>
+                        </ul>
+                        <li class="my-4">
+                            <hr class="dropdown-divider bg-light" />
+                        </li>
+                    @endif
+
                     <li>
                         <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                            Trưởng Trạm
+                            Chức năng dùng chung
                         </div>
                     </li>
                     <ul class="navbar-nav ps-3">
                         <li>
-                            <a href="{{ URL::to('/staff/to-truck') }}" class="nav-link px-3">
-                                <span class="me-2"><i class="bi bi-truck"></i></span>
-                                <span>Chuyển tiếp lên xe</span>
+                            <a href="{{ URL::to('#') }}" class="nav-link px-3">
+                                <span class="me-2"><i class="bi bi-plus"></i></span>
+                                <span>Tạo đơn hàng</span>
                             </a>
                         </li>
                     </ul>
-                    {{-- <li>
-              <a href="#" class="nav-link px-3">
-                <span class="me-2"><i class="bi bi-table"></i></span>
-                <span>Tables</span>
-              </a>
-            </li> --}}
-
-
                     <li class="my-4">
                         <hr class="dropdown-divider bg-light" />
                     </li>
-                    <li>
-                        <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                            Trung Tâm Phân Loại
-                        </div>
-                    </li>
-                    {{-- <li>
-              <a href="#" class="nav-link px-3">
-                <span class="me-2"><i class="bi bi-graph-up"></i></span>
-                <span>Charts</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link px-3">
-                <span class="me-2"><i class="bi bi-table"></i></span>
-                <span>Tables</span>
-              </a>
-            </li> --}}
-
-                    <li class="my-4">
-                        <hr class="dropdown-divider bg-light" />
-                    </li>
-                    <li>
-                        <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                            Tài Xế
-                        </div>
-                    </li>
-                    <ul class="navbar-nav ps-3">
-                      <li>
-                          <a href="{{ URL::to('/staff/check-in-truck') }}" class="nav-link px-3">
-                              <span class="me-2"><i class="bi bi-check"></i></span>
-                              <span>Check-in</span>
-                          </a>
-                      </li>
-                    </ul>
-
-
-                    <li class="my-4">
-                        <hr class="dropdown-divider bg-light" />
-                    </li>
-                    <li>
-                        <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                            Nhân Viên Giao Hàng
-                        </div>
-                    </li>
-                    <ul class="navbar-nav ps-3">
-                      <li>
-                          <a href="{{ URL::to('/staff/get-tracking') }}" class="nav-link px-3">
-                              <span class="me-2"><i class="bi bi-box-arrow-in-down"></i></span>
-                              <span>Lấy đơn</span>
-                          </a>
-                      </li>
-                      <li>
-                        <a href="{{ URL::to('/staff/receive-tracking') }}" class="nav-link px-3">
-                            <span class="me-2"><i class="bi bi-hand-index-thumb"></i></span>
-                            <span>Nhận đơn đơn</span>
-                        </a>
-                    </li>
-                      <li>
-                          <a href="{{ URL::to('/staff/deliver-tracking') }}" class="nav-link px-3">
-                              <span class="me-2"><i class="bi bi-basket"></i></span>
-                              <span>Giỏ của tôi</span>
-                          </a>
-                      </li>
-                    <ul class="navbar-nav ps-3">
-                </ul>
             </nav>
         </div>
     </div>

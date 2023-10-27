@@ -53,6 +53,12 @@
                                 <li><a class="dropdown-item" href="{{URL::to('/safe-service')}}">Giao hàng dể vỡ</a></li>
                             </ul>
                         </li>
+
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="{{URL::to('/blog/')}}">
+                                BLOG
+                            </a>
+                        </li>
                         
                     </ul>
                     @if(Session('id_user'))

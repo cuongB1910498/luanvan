@@ -3,7 +3,7 @@
     @if (Session::get('error'))
         <div class="alert bg-warning">bạn chưa được cấp xe tải</div>
     @else
-    <div class="container row">
+    <div class="container">
         @if (Session::get('msg'))
             <p>{{Session::get('msg')}}</p>
         @endif

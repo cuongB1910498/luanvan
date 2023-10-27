@@ -12,6 +12,7 @@
             <table class="table table-striped">
                 <thead >
                     <th style="width:35%">Địa chỉ</th>
+                    <th>Mã đơn</th>
                     <th>Tên người gửi</th>
                     <th>SDT</th>
                     <th style="width:25%">Thao tác</th>
@@ -22,6 +23,7 @@
                         @foreach ($tracking as $row)
                             <tr>
                                 <td>{{$row->address_sent}}</td>
+                                <td>{{$row->id_tracking}}</td>
                                 <td>{{$row->name_sent}}</td>
                                 <td>{{$row->phone_sent}}</td>
                                 <td>
@@ -31,7 +33,7 @@
                             </tr> 
                         @endforeach  
                     @else
-                        <tr><td colspan="4" class="text-center">Hiện tại không có đơn nào được tạo!</td></tr>
+                        <tr><td colspan="5" class="text-center">Hiện tại không có đơn nào được tạo!</td></tr>
                     @endif
                 </tbody>
             </table>

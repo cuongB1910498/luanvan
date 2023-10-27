@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ExportVatController;
 use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\layoutController;
+use App\Http\Controllers\SortingCenterController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
@@ -142,6 +143,7 @@ Route::get('/staff/', 'StaffController@index');
             //add to bag 
             Route::get('/staff/add-to-bag', 'StaffController@addToBag');
             Route::post('/staff/process-add-bag', 'StaffController@processAddBag');
+            Route::get('/staff/view-bag/{id_bag}', 'StaffController@viewBag');
             //Add to truck
             Route::get('/staff/to-truck', 'StaffController@toTruck');
             Route::post('/to-truck-process/{id_bag}', 'StaffController@toTruckprocess');
@@ -156,3 +158,6 @@ Route::get('/staff/', 'StaffController@index');
             Route::post('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');
             Route::post('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');
             Route::get('/staff/receive-tracking', 'StaffController@receiveTracking');
+        //Sorting center
+            Route::get('staff/arrive-sc', 'SortingCenterController@arriveSC');
+            Route::post('/staff/process-sort', 'SortingCenterController@processSort');

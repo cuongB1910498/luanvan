@@ -95,7 +95,7 @@
 
 							<div class="form-group row">
 								<div class="col-sm-4 captcha">
-									<span class="me-2">{!! captcha_img() !!}</span>
+									<span class="me-2">{!! captcha_img('math') !!}</span>
                                     <button type ="button" class="btn btn-danger reload" id="reload">&#x21bb;</button>
 								</div>
 								<div class="col-sm-5">
