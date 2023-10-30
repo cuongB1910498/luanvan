@@ -2,6 +2,7 @@
 // frontEnd
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ExportVatController;
 use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\layoutController;
@@ -84,10 +85,14 @@ Route::get('reload-captcha', 'AdminController@reloadCaptcha');
     //UI
         Route::get('/how-to-pack', 'layoutController@howtoPack');
         Route::get('/prohibited-list', 'layoutController@prohibitedList');
+    //BLOG
+        Route::get('/blog', 'BlogController@index');
+        Route::get('/blog/{id_blog}', 'BlogController@showBlog');
 
 //BackEnd
     //admin
 Route::get('/admin-dashboard', 'AdminController@dashboard');
+Route::get('/admin', 'AdminController@dashboard');
 Route::get('/adminlogin', 'AdminController@login');
 Route::get('/admin-logout', 'AdminController@logout');
 Route::post('/admin-login-process', 'AdminController@admin_login_process');
@@ -119,6 +124,13 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
 
             Route::get('/trucks-details', "AdminController@trucksDetail");
             Route::get('/truck-details/{id_truck}', 'AdminController@showtruckDetail');
+        //blog
+            Route::get('/add-blog', 'BlogController@addBlog');
+            Route::post('/add-blog', 'BlogController@addBlogProcess');
+            Route::get('/list-blog', 'BlogController@listBlog');
+            Route::get('/edit-blog/{id_blog}', 'BlogController@editBlog');
+            Route::post('/edit-blog/{id_blog}', 'BlogController@editBlogProcess');
+            Route::get('/delete-blog/{id_blog}', 'BlogController@destroy');
 
     //staff
 Route::get('/staff/dashboard', 'StaffController@index');

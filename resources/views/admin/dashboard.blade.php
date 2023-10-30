@@ -128,7 +128,7 @@
               
               
             </li>
-
+            <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
             <li>
                 <a
                   class="nav-link px-3 sidebar-link"
@@ -160,7 +160,7 @@
                 
                 
             </li>
-
+            <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
 
             <li>
                 <a
@@ -193,7 +193,7 @@
                 
                 
             </li>
-
+            <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
             <li>
               <a
                 class="nav-link px-3 sidebar-link"
@@ -227,23 +227,26 @@
           </li>
 
             <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
-            {{-- <li>
+            <li>
               <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                Addons
+                QL BLOG
               </div>
             </li>
-            <li>
-              <a href="#" class="nav-link px-3">
-                <span class="me-2"><i class="bi bi-graph-up"></i></span>
-                <span>Charts</span>
-              </a>
-            </li>
-            <li>
-              <a href="#" class="nav-link px-3">
-                <span class="me-2"><i class="bi bi-table"></i></span>
-                <span>Tables</span>
-              </a>
-            </li> --}}
+            <ul class="navbar-nav ps-3">
+              <li>
+                <a href="{{URL::to('/add-blog')}}" class="nav-link px-3">
+                  <span class="me-2"><i class="bi bi-plus"></i></span>
+                  <span>Thêm BLog mới</span>
+                </a>
+              </li>
+              <li>
+                <a href="{{URL::to('/list-blog')}}" class="nav-link px-3">
+                  <span class="me-2"><i class="bi bi-list-check"></i></span>
+                  <span>Danh sách Blog</span>
+                </a>
+              </li>
+            </ul>
+              
           </ul>
         </nav>
       </div>
@@ -263,6 +266,7 @@
     <script src={{asset("public/backend/js/jquery.dataTables.min.js")}}></script>
     <script src={{asset("public/backend/js/dataTables.bootstrap5.min.js")}}></script>
     <script src={{asset("public/backend/js/script.js")}}></script>
+    <script src="https://cdn.ckeditor.com/ckeditor5/40.0.0/classic/ckeditor.js"></script>
 
     {{-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.js"></script> --}}
     <script>
@@ -270,5 +274,22 @@
           $('#myTable').DataTable();
       } );
   </script>
+  <script>
+    ClassicEditor
+        .create( document.querySelector( '#editor' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        ClassicEditor
+        .create( document.querySelector( '#editor1' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+        ClassicEditor
+        .create( document.querySelector( '#editor2' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>
   </body>
 </html>

@@ -8,7 +8,7 @@
 @endif
 
 
-<div class="row">
+<div class="row mt-3">
     <div class="col">
         <img src="{{asset('/public/frontend/images/ThynExpressLogo.png')}}" alt="" id="img">
     </div>
