@@ -87,5 +87,9 @@ class SortingCenterController extends Controller
             return redirect('/staff/arrive-sc')->with('error', 'Có lỗi xảy ra, hãy kiểm tra lại!')->withInput($request->only('tracking'));
         }
     }
+
+    public function continueTransform(){
+        echo ' ok';
+    }
 }
 

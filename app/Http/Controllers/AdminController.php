@@ -32,8 +32,8 @@ class AdminController extends Controller
         $count_staff = DB::table('staff')->count();
         $count_station = DB::table('tbl_post_station')->count();
         $count_truck = DB::table('tbl_truck')->count();
-        $data = [12, 19, 3, 5, 2, 3];
-        $lable = ['đỏ', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'];
+        $data = [547, 453, 398, 345, 560, 490];
+        $lable = ['5/2023', '6/2023', '7/2023', '8/2023', '9/2023', '10/2023'];
         if(Session::get('admin_id')){
             return view(
                 'admin.pages.home', 

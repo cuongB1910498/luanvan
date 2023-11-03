@@ -5,6 +5,7 @@
 	<title>Đăng Ký Thành Viên</title>
 	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"/>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
 	<style>
 		 body{
@@ -91,6 +92,19 @@
 								<div class="col-sm-5">
 									<input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Nhập lại mật khẩu" />
 								</div>
+							</div>
+
+							<div class="form-group row">
+								<label class="col-sm-4 col-form-label" for="customer_type">Mô hình: </label>
+								<div class="col-sm-5">
+									<select name="customer_type" id="customer_type" class="form-control">
+										<option value="" selected disabled>-- Chọn loại hình --</option>
+										<option value="0">Khách hàng cá nhân</option>
+										<option value="1">Khách hàng doanh nghiệp</option>
+									</select>
+									
+								</div>
+								<a href="{{URL::to('/blog/4')}}" class="btn btn-warning"><i class="bi bi-question-lg"></i></a>
 							</div>
 
 							<div class="form-group row">

@@ -1,8 +1,8 @@
 @extends('pages.dashboard')
 @section('user_content')
     <div class="container">
-        <div class="row">
-            <div class="card col-6 offset-lg-3">
+        <div class="row justify-content-center mb-3 mt-5">
+            <div class="card col-6">
                 @if (Session('success'))
                     <div class="alert alert-success">{{Session('success')}}</div>
                 @endif

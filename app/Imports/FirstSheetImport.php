@@ -29,6 +29,13 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
         $phone_sent = $address_sending['phone_sent'];
         $i = 0;
         //parse_str
+
+        //get rannk
+        $get_rank = DB::table('users')
+            ->join('tbl_rank', 'tbl_rank.id_rank', '=', 'users.id_rank')
+            ->where('id_user', Session('id_user'))
+            ->first();
+        $disscount_price = $get_rank->rank_disscount;
         foreach($rows as $row) {
             //echo $date = date('Y-m-d H:i:s', time()+$i);          
             //thêm dòng này bởi vì thằng excel nó chạy nhiều dòng khác, mặt dù mấy dòng đó dữ liệu trắng bốc, gây ra hiện tượng thừa
@@ -69,7 +76,7 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                     break;
                 default: $phi_them = 0;
             }
-            // echo $province_sent;
+            //echo $province_sent.' '.$province_receive.'</br>';
             
             
             if($province_sent == $province_receive){
@@ -93,7 +100,9 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                     $tong_gia = 40000 + ($row['trong_luong'] - 3000)*15;
                 }
             }
-           // echo $id_tracking;
+            echo $tong_gia;
+            // echo $id_tracking;
+            // echo $disscount_price.'</br>';
             
             TrackingNumberModel::create([
                 'id_tracking' => $id_tracking,
@@ -112,7 +121,7 @@ class FirstSheetImport implements ToCollection, WithHeadingRow
                 'describe_tracking'=>$row['mo_ta'],
                 'demension'=>$row['kich_thuoc'],
                 'weight'=>$row['trong_luong'],
-                'tracking_price'=>$tong_gia,// tính toán trước khi chèn vào
+                'tracking_price'=>$tong_gia - $disscount_price,// tính toán trước khi chèn vào
                 'cod'=>$row['thu_ho'],
                 'id_extra_service'=>$row['dich_vu_them'],
                 'id_user'=>Session::get('id_user'), // lấy được id_người dùng mà không cần nhập

@@ -43,7 +43,7 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        ChartJs1
+                        Báo cáo số đơn
                     </div>
                     <div class="card-body">
                         <canvas id="myChart"></canvas>
@@ -55,7 +55,7 @@
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-header">
-                        ChartJs1
+                        Thống kế các đơn
                     </div>
                     <div class="card-body">
                         <canvas id="myChart1"></canvas>
@@ -78,7 +78,7 @@
             data: {
                 labels: label,
                 datasets: [{
-                    label: '# of Votes',
+                    label: 'số đơn',
                     data: data,
                     borderWidth: 1
                 }]
@@ -93,12 +93,12 @@
         });
 
         new Chart(mychart, {
-            type: 'bar',
+            type: 'doughnut',
             data: {
-                labels: label,
+                labels: ['Hoàn thành', 'Đang vận chuyển', 'Chưa nhận', 'Đã chuyển hoàn', 'Đã hủy'],
                 datasets: [{
-                    label: '# of Votes',
-                    data: data,
+                    label: 'số đơn',
+                    data: ['3231', '1345', '123', '43', '12'],
                     borderWidth: 1
                 }]
             },

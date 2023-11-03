@@ -2,6 +2,7 @@
 // frontEnd
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BackupController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ExportVatController;
 use App\Http\Controllers\homecontroller;
@@ -131,7 +132,8 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
             Route::get('/edit-blog/{id_blog}', 'BlogController@editBlog');
             Route::post('/edit-blog/{id_blog}', 'BlogController@editBlogProcess');
             Route::get('/delete-blog/{id_blog}', 'BlogController@destroy');
-
+        //Backup DB
+            Route::get('/backup', 'BackupController@backupDatabase'); // lỗi
     //staff
 Route::get('/staff/dashboard', 'StaffController@index');
 Route::get('/staff/', 'StaffController@index');
@@ -163,6 +165,8 @@ Route::get('/staff/', 'StaffController@index');
         // Truck Driver
             Route::get('/staff/check-in-truck', 'StaffController@checkInTruck');
             Route::get('/truck-log', 'StaffController@truckLog');
+            Route::get('/staff/my-truck', 'StaffController@myTruck');
+            Route::get('staff/bag/{id_bag}', 'StaffController@Bag');
         // Delivery staff
             Route::get('/staff/get-tracking', 'StaffController@getTracking');
             Route::get('/staff/get-tracking-process/{id_tracking}', 'StaffController@getTrackingProcess');
@@ -170,6 +174,8 @@ Route::get('/staff/', 'StaffController@index');
             Route::post('/deliver-complete/{id_tracking}', 'StaffController@deliverComplete');
             Route::post('/deliver-fail/{id_tracking}', 'StaffController@deliverFail');
             Route::get('/staff/receive-tracking', 'StaffController@receiveTracking');
+            Route::get('/staff/delivery-report', 'ReportController@deliveryReport');
         //Sorting center
             Route::get('staff/arrive-sc', 'SortingCenterController@arriveSC');
             Route::post('/staff/process-sort', 'SortingCenterController@processSort');
+            Route::get('/staff/continue-transform', 'SortingCenterController@continueTransform');

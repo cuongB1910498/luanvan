@@ -27,6 +27,18 @@
                     <div id="kq"></div>
                 </form>
             </div>
+
+            <div class="row mb-3 mt-5 justify-content-center">
+                <div class="col-3">
+                    <div class="card text-white @php if($get_rank->id_rank === 2) echo 'bg-warning'; elseif($get_rank->id_rank === 3) echo 'bg-info'; else echo 'bg-secondary' @endphp">
+                        <div class="card-header">RANK</div>
+                        <div class="card-body">
+                            <h4 class="card-title">{{$get_rank->rank_name}}</h4>
+                            <p class="card-text">Bạn được trừ {{number_format($get_rank->rank_disscount, '0',',','.')}} VND cho mỗi đơn hàng</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <script src={{ asset('public/backend/js/jquery-3.5.1.js') }}></script>

@@ -76,6 +76,8 @@ class homecontroller extends Controller
             $data['lastname'] = $request->lastname;
             $data['email'] = $request->email;
             $data['phone'] = $request->phone;
+            $data['id_rank'] = 1;
+            $data['customer_type'] =$request->customer_type;
 
             $insert = DB::table('users')->insert($data);
             if($insert){
@@ -107,6 +109,7 @@ class homecontroller extends Controller
             Session::put('login_complete', 'Đăng nhập thành công!');
             Session::put('id_user', $result->id_user);
             Session::put('firstname', $result->firstname);
+            Session::put('customer_type', $result->customer_type);
             return Redirect::to('/user');
         }else{
             Session::put('login_fail', 'Tài Khoản hoặc mật khẩu không đúng');
@@ -243,7 +246,7 @@ class homecontroller extends Controller
             $province_sent = $request->province_sent;
             $district_sent = $request->district_sent; 
         }
-        
+
         $data = array();
         $weight=$request->weight;
         $rand_id = time();
@@ -297,8 +300,15 @@ class homecontroller extends Controller
             }
         }
         
+        //Get Rank
+        $get_rank = DB::table('users')
+            ->join('tbl_rank', 'tbl_rank.id_rank', '=', 'users.id_rank')
+            ->where('id_user', Session('id_user'))
+            ->first();
+        $disscount_price = $get_rank->rank_disscount;
+        
         $tracking_price = $es_price + $price_w;
-        $data['tracking_price'] = $tracking_price; // tính
+        $data['tracking_price'] = $tracking_price - $disscount_price; // tính
         print_r($data);
         $result = DB::table('tbl_tracking_number')->insert($data);
         if($result){
@@ -308,7 +318,8 @@ class homecontroller extends Controller
 
     public function user(){
         if(Session::get('id_user')){
-            return view('pages.user');
+            $get_rank = DB::table('users')->join('tbl_rank','tbl_rank.id_rank','=','users.id_rank')->where('id_user',Session('id_user'))->first();
+            return view('pages.user', ['get_rank'=>$get_rank]);
         }else{
             return abort('404');
         }
@@ -501,7 +512,9 @@ class homecontroller extends Controller
 
     public function userProfile(){
         $this->Auth_login();
-        $get_profile = DB::table('users')->where('id_user', Session('id_user'))->first();
+        $get_profile = DB::table('users')
+            ->join('tbl_rank', 'tbl_rank.id_rank', '=', 'users.id_rank')
+            ->where('id_user', Session('id_user'))->first();
         return view('pages.userprofile', ['profile'=> $get_profile]);
     }
 

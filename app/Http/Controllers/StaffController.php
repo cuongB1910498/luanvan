@@ -23,6 +23,26 @@ class StaffController extends Controller
             abort(404);
         }
     }
+
+    public function DeliveryReport(){
+        $check = DB::table('delivery_report')
+            ->where('id_staff', Session('id_staff'))
+            ->where('report_date', Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d'))
+            ->get();
+        if($check->isEmpty()){
+            try{
+                $create = DB::table('delivery_report')->insert([
+                    'id_staff'=>Session('id_staff'),
+                    'report_date'=> Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d'),
+                    'total_tracking'=>0,
+                    'total_amount'=>0,
+                    'complete'=>0,
+                ]);
+            }catch(QueryException $e){
+                abort(500,'Server Error!');
+            }
+        }
+    }
     public function index(){
         $id_staff = Session::get('id_staff');
         if($id_staff){
@@ -236,7 +256,7 @@ class StaffController extends Controller
                     ->join('tbl_post_station', 'tbl_post_station.id_station', '=', 'truck_log.id_station')
                     ->where('tbl_truck.id_staff', Session::get('id_staff'))
                     ->where('thoi_gian', $today)
-                    ->orderBy('id_trucklog', 'DESC')
+                    ->orderBy('id_trucklog', 'ASC')
                     ->get();
 
                 
@@ -381,9 +401,9 @@ class StaffController extends Controller
 
     public function getTracking(){
         $this->AuthStaff();
-
+        $this->DeliveryReport();
         //them thongkedon ngay hom nay
-        echo Session('id_staff');
+        //echo Session('id_staff');
         echo $today = Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d');
         $get_today_thongke = DB::table('thongkedon')->where('id_staff', Session('id_staff'))->where('ngay_thongke', $today)->first();
         print_r($get_today_thongke);
@@ -414,6 +434,8 @@ class StaffController extends Controller
     }
 
     public function receiveTracking(){
+        $this->AuthStaff();
+        $this->DeliveryReport();
         $station = DB::table('tbl_post_station')->where('id_station', Session::get('id_station'))->first();
         $get_tracking_to_deliver = DB::table('tbl_tracking_number')
         ->where('id_status', 3)
@@ -491,6 +513,7 @@ class StaffController extends Controller
     }
 
     public function deliverTracking(){
+        $this->DeliveryReport();
         $today = Carbon::today('Asia/Ho_Chi_Minh');
         $tracking = DB::table('tbl_tracking_number')
             ->join('located', 'located.id_tracking', '=', 'tbl_tracking_number.id_tracking')
@@ -526,19 +549,25 @@ class StaffController extends Controller
                 if($imageUrl){
                     //lấy thông tin đơn hôm nay
                     $today = Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d');
-                    $sodon = DB::table('thongkedon')->where('ngay_thongke', $today)->where('id_staff', Session('id_staff'))->first();
-                    $cong_don = $sodon->so_don + 1;
-                    $update_dongiao = [
-                        'so_don'=>$cong_don
+                    $get_report = DB::table('delivery_report')->where('report_date', $today)->where('id_staff', Session('id_staff'))->first();
+                    //lấy thông tin tiền thu hộ của đơn hàng
+                    $get_tracking = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->first();
+                    //Cap nhat so don moi
+                    $total_tracking = $get_report->total_tracking + 1;
+                    $total_amount = $get_report->total_amount + $get_tracking->cod;
+                    $data_total_tracking = [
+                        'total_tracking'=>$total_tracking,
+                        'total_amount'=> $total_amount,
                     ];
-                    $cong_1_don = DB::table('thongkedon')->where('id_thongke', $sodon->id_thongke)->update($update_dongiao);
+                    $update_total_tracking = DB::table('delivery_report')->where('id_report', $get_report->id_report)->update($data_total_tracking);
 
-                    //chèn csdl located
+                    //Cap nhat trang thai don hang
                     $data = array();
                     $data['img_receive'] = $imageUrl;
                     $data['id_status'] = 8;
                     $update = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->update($data);
 
+                    //chèn csdl located
                     $tracking =array();
                     $tracking['note'] = 'Giao thành công';
                     $tracking['id_staff'] = Session::get('id_staff');
@@ -548,7 +577,7 @@ class StaffController extends Controller
                     $tracking['updated_at'] = now();
                     $insert = DB::table('located')->insert($tracking);
                     // nếu update và insert thì trả về ngược lại thì hủy upload
-                    if($insert && $update && $cong_1_don){
+                    if($insert && $update && $update_total_tracking){
                         return Redirect::to('/staff/deliver-tracking')->with('success', 'Thao tác thành công!');
                     }else{
                         Cloudinary::destroy($publicId);
@@ -755,6 +784,22 @@ class StaffController extends Controller
             ->get();
         $get_bag = DB::table('tbl_bag')->where('id_bag', $id_bag)->first();
         return view('staff.viewbag', ['tracking'=>$get_tracking_in_bag, 'bag'=>$get_bag]);
+    }
+
+    public function myTruck(){
+        $get_truck = DB::table('tbl_truck')->where('id_staff', Session('id_staff'))->first();
+        $get_bag_on_truck = DB::table('tbl_bag')
+            ->join('tbl_post_station','tbl_post_station.id_station','=','tbl_bag.id_station')
+            ->where('id_truck', $get_truck->id_truck)
+            ->where('bag_status', 1)
+            ->get();
+        //echo $get_truck->id_truck;
+        return view('staff.mytruck', ['get_truck'=>$get_truck, 'list_bag'=>$get_bag_on_truck]);
+    }
+
+    public function Bag($id_bag){
+        $select_tracking = DB::table('tbl_tracking_number')->where('id_bag',$id_bag)->get();
+        print_r($select_tracking);
     }
 }
 

@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href={{ asset('/public/backend/css/dataTables.bootstrap5.min.css') }} />
     <link rel="stylesheet" href={{ asset('/public/backend/css/style.css') }} />
-
+    <link rel="stylesheet" href="{{ asset('/public/backend/css/stepgogress.css') }}">
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
     <title>THYN Express Staff</title>
 </head>
@@ -129,7 +129,16 @@
                             <li>
                                 <a href="{{ URL::to('/staff/to-truck') }}" class="nav-link px-3">
                                     <span class="me-2"><i class="bi bi-truck"></i></span>
-                                    <span>Chuyển tiếp lên xe</span>
+                                    <span>Chuyển Lên Xe</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                        <ul class="navbar-nav ps-3">
+                            <li>
+                                <a href="{{ URL::to('/staff/to-truck') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-currency-dollar"></i></span>
+                                    <span>Kiểm Soát Tiền Hàng</span>
                                 </a>
                             </li>
                         </ul>
@@ -155,15 +164,8 @@
                             </li>
 
                             <li>
-                                <a href="{{ URL::to('/staff/sorting-tracking') }}" class="nav-link px-3">
+                                <a href="{{ URL::to('/staff/continue-transform') }}" class="nav-link px-3">
                                     <span class="me-2"><i class="bi bi-shuffle"></i></span>
-                                    <span>Phân loại</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ URL::to('/staff/countinue-transfrom') }}" class="nav-link px-3">
-                                    <span class="me-2"><i class="bi bi-arrow-90deg-right"></i></span>
                                     <span>Chuyển đi</span>
                                 </a>
                             </li>
@@ -226,6 +228,24 @@
                                 </a>
                             </li>
                         </ul>
+                        <li class="my-4">
+                            <hr class="dropdown-divider bg-light" />
+                        </li>
+
+                        <li>
+                            <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
+                                Thống kê
+                            </div>
+                        </li>
+                        <ul class="navbar-nav ps-3">
+                            <li>
+                                <a href="{{ URL::to('/staff/delivery-report') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-currency-dollar"></i></span>
+                                    <span>Thu nhập</span>
+                                </a>
+                            </li>
+                        </ul>
+
                         <li class="my-4">
                             <hr class="dropdown-divider bg-light" />
                         </li>
