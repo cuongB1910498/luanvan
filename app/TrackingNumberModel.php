@@ -26,6 +26,7 @@ class TrackingNumberModel extends Model
         'weight',
         'tracking_price',
         'cod',
+        'is_paid',
         'id_extra_service',
         'id_user',
         'id_status',

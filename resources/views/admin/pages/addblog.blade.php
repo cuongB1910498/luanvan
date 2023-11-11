@@ -2,6 +2,9 @@
 @section('admin_content')
     <div class="container">
         <div class="row justify-content-center">
+            @if(Session('success'))
+                <div class="alert alert-success">{{Session('success')}}</div>
+            @endif
             <div class="col-sm-8">
                 <div class="card">
                     <div class="card-header">

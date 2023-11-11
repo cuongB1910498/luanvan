@@ -16,11 +16,12 @@
                 <th style="width:35%">Địa chỉ người nhận</th>
                 <th>Tên người nhận</th>
                 <th>SDT</th>
+                <th>Thu tiền</th>
                 <th style="width:30%">Thao Tác</th>
             </thead>
             @if ($tracking->isEmpty())
                 <tbody>
-                    <tr><td colspan="4" class="text-center">Hiện giỏ hàng của bạn đang trống!</td></tr>
+                    <tr><td colspan="5" class="text-center">Hiện giỏ hàng của bạn đang trống!</td></tr>
                 </tbody> 
             @else
             <tbody>
@@ -29,6 +30,7 @@
                         <td>{{$row->address_receive}}</td>
                         <td>{{$row->name_receive}}</td>
                         <td>{{$row->phone_receive}}</td>
+                        <td>{{number_format($row->cod, 0, '.', ',')}}</td>
                         <td>
                             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#{{$row->id_tracking}}">Hoàn thành</button>
                             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#deliverfail">Không thành công</button>

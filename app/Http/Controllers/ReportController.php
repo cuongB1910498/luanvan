@@ -30,9 +30,26 @@ class ReportController extends Controller
 
     public function deliveryReport(){
         $id_staff = Session('id_staff');
+        
         $get_report = DB::table('delivery_report')->where('id_staff', $id_staff)->where('report_date', $this->today)->first();
-        return view('staff.deliveryreport', ['get_report'=>$get_report]);
+        if($get_report){
+            return view('staff.deliveryreport', ['get_report'=>$get_report]);
+        }else{
+            $create_today = DB::table('delivery_report')->insert([
+                'id_staff'=>$id_staff,
+                'report_date'=>$this->today,
+                'total_tracking'=>0,
+                'total_amount'=>0,
+                'complete'=>0,
+            ]);
+            $get_report = DB::table('delivery_report')->where('id_staff', $id_staff)->where('report_date', $this->today)->first();
+            return view('staff.deliveryreport', ['get_report'=>$get_report]);
+        }
+        
     }
 
+    public function masterReport(){
+        return view('staff.masterreport');
+    }
    
 }

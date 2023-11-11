@@ -96,16 +96,16 @@
                                 </li>
 
                                 <li>
-                                    <a href="{{ URL::to('/staff/tracking-in-post-station') }}" class="nav-link px-3">
+                                    <a href="{{ URL::to('/staff/add-to-bag') }}" class="nav-link px-3">
                                         <span class="me-2"><i class="bi bi-list-check"></i></span>
-                                        <span>Đơn đang ở trạm</span>
+                                        <span>Đóng gói chuyển đi</span>
                                     </a>
                                 </li>
 
                                 <li>
-                                    <a href="{{ URL::to('/staff/add-to-bag') }}" class="nav-link px-3">
-                                        <span class="me-2"><i class="bi bi-list-check"></i></span>
-                                        <span>Đóng gói chuyển đi</span>
+                                    <a href="{{ URL::to('/staff/to-truck') }}" class="nav-link px-3">
+                                        <span class="me-2"><i class="bi bi-truck"></i></span>
+                                        <span>Chuyển Lên Xe</span>
                                     </a>
                                 </li>
                             </ul>
@@ -125,20 +125,34 @@
                                 Trưởng Trạm
                             </div>
                         </li>
+                        
+
                         <ul class="navbar-nav ps-3">
                             <li>
-                                <a href="{{ URL::to('/staff/to-truck') }}" class="nav-link px-3">
-                                    <span class="me-2"><i class="bi bi-truck"></i></span>
-                                    <span>Chuyển Lên Xe</span>
+                                <a href="{{ URL::to('/staff/manage_cost') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-currency-dollar"></i></span>
+                                    <span>Kiểm Soát Tiền Hàng</span>
                                 </a>
                             </li>
                         </ul>
 
                         <ul class="navbar-nav ps-3">
                             <li>
-                                <a href="{{ URL::to('/staff/to-truck') }}" class="nav-link px-3">
-                                    <span class="me-2"><i class="bi bi-currency-dollar"></i></span>
-                                    <span>Kiểm Soát Tiền Hàng</span>
+                                <a href="{{ URL::to('/staff/master-report') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-bar-chart"></i></span>
+                                    <span>Biểu đồ hoạt động</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ URL::to('/staff/bonus-staff') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-graph-up-arrow"></i></span>
+                                    <span>Thường nhân viên</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ URL::to('/staff/tracking-in-post-station') }}" class="nav-link px-3">
+                                    <span class="me-2"><i class="bi bi-list-check"></i></span>
+                                    <span>Đơn đang ở trạm</span>
                                 </a>
                             </li>
                         </ul>
@@ -251,22 +265,21 @@
                         </li>
                     @endif
 
+
                     <li>
                         <div class="text-muted small fw-bold text-uppercase px-3 mb-3">
-                            Chức năng dùng chung
+                            Thống kê
                         </div>
                     </li>
                     <ul class="navbar-nav ps-3">
                         <li>
-                            <a href="{{ URL::to('#') }}" class="nav-link px-3">
-                                <span class="me-2"><i class="bi bi-plus"></i></span>
-                                <span>Tạo đơn hàng</span>
+                            <a href="{{ URL::to('/staff/report') }}" class="nav-link px-3">
+                                <span class="me-2"><i class="bi bi-wallet2"></i></span>
+                                <span>Thu nhập</span>
                             </a>
                         </li>
+                       
                     </ul>
-                    <li class="my-4">
-                        <hr class="dropdown-divider bg-light" />
-                    </li>
             </nav>
         </div>
     </div>

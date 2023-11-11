@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Carbon;
 use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Support\Facades\Validator;
+use PhpOffice\PhpSpreadsheet\Calculation\Database\DVar;
+
 session_start();
 
 class StaffController extends Controller
@@ -46,7 +48,14 @@ class StaffController extends Controller
     public function index(){
         $id_staff = Session::get('id_staff');
         if($id_staff){
-            return view('staff.home');
+            $get_info = DB::table('staff')
+                ->join('tbl_posisions','tbl_posisions.id_posision','=','staff.id_posision')
+                ->join('tbl_post_station','tbl_post_station.id_station','=','staff.id_station')
+                ->where('id_staff', $id_staff)
+                ->first();
+            return view('staff.home', [
+                'info'=>$get_info,
+            ]);
         }else{
             return Redirect::to('/staff/login');
         }
@@ -402,20 +411,7 @@ class StaffController extends Controller
     public function getTracking(){
         $this->AuthStaff();
         $this->DeliveryReport();
-        //them thongkedon ngay hom nay
-        //echo Session('id_staff');
-        echo $today = Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d');
-        $get_today_thongke = DB::table('thongkedon')->where('id_staff', Session('id_staff'))->where('ngay_thongke', $today)->first();
-        print_r($get_today_thongke);
-        if(!$get_today_thongke){
-            $today_thongke = [
-                'ngay_thongke'=>$today,
-                'id_staff'=>Session('id_staff'),
-                'so_don'=>0,
-            ];
-            DB::table('thongkedon')->insert($today_thongke);  
-        }
-
+        
         //lay thong tin don hang
         $tomorrow = Carbon::tomorrow('Asia/Ho_Chi_Minh');
         
@@ -446,6 +442,7 @@ class StaffController extends Controller
 
     public function getTrackingProcess($id_tracking, Request $request){
         $this->AuthStaff();
+        $this->DeliveryReport();
         if($request->get == 'success'){
            //thêm vào located
             $data = array();
@@ -463,7 +460,14 @@ class StaffController extends Controller
             $update = DB::table('tbl_tracking_number')
                 ->where('id_tracking', $id_tracking)
                 ->update($tracking);
-
+            //UPDATE vào bảng report để cộng tiền đơn hàng
+            $get_tracking = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->first();
+            $get_report = DB::table('delivery_report')->where('id_staff', Session('id_staff'))->where('report_date',Carbon::today('Asia/Ho_Chi_Minh')->format('Y-m-d'))->first();
+            $update_report = DB::table('delivery_report')
+                ->where('id_report', $get_report->id_report)
+                ->update([
+                    'total_amount' => $get_report->total_amount +  $get_tracking->tracking_price, 
+                ]);
             if($insert && $update){
                 return Redirect::to('/staff/get-tracking')->with('success', "Thao Tác Thành Công!");
             }

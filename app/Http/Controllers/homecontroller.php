@@ -641,4 +641,114 @@ class homecontroller extends Controller
         $get_province = DB::table('tbl_province')->get();
         return view('testerror', ['get_province'=>$get_province]);
     }
+
+    public function VNpayPaid(Request $request, $id_tracking){
+        $get_tracking = DB::table('tbl_tracking_number')->where('id_tracking', $id_tracking)->first();
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
+        /*
+         * To change this license header, choose License Headers in Project Properties.
+         * To change this template file, choose Tools | Templates
+         * and open the template in the editor.
+         */
+          
+        $vnp_TmnCode = "1YRH2OT4"; //Mã định danh merchant kết nối (Terminal Id)
+        $vnp_HashSecret = "CURDMARFJLFZEXSEHJPOLMQHNVPCCGDG"; //Secret key
+        $vnp_Url = "https://sandbox.vnpayment.vn/paymentv2/vpcpay.html";
+        $vnp_Returnurl = "http://localhost/thynx/payment-info";
+        $vnp_apiUrl = "http://sandbox.vnpayment.vn/merchant_webapi/merchant.html";
+        $apiUrl = "https://sandbox.vnpayment.vn/merchant_webapi/api/transaction";
+        //Config input format
+        //Expire
+        $startTime = date("YmdHis");
+        $expire = date('YmdHis',strtotime('+15 minutes',strtotime($startTime)));
+
+        $vnp_TxnRef = $id_tracking; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        $vnp_OrderInfo = $id_tracking;
+        $vnp_OrderType = 'billpayment';
+        $vnp_Amount = $get_tracking->tracking_price * 100;
+        $vnp_Locale = 'vn';
+        $vnp_BankCode = 'NCB';
+        $vnp_IpAddr = $_SERVER['REMOTE_ADDR'];
+        //Add Params of 2.0.1 Version
+        
+        $vnp_ExpireDate = $expire;
+    
+        $inputData = array(
+            "vnp_Version" => "2.1.0",
+            "vnp_TmnCode" => $vnp_TmnCode,
+            "vnp_Amount" => $vnp_Amount,
+            "vnp_Command" => "pay",
+            "vnp_CreateDate" => date('YmdHis'),
+            "vnp_CurrCode" => "VND",
+            "vnp_IpAddr" => $vnp_IpAddr,
+            "vnp_Locale" => $vnp_Locale,
+            "vnp_OrderInfo" => $vnp_OrderInfo,
+            "vnp_OrderType" => $vnp_OrderType,
+            "vnp_ReturnUrl" => $vnp_Returnurl,
+            "vnp_TxnRef" => $vnp_TxnRef,
+            "vnp_ExpireDate"=>$vnp_ExpireDate,
+    
+        );
+
+        if (isset($vnp_BankCode) && $vnp_BankCode != "") {
+            $inputData['vnp_BankCode'] = $vnp_BankCode;
+        }
+        
+
+        //var_dump($inputData);
+        ksort($inputData);
+        $query = "";
+        $i = 0;
+        $hashdata = "";
+        foreach ($inputData as $key => $value) {
+            if ($i == 1) {
+                $hashdata .= '&' . urlencode($key) . "=" . urlencode($value);
+            } else {
+                $hashdata .= urlencode($key) . "=" . urlencode($value);
+                $i = 1;
+            }
+            $query .= urlencode($key) . "=" . urlencode($value) . '&';
+        }
+
+        $vnp_Url = $vnp_Url . "?" . $query;
+        if (isset($vnp_HashSecret)) {
+            $vnpSecureHash =   hash_hmac('sha512', $hashdata, $vnp_HashSecret);//  
+            $vnp_Url .= 'vnp_SecureHash=' . $vnpSecureHash;
+        }
+        $returnData = array('code' => '00'
+            , 'message' => 'success'
+            , 'data' => $vnp_Url);
+            if (isset($_POST['redirect'])) {
+                header('Location: ' . $vnp_Url);
+                die();
+            } else {
+                echo json_encode($returnData);
+            }
+            // vui lòng tham khảo thêm tại code demo
+    }
+    
+    public function paymentInfo(Request $request){
+        if(isset($request->vnp_ResponseCode) && $request->vnp_ResponseCode == '00'){
+            $dateString = $request->vnp_PayDate;
+            $timestamp = strtotime($dateString);
+            $sqlTimestamp = date('Y-m-d H:i:s', $timestamp);
+            $data = [
+                'id_tracking' => $request->vnp_TxnRef,
+                'vnp_Amount'=>$request->vnp_Amount/100,
+                'vnp_BankTranNo'=>$request->vnp_BankTranNo,
+                'vnp_OrderInfo'=>$request->vnp_OrderInfo,
+                'vnp_PayDate'=>$sqlTimestamp,
+                'vnp_TransactionNo'=>$request->vnp_TransactionNo,
+            ];
+            $check_storage = DB::table('payment_info')->where('vnp_BankTranNo', $request->vnp_BankTranNo)->first();
+            if(!$check_storage){
+                $storge_payment_info = DB::table('payment_info')->insert($data);
+                
+            }
+            $get_info = DB::table('payment_info')->where('vnp_BankTranNo', $request->vnp_BankTranNo)->first();
+            return view('pages.paymentinfo', ['get_info'=>$get_info])->with('success', 'Thanh toán thành công!');
+        }else{
+            return view('pages.paymentinfo')->with('error', 'Đã có lỗi trong quá trình thanh toán, Bạn vui lòng thử lại sau!');
+        }
+    }
 }

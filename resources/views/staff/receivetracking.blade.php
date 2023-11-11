@@ -7,11 +7,12 @@
                 <th style="width:35%">Địa chỉ nhận</th>
                 <th>Tên người nhận</th>
                 <th>SDT</th>
+                <th>Thu tiền</th>
                 <th style="width:25%">Thao tác</th>
             </thead>
             <tbody>
                 @if ($deliver->isEmpty())
-                <tr><td colspan="4" class="text-center">Hiện không có đơn nào ở trạm</td></tr>
+                <tr><td colspan="5" class="text-center">Hiện không có đơn nào ở trạm</td></tr>
                    
                 @else
                 @foreach ($deliver as $item)
@@ -19,6 +20,7 @@
                     <td>{{$item->address_receive}}</td>
                     <td>{{$item->name_receive}}</td>
                     <td>{{$item->phone_receive}}</td>
+                    <td>{{number_format($item->cod, 0, '.', ',')}}</td>
                     <td><a href="{{URL::to('/staff/get-tracking-process/'.$item->id_tracking.'?get=todeliver')}}" class="btn btn-primary">lấy</a></td>
                 </tr>
             @endforeach

@@ -15,6 +15,7 @@
                     <th>Mã đơn</th>
                     <th>Tên người gửi</th>
                     <th>SDT</th>
+                    <th>Thu tiền</th>
                     <th style="width:25%">Thao tác</th>
                 </thead>
                 <tbody>
@@ -26,6 +27,7 @@
                                 <td>{{$row->id_tracking}}</td>
                                 <td>{{$row->name_sent}}</td>
                                 <td>{{$row->phone_sent}}</td>
+                                <td>{{number_format($row->tracking_price, 0, '.',',')}}</td>
                                 <td>
                                     <a class="btn btn-primary me-2" href="{{URL::to('/staff/get-tracking-process/'.$row->id_tracking.'?get=success')}}">Lấy</a>
                                     <a class="btn btn-warning" href="{{URL::to('/staff/get-tracking-process/'.$row->id_tracking.'?get=fail')}}">lấy thất bại!</a>
@@ -33,7 +35,7 @@
                             </tr> 
                         @endforeach  
                     @else
-                        <tr><td colspan="5" class="text-center">Hiện tại không có đơn nào được tạo!</td></tr>
+                        <tr><td colspan="6" class="text-center">Hiện tại không có đơn nào được tạo!</td></tr>
                     @endif
                 </tbody>
             </table>

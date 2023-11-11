@@ -59,7 +59,8 @@
                             <th style="width:15%;">Tên người nhận</th>
                             <th style="width:50%;">Địa chỉ nhận</th>
                             <th>SDT</th>
-                            <th style="width:3%;"></th>
+                            <th>Thanh toán</th>
+                            <th style="width:10%;">Quản lý</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -69,10 +70,23 @@
                                 <td> {{ $row->name_receive }} </td>
                                 <td> {{ $row->address_receive.', '.$row->district_name.', '.$row->province_name }}</td>
                                 <td> {{ $row->phone_receive}} </td>
+                                <td> @php echo $row->is_paid == null ?  'Chưa' :  'Đã thanh toán' @endphp </td>
                                 <td>
-                                    <a href="{{URL::to('/view-tracking/'.$row->id_tracking)}}" class="active" ui-toggle-class="">
-                                        <i class="bi bi-eye-fill"></i>
-                                    </a>
+                                    <div class="row">
+                                       <div class="col-6">
+                                        <a href="{{URL::to('/view-tracking/'.$row->id_tracking)}}" class="btn btn-outline-success">
+                                            <i class="bi bi-eye-fill"></i>
+                                        </a>
+                                       </div>
+                                       @if($row->is_paid == null)
+                                        <div class="col-6">
+                                            <form action="{{URL::to('/vn-pay-paid/'.$row->id_tracking)}}" method="POST">
+                                                @csrf
+                                                <button type="submit" name="redirect" class="btn btn-outline-primary"><i class="bi bi-currency-dollar"></i></button>
+                                            </form>
+                                        </div>
+                                        @endif
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach

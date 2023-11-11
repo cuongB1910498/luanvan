@@ -22,11 +22,14 @@ class BlogController extends Controller
         }
     }
     public function index(){
-        return view("pages.blog");
+        $get_blog = DB::table('tbl_blog')->paginate(6);
+        return view("pages.blog", ['get_blog'=>$get_blog]);
     }
 
-    public function showBlog(){
-        return view("pages.showblog");
+    public function showBlog($id_blog){
+        $show_blog = DB::table('tbl_blog')->where('id_blog',$id_blog)->first();
+        $get_blog_list = DB::table('tbl_blog')->limit(4)->orderBy('id_blog', 'desc')->get();
+        return view("pages.showblog", ['blog'=>$show_blog, 'get_blog_list'=>$get_blog_list]);
     }
 
     public function addBlog(){

@@ -7,6 +7,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ExportVatController;
 use App\Http\Controllers\homecontroller;
 use App\Http\Controllers\layoutController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SortingCenterController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
@@ -59,6 +60,9 @@ Route::get('reload-captcha', 'AdminController@reloadCaptcha');
         Route::get('/select-province', 'homecontroller@selectProvince');
         Route::get('/create-tracking-by-excel', 'homecontroller@importTracking');
         Route::post('/import-csv', 'homecontroller@importCsv');
+        //payment VNPAY
+        Route::post('/vn-pay-paid/{id_tracking}' , 'homecontroller@VnPayPaid');
+        Route::get('/payment-info', 'homecontroller@paymentInfo');
 
     // user manager
         Route::get('user-profile', 'homecontroller@userProfile');
@@ -134,6 +138,9 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
             Route::get('/delete-blog/{id_blog}', 'BlogController@destroy');
         //Backup DB
             Route::get('/backup', 'BackupController@backupDatabase'); // lỗi
+        //Bobus Staff
+            Route::get('/staff/bonus-staff', 'SalaryController@bonusStaff');
+            Route::post('/staff/bonus-process', 'SalaryController@bonusProcess');
     //staff
 Route::get('/staff/dashboard', 'StaffController@index');
 Route::get('/staff/', 'StaffController@index');
@@ -161,7 +168,8 @@ Route::get('/staff/', 'StaffController@index');
             //Add to truck
             Route::get('/staff/to-truck', 'StaffController@toTruck');
             Route::post('/to-truck-process/{id_bag}', 'StaffController@toTruckprocess');
-        
+        //report
+            Route::get('/staff/master-report', 'ReportController@masterReport');
         // Truck Driver
             Route::get('/staff/check-in-truck', 'StaffController@checkInTruck');
             Route::get('/truck-log', 'StaffController@truckLog');

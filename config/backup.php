@@ -1,9 +1,8 @@
 <?php
 
 return [
-
+    
     'backup' => [
-
         /*
          * The name of this application. You can use this name to monitor
          * the backups.
