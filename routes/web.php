@@ -141,6 +141,12 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
         //Bobus Staff
             Route::get('/staff/bonus-staff', 'SalaryController@bonusStaff');
             Route::post('/staff/bonus-process', 'SalaryController@bonusProcess');
+            Route::get('/admin/bonus/accepted/{id_bonus}', 'SalaryController@accepted');
+            Route::get('/admin/bonus/denied/{id_bonus}', 'SalaryController@denied');
+        //Salary
+            Route::get('/process-all-staff-salary', 'SalaryController@processAllStaffSalary');
+            Route::get('/accept-bonus', 'SalaryController@acceptBonus');
+            Route::get('/admin/process-salary', 'SalaryController@processSalary');
     //staff
 Route::get('/staff/dashboard', 'StaffController@index');
 Route::get('/staff/', 'StaffController@index');
@@ -170,6 +176,7 @@ Route::get('/staff/', 'StaffController@index');
             Route::post('/to-truck-process/{id_bag}', 'StaffController@toTruckprocess');
         //report
             Route::get('/staff/master-report', 'ReportController@masterReport');
+            Route::get('/staff/report-salary', 'SalaryController@reportSalary');
         // Truck Driver
             Route::get('/staff/check-in-truck', 'StaffController@checkInTruck');
             Route::get('/truck-log', 'StaffController@truckLog');

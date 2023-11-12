@@ -246,6 +246,38 @@
                 </a>
               </li>
             </ul>
+            <li class="my-4"><hr class="dropdown-divider bg-light" /></li>
+            <li>
+              <a
+                class="nav-link px-3 sidebar-link"
+                data-bs-toggle="collapse"
+                href="#layouts3"
+              >
+                <span class="me-2"><i class="bi bi-bank2"></i></span>
+                <span>Quyết toán</span>
+               
+              </a>
+              
+                <ul class="navbar-nav ps-3">
+                  <li>
+                    <a href="{{URL::to('/process-all-staff-salary')}}" class="nav-link px-3">
+                      <span class="me-2"
+                        ><i class="bi bi-wallet"></i></span>
+                      <span>Quyết toán lương</span>
+                    </a>
+                  </li>
+
+                  <li>
+                    <a href="{{URL::to('/accept-bonus')}}" class="nav-link px-3">
+                      <span class="me-2"
+                        ><i class="bi bi-list-check"></i></span>
+                      <span>Xét thưởng</span>
+                    </a>
+                  </li>
+                </ul>
+              
+              
+          </li>
               
           </ul>
         </nav>

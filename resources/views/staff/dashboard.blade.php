@@ -273,7 +273,7 @@
                     </li>
                     <ul class="navbar-nav ps-3">
                         <li>
-                            <a href="{{ URL::to('/staff/report') }}" class="nav-link px-3">
+                            <a href="{{ URL::to('/staff/report-salary') }}" class="nav-link px-3">
                                 <span class="me-2"><i class="bi bi-wallet2"></i></span>
                                 <span>Thu nhập</span>
                             </a>
