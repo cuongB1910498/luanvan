@@ -183,7 +183,7 @@
                     </li>
   
                     <li>
-                      <a href="#" class="nav-link px-3">
+                      <a href="{{URL::to('/users-list')}}" class="nav-link px-3">
                         <span class="me-2"
                           ><i class="bi bi-list-check"></i></span>
                         <span>Danh Sách nhân viên</span>

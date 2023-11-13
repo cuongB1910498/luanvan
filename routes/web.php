@@ -118,7 +118,11 @@ Route::post('/admin-login-process', 'AdminController@admin_login_process');
             Route::post('/edit-staff-process/{id_staff}', 'AdminController@edit_staff_process');
         // Staff
             Route::get('/add-user', 'UserController@add_user');  
-            Route::post('/user-add-process', 'UserController@user_add_process'); 
+            Route::post('/user-add-process', 'UserController@user_add_process');
+            Route::get('/users-list', 'UserController@usersList');
+            Route::get('/edit-user/{id_staff}', 'UserController@editUser');
+            Route::post('/edit-user/{id_staff}', 'UserController@editUserProcess');
+            Route::get('/delete-user/{id_staff}', 'Usercontroller@deleteUser');
         
         //Truck
             Route::get('/add-truck', 'AdminController@add_truck');

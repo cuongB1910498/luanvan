@@ -4,7 +4,7 @@
 <div class="container">
     <div class="col-10 offset-1 card">
         <header class="card-header">
-            ADD NEW POSISION
+            THÊM CHỨC VỤ MỚI
         </header>
         <div class="card-body">
             <div class="row">
@@ -21,21 +21,21 @@
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label for="posision_name" class="col-sm-2 control-label px-3 offset-sm-1">Posision name</label>
+                    <label for="posision_name" class="col-sm-2 control-label px-3 offset-sm-1">Tên chức vụ:</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="posision_name" name="posision_name">
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
-                    <label for="lvl_salary" class="col-sm-2 control-label ps-3 offset-sm-1">Level Salary</label>
+                    <label for="lvl_salary" class="col-sm-2 control-label ps-3 offset-sm-1">Bật lương</label>
                     <div class="col-sm-8">
                         <input type="text" class="form-control" id="lvl_salary" name="lvl_salary">
                     </div>
                 </div>
                 <div class="form-group row mb-3">
                     <div class="col-sm-offset-2 col-sm-10 offset-sm-1">
-                        <button type="submit" class="btn btn-danger">Submit</button>
+                        <button type="submit" class="btn btn-danger">Thêm!</button>
                     </div>
                 </div>
                 </form>

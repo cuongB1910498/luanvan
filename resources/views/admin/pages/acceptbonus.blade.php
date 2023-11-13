@@ -22,7 +22,7 @@
                     </thead>
                     <tbody>
                         @if ($get_bonus->isEmpty())
-                            <tr><td colspan="6" class="text-center">Hiện không có mức thưởng nào cần phế duyệt!</td></tr>
+                            <tr><td colspan="7" class="text-center">Hiện không có mức thưởng nào cần phế duyệt!</td></tr>
                         @else
                         @php
                             $i = 1;
